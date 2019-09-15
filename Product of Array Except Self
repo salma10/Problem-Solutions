@@ -1,0 +1,20 @@
+
+    public int[] ProductExceptSelf(int[] nums) {
+         var res = new int[nums.Length];
+
+        //For position i, store the product of 0~i-1
+        res[0] = 1;
+        for (var i = 1; i < nums.Length; i++)
+        {
+            res[i] = res[i - 1]*nums[i - 1];
+        }
+
+        //right is the product from i+1 to length-1
+        var right = 1;
+        for (var i = nums.Length - 1; i >= 0; i--)
+        {
+            res[i] = res[i]*right;
+            right *= nums[i];
+        }
+        return res;
+    }
