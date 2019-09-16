@@ -1,0 +1,10 @@
+public int AddDigits(int num) {
+          if(num == 0)
+           return 0;
+          else
+          {
+              int result = num % 9;
+              return (result == 0 && num > 0) ? 9 : result;
+          }
+          
+    }
