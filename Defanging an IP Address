@@ -1,0 +1,19 @@
+public string DefangIPaddr(string address) {
+        
+       /* string result = "";
+        
+        for(int i = 0; i < address.Length; i++)
+        {
+            if(address[i] == '.')
+               result = result + "[.]";
+            else
+                result = result + address[i];
+        }
+        
+        return result; */
+        
+        var address1 = address.Split('.');
+       return string.Join("[.]", address1);
+        
+        //return address.Replace(".","[.]");
+    }
