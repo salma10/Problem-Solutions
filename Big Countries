@@ -1,0 +1,3 @@
+select t.name, t.population, t.area 
+from World t
+where t.area > 3000000 || t.population > 25000000;
