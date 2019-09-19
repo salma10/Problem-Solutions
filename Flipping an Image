@@ -1,0 +1,17 @@
+public int[][] FlipAndInvertImage(int[][] A) {
+        int[][] result = new int[A.Length][];
+        
+        for(int j = 0; j < A.Length; j++)
+        {  
+            result[j] = new int[A[j].Length];
+            Array.Reverse(A[j]);         
+            for(int k = 0; k < A[j].Length; k++)
+            {
+                if(A[j][k] == 1)
+                    result[j][k] = 0;
+                else
+                   result[j][k] = 1; 
+            }
+        }
+        return result;
+    }
