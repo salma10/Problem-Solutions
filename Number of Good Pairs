@@ -1,0 +1,17 @@
+ public int NumIdenticalPairs(int[] nums) {
+        Dictionary<int,int> countNums = new Dictionary<int,int>();
+        int count = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(countNums.ContainsKey(nums[i]))
+                countNums[nums[i]]++;
+            else
+                countNums[nums[i]] = 1;
+        }
+        
+        foreach(var item in countNums)
+        {
+            count = count + (item.Value * (item.Value - 1) / 2);
+        }
+        return count;
+    }
