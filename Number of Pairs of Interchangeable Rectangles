@@ -1,0 +1,17 @@
+ public long InterchangeableRectangles(int[][] rectangles) {
+        Dictionary<double,int> countNums = new Dictionary<double,int>();
+        long count = 0;
+        for(int i = 0; i < rectangles.Length; i++)
+        {
+            int[] number = rectangles[i];
+            double ratio = (double) number[0] / number[1]; 
+            if(countNums.ContainsKey(ratio))
+            {
+                count = count + countNums[ratio];
+                countNums[ratio]++;
+            }
+            else
+                countNums[ratio] = 1;
+        }
+        return count;
+    }
