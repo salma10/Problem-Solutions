@@ -1,0 +1,28 @@
+public int CountNicePairs(int[] nums) {
+        Dictionary<int,int> countNums = new Dictionary<int,int>();
+        int count = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            int reverse = reverseNumber(nums[i]);
+            int diff = nums[i] - reverse; 
+            if(countNums.ContainsKey(diff))
+            {
+                count = (count + countNums[diff]) % 1000000007;
+                countNums[diff]++;
+            }
+            else
+                countNums[diff] = 1;
+        }
+        return count;
+    }
+    private int reverseNumber(int Number)
+    {
+        int Reverse = 0;  
+        while(Number>0)  
+        {  
+            int remainder = Number % 10;  
+            Reverse = (Reverse * 10) + remainder;  
+            Number = Number / 10;  
+        }
+        return Reverse;
+    }
