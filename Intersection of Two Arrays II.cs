@@ -1,35 +1,23 @@
-/*
-Given two arrays, write a function to compute their intersection.
-*/
-
- public int[] Intersect(int[] nums1, int[] nums2) {
-        
+public int[] Intersect(int[] nums1, int[] nums2) {
+        Dictionary<int, int> hash = new Dictionary<int, int>();
         List<int> result = new List<int>();
-        
-        if(nums1.Length == 0 || nums2.Length == 0)
-        {
-            return result.ToArray();
-        }
-        else if(nums1.Length < nums2.Length)
-        {
-            int[] nums3 = new int[nums1.Length];
-            
-            nums3 = nums1;
-            nums1 = nums2;
-            nums2 = nums3;
-        }
-        
         for(int i = 0; i < nums2.Length; i++)
         {
-            int pos = Array.IndexOf(nums1, nums2[i]);
-            if (pos > -1)
+            if(hash.ContainsKey(nums2[i]))
+                hash[nums2[i]]++;
+            else
+                hash[nums2[i]] = 1;
+        }
+        
+        for(int i = 0; i < nums1.Length && hash.Count > 0; i++)
+        {
+            if(hash.ContainsKey(nums1[i]))
             {
-                result.Add(nums2[i]);
-                List<int> fa = new List<int>();
-                fa = nums1.ToList();
-                fa.RemoveAt(pos);
-                nums1 = fa.ToArray();
-                
+               result.Add(nums1[i]);
+               if(hash[nums1[i]] > 1)
+                   hash[nums1[i]]--;
+               else
+                   hash.Remove(nums1[i]);
             }
         }
         return result.ToArray();
