@@ -1,0 +1,27 @@
+public class MovingAverage {
+    Queue<int> data;
+    int maxSize;
+    int total;
+    public MovingAverage(int size) {
+         data = new Queue<int>();
+         maxSize = size;
+         total = 0;
+    }
+    
+    public double Next(int val) {
+        if(data.Count == maxSize)
+        {
+            int firstElm = data.Dequeue();
+            total -= firstElm;
+        }
+        data.Enqueue(val);
+        total += val;
+        return (double)total/data.Count;
+    }
+}
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage obj = new MovingAverage(size);
+ * double param_1 = obj.Next(val);
+ */
