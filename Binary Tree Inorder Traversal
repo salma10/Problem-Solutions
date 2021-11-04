@@ -43,3 +43,32 @@ public class Solution {
         return result;
     }
 }
+
+//Another solution
+public class Solution {
+    public IList<int> InorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        List<int> list = new List<int>();
+        TreeNode curr = root;
+        
+        while (curr != null || stack.Count > 0) 
+        { 
+  
+            while (curr != null) 
+            { 
+                stack.Push(curr); 
+                curr = curr.left; 
+            } 
+  
+            curr = stack.Pop(); 
+  
+            list.Add(curr.val); 
+  
+            curr = curr.right; 
+        }
+    
+        return list;
+    }
+    
+    
+}
