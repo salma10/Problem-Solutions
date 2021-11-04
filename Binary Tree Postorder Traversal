@@ -44,3 +44,63 @@ public class Solution {
         return result;
     }
 }
+
+
+//Another solution
+public class Solution {
+    public IList<int> PostorderTraversal(TreeNode root) {
+        
+        List<int> list = new List<int>();
+        
+        if(root == null)
+           return list;
+        
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        do{
+            while(root != null)
+            {
+                if(root.right != null)
+                    stack.Push(root.right);
+                stack.Push(root);
+                root = root.left;
+            }
+            TreeNode curr = stack.Pop();
+            root = curr;
+            if(curr.right != null && stack.Count > 0 && curr.right == stack.Peek())
+            {
+                TreeNode rightChild = stack.Pop();
+                stack.Push(curr);
+                root = rightChild;
+            }
+            else
+            {
+                list.Add(root.val);
+                root = null;
+            }
+            
+        }while(stack.Count > 0);
+        
+        
+        
+        /*Stack<TreeNode> stack1 = new Stack<TreeNode>();
+        
+        stack.Push(root); 
+        
+        while (stack.Count > 0) 
+        { 
+            TreeNode curr = stack.Pop();
+            stack1.Push(curr);
+            if(curr != null && curr.left != null)
+                stack.Push(curr.left);
+            if(curr != null && curr.right != null)
+                stack.Push(curr.right);
+        }
+        while(stack1.Count > 0)
+        {
+            TreeNode curr = stack1.Pop();
+            list.Add(curr.val); 
+        }*/
+    
+        return list;
+    }
+}
