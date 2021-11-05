@@ -25,3 +25,26 @@ n is a non-negative integer and fits within the range of a 32-bit signed integer
         }
        
     }
+//Another solution
+public class Solution {
+    public int ArrangeCoins(int n) {
+        
+        int left = 1;
+        int right = n;
+        
+        while(left <= right)
+        {
+           int mid = left + (right - left) / 2;
+           long sum = (long)mid * (mid + 1) / 2;
+           bool isClosest = (sum <= n && (sum + mid + 1) > n);
+            
+           if(isClosest)
+               return mid;
+            else if(sum < n && (sum + mid + 1) <= n)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return -1;
+    }
+}
