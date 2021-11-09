@@ -11,3 +11,12 @@ public int SingleNumber(int[] nums) {
         }
         return k;
     }
+//Another solution
+public int SingleNumber(int[] nums) {
+        int result = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            result = result ^ nums[i];
+        }
+        return result;
+}
