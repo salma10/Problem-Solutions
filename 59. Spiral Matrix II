@@ -1,0 +1,95 @@
+public class Solution {
+    public int[][] GenerateMatrix(int n) {
+        int[][] result = new int[n][];
+        
+        for(int i = 0; i < n; i++)
+        {
+            result[i] = new int[n];
+        }
+        
+        int data = 1;
+        int count = n * n;
+        int row = 0, col = 0, rowMax = n - 1, colMax = n - 1;
+        int rowMin = 1, colMin = 0;
+        bool rowIncrease = false;
+        bool rowDecrease = false;
+        bool colIncrease = true;
+        bool colDecrease = false;
+        while(count > 0)
+        {
+            while(colIncrease && count > 0)
+            {
+                if(col > colMax)
+                {
+                    colIncrease = false;
+                    rowIncrease = true;
+                    row++;
+                    colMax--;
+                    col--;
+                }
+                else
+                {
+                    result[row][col] = data;
+                    col++;
+                    count--;
+                    data++;
+                }
+            }
+            while(rowIncrease && count > 0)
+            {
+                if(row > rowMax)
+                {
+                    rowIncrease = false;
+                    colDecrease = true;
+                    col--;
+                    rowMax--;
+                    row--;
+                }
+                else
+                {
+                    result[row][col] = data;
+                    row++;
+                    count--;
+                    data++;
+                }
+            }
+            while(colDecrease && count > 0)
+            {
+                if(col < colMin)
+                {
+                    colDecrease = false;
+                    rowDecrease = true;
+                    col++;
+                    colMin++;
+                    row--;
+                }
+                else
+                {
+                    result[row][col] = data;
+                    col--;
+                    count--;
+                    data++;
+                }
+            }
+            while(rowDecrease && count > 0)
+            {
+                if(row < rowMin)
+                {
+                    rowDecrease = false;
+                    colIncrease = true;
+                    row++;
+                    rowMin++;
+                    col++;
+                }
+                else
+                {
+                    result[row][col] = data;
+                    row--;
+                    count--;
+                    data++;
+                }
+            }
+        }
+        return result;
+    }
+}
