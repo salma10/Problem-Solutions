@@ -1,20 +1,19 @@
-
+public class Solution {
     public int[] ProductExceptSelf(int[] nums) {
-         var res = new int[nums.Length];
-
-        //For position i, store the product of 0~i-1
-        res[0] = 1;
-        for (var i = 1; i < nums.Length; i++)
+        int[] result = new int[nums.Length];
+        int currSum = 1;
+        result[0] = currSum;
+        for(int i = 1; i < nums.Length; i++)
         {
-            res[i] = res[i - 1]*nums[i - 1];
+            result[i] = currSum * nums[i - 1];
+            currSum = result[i];
         }
-
-        //right is the product from i+1 to length-1
-        var right = 1;
-        for (var i = nums.Length - 1; i >= 0; i--)
+        currSum = 1;
+        for(int i = nums.Length - 2; i >= 0; i--)
         {
-            res[i] = res[i]*right;
-            right *= nums[i];
+            currSum = currSum * nums[i + 1];
+            result[i] = currSum  * result[i];
         }
-        return res;
+        return result;
     }
+}
