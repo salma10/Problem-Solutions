@@ -1,0 +1,31 @@
+public class Solution {
+    public int LongestPalindrome(string s) {
+        Dictionary<char, int> hash = new Dictionary<char, int>();
+        for(int i = 0; i < s.Length; i++)
+        {
+            if(hash.ContainsKey(s[i]))
+                hash[s[i]]++;
+            else
+                hash[s[i]] = 1;
+        }
+        
+        bool isOdd = false;
+        int palinLength = 0;
+        
+        foreach(var item in hash)
+        {
+            if(item.Value % 2 == 0)
+                palinLength += item.Value;
+            else
+            {
+                palinLength = palinLength + item.Value - 1;
+                isOdd = true;
+            }
+        }
+        
+        if(isOdd)
+            return palinLength + 1;
+        else
+            return palinLength;
+    }
+}
