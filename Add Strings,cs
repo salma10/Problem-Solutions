@@ -65,3 +65,31 @@ public string AddStrings(string num1, string num2) {
 
           return Sum;
     }
+    
+    //Another solution
+    public class Solution {
+    public string AddStrings(string num1, string num2) {
+        
+        string Sum = string.Empty;
+        int currSum = 0;
+        int rest = 0;
+        
+        if(num1.Length > num2.Length)
+            num2 = num2.PadLeft(num1.Length, '0');
+        else
+            num1 = num1.PadLeft(num2.Length, '0');
+        
+        for(int i = num1.Length - 1; i >= 0; i--)
+        {
+            currSum = (num1[i] - '0') + (num2[i] - '0') + rest;
+            Sum = Convert.ToString(currSum%10) + Sum;
+            rest = currSum / 10;
+            currSum = 0;
+        }
+        
+        if(rest != 0)
+          Sum = rest + Sum;
+
+        return Sum;
+    }
+}
