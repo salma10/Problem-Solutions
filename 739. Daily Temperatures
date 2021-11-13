@@ -1,0 +1,27 @@
+public class Solution {
+    public int[] DailyTemperatures(int[] temperatures) {
+        int[] result = new int[temperatures.Length];
+        Stack<int[]> data = new Stack<int[]>();
+        result[temperatures.Length - 1] = 0;
+        data.Push(new int[] {temperatures[temperatures.Length - 1], temperatures.Length - 1});
+        
+        for(int i = temperatures.Length - 2; i >= 0; i--)
+        {
+            while(data.Count > 0 && temperatures[i] >= data.Peek()[0])
+            {
+                data.Pop();
+            }
+            if(data.Count > 0)
+            {
+                 result[i] = data.Peek()[1] - i;
+                 data.Push(new int[] {temperatures[i], i});
+            }
+            else
+            {
+                data.Push(new int[] {temperatures[i], i});
+                result[i] = 0;
+            }
+        }
+        return result;
+    }
+}
