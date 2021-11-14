@@ -26,3 +26,34 @@ public class Solution {
         return true;
     }
 }
+//Another solution
+
+public class Solution {
+    public bool WordPattern(string pattern, string str) {
+        
+        char[] s = pattern.ToCharArray();
+        var t = str.Split(' ');
+        
+        if(s.Length != t.Count())
+         return false;
+    
+     Hashtable ht = new Hashtable();
+     int i =0;
+     while (i<s.Length)
+     {
+         if(ht.Contains(s[i]))
+         {
+             if((string)ht[s[i]] != t[i])
+             return false;
+         }
+         else if(ht.ContainsValue(t[i]))
+         return false;
+
+         else
+         ht.Add(s[i] , t[i]);
+
+         i++;
+     }
+    return true;
+    }
+}
