@@ -20,3 +20,33 @@ public class Solution {
     }
 }
 
+//Another solution
+public class Solution {
+    public IList<int> PartitionLabels(string s) {
+        Dictionary<char, int> data = new Dictionary<char, int>();
+        IList<int> result = new List<int>();
+        
+        for(int j = 0; j < s.Length; j++)
+        {
+           data[s[j]] = j;
+        }
+        
+        int i = 0;
+        
+        while(i < s.Length)
+        {
+            int lastPos = data[s[i]];
+            int firstPos = i;
+            while(i < lastPos)
+            {
+                if(data[s[i]] > lastPos)
+                    lastPos = data[s[i]];
+                i++;
+            }
+            i = lastPos + 1;
+            result.Add(lastPos - firstPos + 1);
+        }
+        return result;
+    }
+    
+}
