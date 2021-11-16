@@ -1,0 +1,22 @@
+public class Solution {
+    public IList<string> FindRepeatedDnaSequences(string s) {
+        IList<string> result = new List<string>();
+        Dictionary<string, int> hash = new Dictionary<string, int>();
+        
+        for(int i = 0; i < s.Length - 9; i++)
+        {
+            string sub = s.Substring(i, 10);
+            if(hash.ContainsKey(sub))
+                hash[sub]++;
+            else
+                hash[sub] = 1;
+        }
+        
+        foreach(var item in hash)
+        {
+            if(item.Value > 1)
+               result.Add(item.Key); 
+        }
+        return result;
+    }
+}
