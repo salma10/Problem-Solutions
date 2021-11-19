@@ -24,3 +24,38 @@ public int HammingDistance(int x, int y) {
         }
         return count;
     }
+//Another solution
+public class Solution {
+    public int HammingDistance(int x, int y) {
+        string xBin = GetBinary(x);
+        string yBin = GetBinary(y);
+        
+        int count = 0;
+        
+        if(xBin.Length > yBin.Length)
+           yBin = yBin.PadLeft(xBin.Length, '0');
+        else
+           xBin = xBin.PadLeft(yBin.Length, '0');
+        
+        for(int i = 0; i < xBin.Length; i++)
+        {
+            if(xBin[i] != yBin[i])
+                count++;
+        }
+        return count;
+        
+    }
+    private string GetBinary(int input)
+    {
+        string result = string.Empty;
+        while(input > 1)
+        {
+            result = (input % 2) + result;
+            input /= 2;
+        }
+        if(input == 1)
+            return "1" + result;
+        else
+            return result;
+    }
+}
