@@ -1,0 +1,51 @@
+public class MyLinkedList {
+    List<int> linkedList;
+    int len;
+    public MyLinkedList() {
+        linkedList = new List<int>();
+        len = 0;
+    }
+    
+    public int Get(int index) {
+        if(index < len)
+            return linkedList[index];
+        else
+            return -1;
+    }
+    
+    public void AddAtHead(int val) {
+        linkedList.Insert(0, val);
+        len++;
+    }
+    
+    public void AddAtTail(int val) {
+        linkedList.Add(val);
+        len++;
+    }
+    
+    public void AddAtIndex(int index, int val) {
+        if(index <= len)
+        {
+            linkedList.Insert(index, val);
+            len++;
+        }  
+    }
+    
+    public void DeleteAtIndex(int index) {
+        if(index < len)
+        {
+            linkedList.RemoveAt(index);
+            len--;
+        }  
+    }
+}
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList obj = new MyLinkedList();
+ * int param_1 = obj.Get(index);
+ * obj.AddAtHead(val);
+ * obj.AddAtTail(val);
+ * obj.AddAtIndex(index,val);
+ * obj.DeleteAtIndex(index);
+ */
