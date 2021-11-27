@@ -1,0 +1,28 @@
+public class Solution {
+    public int[] TopKFrequent(int[] nums, int k) {
+        
+        Dictionary<int,int> Map = new Dictionary<int,int>();
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(Map.ContainsKey(nums[i]))
+                Map[nums[i]]++;
+            else
+                Map[nums[i]] = 1;
+        }
+        Map = Map.OrderByDescending(v => v.Value).ToDictionary(v => v.Key, v => v.Value);
+        List<int> result = new List<int>();
+        foreach(var item in Map)
+        {
+            if(k == 0)
+                break;
+            else
+            {
+                result.Add(item.Key);
+                k--;
+            }
+        }
+        
+        return result.ToArray();
+    }
+}
