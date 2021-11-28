@@ -1,0 +1,29 @@
+public class Solution {
+    public bool CanVisitAllRooms(IList<IList<int>> rooms) {
+        int maxLen = rooms.Count;
+        HashSet<int> visited = new HashSet<int>();
+        Stack<int> stack = new Stack<int>();
+        stack.Push(0);
+        
+        while(stack.Count > 0)
+        {
+            int i = stack.Pop();
+            visited.Add(i);
+            IList<int> curr = rooms[i];
+            for(int j = 0; j < curr.Count; j++)
+            {
+                if(!visited.Contains(curr[j]))
+                {
+                   stack.Push(curr[j]);
+                }
+            }
+        }
+        
+        for(int i = 0; i < maxLen; i++)
+        {
+            if(!visited.Contains(i))
+                return false;
+        }
+        return true;
+    }
+}
