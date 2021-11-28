@@ -1,0 +1,17 @@
+public class Solution {
+    public IList<int> FindSmallestSetOfVertices(int n, IList<IList<int>> edges) {
+        HashSet<int> hasIncoming = new HashSet<int>();
+        List<int> result = new List<int>();
+        for(int i = 0; i < edges.Count; i++)
+        {
+            if(!hasIncoming.Contains((edges[i])[1]))
+                hasIncoming.Add((edges[i])[1]);
+        }
+        for(int i = 0; i < n; i++)
+        {
+            if(!hasIncoming.Contains(i))
+                result.Add(i);
+        }
+        return result;
+    }
+}
