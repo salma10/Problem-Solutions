@@ -1,0 +1,13 @@
+public class Solution {
+    public int FindTheWinner(int n, int k) {
+        List<int> input = Enumerable.Range(1, n).ToList();
+        int index = 0;
+        while(input.Count > 1)
+        {
+            index = (index + k - 1) % input.Count;
+            input.RemoveAt(index);
+        }
+        
+        return input[0];
+    }
+}
