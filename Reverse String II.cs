@@ -19,3 +19,43 @@ Given a string and an integer k, you need to reverse the first k characters for 
             ch[j] = tmp;
         }
     }
+//Another solution
+public class Solution {
+    public string ReverseStr(string s, int k) {
+        char[] array = s.ToCharArray();
+        int firstPos = 0;
+        bool doReverse = true;
+        int lastPos = s.Length - 1;
+        while(firstPos <= lastPos)
+        {
+            if(doReverse)
+            {
+                int last = firstPos + k - 1 < lastPos ? firstPos + k - 1 : lastPos;
+                array = Reverse(array, firstPos, last);
+                firstPos = firstPos + k;
+                doReverse = false;
+            }
+            else if(lastPos - firstPos >= k)
+            {
+                firstPos = firstPos + k;
+                doReverse = true;
+            }
+            else
+                break;                
+        }
+       return new string(array);  
+    }
+    
+     public char[] Reverse(char[] s, int firstPos, int lastPos) {
+        while(firstPos <= lastPos)
+        {
+            char temp = s[firstPos];
+            s[firstPos] = s[lastPos];
+            s[lastPos] = temp;
+            firstPos++;
+            lastPos--;
+        }
+        
+        return s;
+    }
+}
