@@ -24,3 +24,20 @@ public class Solution {
         }
     }
 }
+//Another solution
+public class Solution {
+    public void ReverseString(char[] s) {
+        int firstPos = 0;
+        int lastPos = s.Length - 1;
+        
+        while(firstPos <= lastPos)
+        {
+            char temp = s[firstPos];
+            s[firstPos] = s[lastPos];
+            s[lastPos] = temp;
+            firstPos++;
+            lastPos--;
+        }
+        
+    }
+}
