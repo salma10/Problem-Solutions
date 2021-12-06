@@ -1,0 +1,16 @@
+public class Solution {
+    public int MinCostToMoveChips(int[] position) {
+        int evenPosCount = 0;
+        int oddPosCount = 0;
+        
+        for(int i = 0; i < position.Length; i++)
+        {
+            if(position[i] % 2 == 0)
+                evenPosCount++;
+            else
+                oddPosCount++;
+        }
+        
+        return Math.Min(evenPosCount, oddPosCount);
+    }
+}
