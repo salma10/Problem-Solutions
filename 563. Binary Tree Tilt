@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    int weight = 0;
+    public int FindTilt(TreeNode root) {
+        if(root == null || (root.left == null && root.right== null))
+            return 0;
+        
+        FindTilt(root.left);
+        FindTilt(root.right);
+        
+        int right = root.right != null ? root.right.val : 0;
+        int left = root.left != null ? root.left.val : 0;
+        weight += Math.Abs(right - left);
+        root.val += right + left;
+        
+        return weight;
+    
+    }
+}
