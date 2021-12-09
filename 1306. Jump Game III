@@ -1,0 +1,22 @@
+public class Solution {
+    public bool CanReach(int[] arr, int start) {
+        
+        int[] visited = new int[arr.Length];
+        Stack<int> data = new Stack<int>();
+        data.Push(start);
+        while(data.Count > 0)
+        {
+            int pos = data.Pop();
+            visited[pos] = 1;
+            if(arr[pos] == 0)
+                return true;
+            else{
+                if(pos + arr[pos] < arr.Length && visited[pos + arr[pos]] != 1)
+                    data.Push(pos + arr[pos]);
+                if(pos - arr[pos] > -1 && visited[pos - arr[pos]] != 1)
+                    data.Push(pos - arr[pos]);
+            }
+        }
+        return false;
+    }
+}
