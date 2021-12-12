@@ -1,0 +1,22 @@
+public class Solution {
+    public IList<string> LetterCasePermutation(string s) {
+        List<string> result = new List<string>();
+        Permutation(s, 0, result);
+        return result;   
+    }
+    
+    private void Permutation(string s, int index, List<string> result)
+    {
+        if (index == s.Length) 
+            result.Add(s);
+        else
+        if (char.IsDigit(s[index]))
+            Permutation(s, index + 1, result);
+        else
+        {
+            Permutation(s.Substring(0, index) + s[index].ToString().ToUpper() + s.Substring(index + 1), index + 1, result);
+
+            Permutation(s.Substring(0, index) + s[index].ToString().ToLower() + s.Substring(index + 1), index + 1, result);
+        }
+    }
+}
