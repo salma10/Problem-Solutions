@@ -1,0 +1,21 @@
+public class Solution {
+    public int MaxPower(string s) {
+        int currMax = 1;
+        int max = 0;
+        char lastChar = s[0];
+        
+        for(int i = 1; i < s.Length; i++)
+        {
+            if(lastChar != s[i])
+            {
+                max = Math.Max(currMax, max);
+                currMax = 1;
+                lastChar = s[i];
+            }
+            else
+               currMax++; 
+        }
+        
+        return Math.Max(currMax, max);
+    }
+}
