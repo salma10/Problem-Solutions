@@ -1,0 +1,40 @@
+public class Solution {
+    public int[] SearchRange(int[] nums, int target) {
+        int start = 0;
+        int end = nums.Length;
+        int mid;
+        int startPos = -1;
+        int endPos = -1;
+        
+        while(start < end)
+        {
+            mid = start + (end - start) / 2;
+            if (nums[mid] >= target) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        if (start == nums.Length || nums[start] != target) {
+            return new int[] { -1, -1 };
+        }
+        startPos = start;
+        end = nums.Length;
+        
+        while(start < end)
+        {
+            mid = start + (end - start) / 2;
+            if (nums[mid] > target) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        endPos = start - 1;
+        
+        return new int[] { startPos, endPos };
+        
+    }
+}
