@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode DeleteDuplicatesUnsorted(ListNode head) {
+        Dictionary<int,int> countList = new Dictionary<int,int>();
+        ListNode tempNode = head;
+        while(tempNode != null)
+        {
+            if(countList.ContainsKey(tempNode.val))
+                countList[tempNode.val]++;
+            else
+                countList[tempNode.val] = 1;
+            tempNode = tempNode.next;
+        }
+        tempNode = null;
+        
+        while(head.next != null)
+        {
+            if(countList[head.val] > 1)
+                head = head.next;
+            else
+            {
+                tempNode = head;
+                break;
+            }               
+        }
+        
+        while(head.next != null)
+        {
+            if(countList[head.next.val] > 1)
+                head.next = head.next.next;
+            else
+                head = head.next;        
+        }
+        return tempNode;
+    }
+}
