@@ -1,0 +1,32 @@
+public class Solution {
+    public int FindCircleNum(int[][] isConnected) {      
+        int len = isConnected.Length;
+        bool[] visited = new bool[len];
+        int count = 0;
+        Queue<int> data = new Queue<int>();
+        
+        for(int i = 0; i < len; i++)
+        {
+            if(!visited[i])
+            {
+                data.Enqueue(i);
+                visited[i] = true;
+                while(data.Count > 0)
+                {
+                    int curr = data.Dequeue();
+                    for(int j = 0; j < len; j++)
+                    {
+                        if(isConnected[curr][j] == 1 && !visited[j])
+                        {
+                            data.Enqueue(j);
+                            visited[j] = true;
+                        }
+                    }
+                }
+                count++;
+            }
+        }
+        return count;
+    }
+   
+}
