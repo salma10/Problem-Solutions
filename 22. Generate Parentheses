@@ -1,0 +1,22 @@
+public class Solution {
+    List<string> result;
+    int maxLen;
+    public IList<string> GenerateParenthesis(int n) {
+        result = new List<string>();
+        maxLen = n;
+        Generate(0, 0, string.Empty);
+        return result;
+    }
+    private void Generate(int start, int end, string currString)
+    {
+        if(end == maxLen)
+        {
+            result.Add(currString);
+            return;
+        }
+        if(start < maxLen)
+            Generate(start + 1, end, currString + "(");
+        if(end < start)
+            Generate(start, end + 1, currString + ")");
+    }
+}
