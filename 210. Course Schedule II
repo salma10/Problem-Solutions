@@ -1,0 +1,62 @@
+public class Solution {
+    enum Marking
+    {
+        Unvisited = 0,        
+        Temporary = 1,
+        Visited = 2
+    };
+    
+    public int[] FindOrder(int numCourses, int[][] prerequisites) {
+        Marking[] visited = new Marking[numCourses];
+        List<int> result = new List<int>();
+        
+        Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>();
+        for(int i = 0; i < numCourses; i++)
+        {
+            graph[i] = new List<int>();
+        }
+        
+        for(int i = 0; i < prerequisites.Length; i++)
+        {            
+            graph[prerequisites[i][1]].Add(prerequisites[i][0]);
+        }        
+        
+        for(int i = 0; i < graph.Count; i++)
+        {           
+            if(!visit(i, graph, visited, result))
+            {
+                return Array.Empty<int>();
+            }            
+        }
+        
+        result.Reverse();
+        return result.ToArray();
+    }
+    
+    private bool visit(int node, Dictionary<int, List<int>> graph, Marking[] visited, List<int> result)
+    {
+        if(visited[node] == Marking.Temporary)
+        {
+            return false;
+        }
+        
+        if(visited[node] == Marking.Visited)
+        {
+            return true;
+        }
+                
+        visited[node] = Marking.Temporary;
+
+        foreach(var neighbour in graph[node])
+        {
+            if(!visit(neighbour, graph, visited, result))
+            {
+                return false;    
+            }  
+        }        
+
+        visited[node] = Marking.Visited;
+        result.Add(node);                
+        return true;
+    }
+}
