@@ -1,0 +1,21 @@
+public class Solution {
+    public bool WordBreak(string s, IList<string> wordDict) {
+        bool[] isWord = new bool[s.Length + 1];
+        isWord[0] = true;
+        HashSet<string> words = new HashSet<string>(wordDict);
+        
+        for(int i = 1; i < isWord.Length; i++)
+        {
+           for(int j = 0; j < i; j++)
+           {
+               if(isWord[j] && words.Contains(s.Substring(j, i - j)))
+               {
+                   isWord[i] = true;
+                   break;
+               }
+           }
+        }
+        
+        return isWord[s.Length];
+    }
+}
