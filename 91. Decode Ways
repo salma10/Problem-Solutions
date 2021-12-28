@@ -13,8 +13,7 @@ public class Solution {
             int val2 = Convert.ToInt32(s.Substring(i - 2, 2));
             if(val2 >= 10 && val2 <= 26)
                 dp[i] += dp[i - 2];
-        }
-        
+        }        
         return dp[n];
     }
 }
