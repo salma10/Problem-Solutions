@@ -1,0 +1,24 @@
+public class Solution {
+    public IList<bool> CheckArithmeticSubarrays(int[] nums, int[] l, int[] r) {
+        IList<bool> result = new List<bool>();
+        for(int i = 0; i < l.Length; i++)
+        {
+            int[] temp = new int[r[i] - l[i] + 1];
+            Array.Copy(nums, l[i], temp, 0, (r[i] - l[i]) + 1);
+            bool currRes = IsArithematic(temp);
+            result.Add(currRes);
+        }
+        return result;
+    }
+    private bool IsArithematic(int[] nums)
+    {
+        Array.Sort(nums);
+        int diff = nums[1] - nums[0];
+        for(int i = 2; i < nums.Length; i++)
+        {
+            if(diff != nums[i] - nums[i - 1])
+                return false;
+        }
+        return true;
+    }
+}
