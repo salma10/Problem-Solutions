@@ -1,0 +1,44 @@
+public class Solution {
+
+    private int[] arrCloned;
+    private int[] original;
+    int len;
+    Random ranObj;
+    
+    public Solution(int[] nums) {
+        arrCloned = nums;
+        len = nums.Length;
+        original = new int[len];
+        Array.Copy(nums, original, len);
+        ranObj = new Random();
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] Reset() {
+        return original;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] Shuffle() {
+        
+        for(int i = 0; i < arrCloned.Length; i++)
+        {
+            int j = ranObj.Next(len);
+            int k = ranObj.Next(len);
+            int temp = arrCloned[k];
+            arrCloned[k] = arrCloned[j];
+            arrCloned[j] = temp;
+        }
+        
+        return arrCloned;
+    }
+    
+    
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int[] param_1 = obj.Reset();
+ * int[] param_2 = obj.Shuffle();
+ */
