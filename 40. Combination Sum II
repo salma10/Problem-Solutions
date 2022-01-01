@@ -1,0 +1,24 @@
+public class Solution {
+    public IList<IList<int>> CombinationSum2(int[] candidates, int target) {
+        List<IList<int>> result = new List<IList<int>>();
+        List<int> combination = new List<int>();
+        Array.Sort(candidates);
+        CombinationSum(result, candidates, combination, target, 0);
+        return result;
+    }
+    private void CombinationSum(IList<IList<int>> result, int[] candidates, IList<int> combination, int target, int start)
+    {
+        if (target == 0)
+        {
+            result.Add(new List<int>(combination));
+            return;
+        }else if (target > 0) {
+            for (int i = start; i < candidates.Length; i++) {
+                if (i > start && candidates[i - 1] == candidates[i]) continue;
+                combination.Add(candidates[i]);
+                CombinationSum(result, candidates, combination, target - candidates[i], i + 1);
+                combination.RemoveAt(combination.Count - 1);
+            }
+        }
+    }
+}
