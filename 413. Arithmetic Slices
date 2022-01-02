@@ -1,0 +1,18 @@
+public class Solution {
+    public int NumberOfArithmeticSlices(int[] nums) {
+         int n = nums.Length;
+
+        int result = 0;
+        int dp = 0;
+        
+        for (int i = 2; i < n; i++) {
+            if (nums[i - 1] - nums[i - 2] == nums[i] - nums[i - 1]) {
+                dp = dp + 1;
+            }
+            else
+               dp = 0; 
+            result += dp;
+        }
+        return result;
+    }
+}
