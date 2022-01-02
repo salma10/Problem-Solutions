@@ -1,0 +1,15 @@
+public class Solution {
+    public int IntegerBreak(int n) {
+        int[] dp = new int[n+1];
+        dp[2] = 1;
+        dp[1] = 1;
+        for(int i=3;i<=n;i++)
+        {
+            for(int k=1;k<i-1;k++)
+            {
+                dp[i] = Math.Max(k*dp[i-k], Math.Max(dp[i], k*(i-k)));
+            }
+        }
+        return dp[n];
+    }
+}
