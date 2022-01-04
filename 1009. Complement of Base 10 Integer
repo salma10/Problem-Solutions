@@ -21,3 +21,18 @@ public class Solution {
         return output;
     }
 }
+//Another solution using shifting bits
+public class Solution {
+    public int BitwiseComplement(int n) {
+        if (n == 0) 
+            return 1;
+        int curr = n, bit = 1;
+        while (curr != 0) 
+        {
+          n = n ^ bit;
+          bit = bit << 1;
+          curr = curr >> 1;
+        }
+        return n;
+    }
+}
