@@ -20,3 +20,18 @@ public int FindComplement(int num) {
         
         return output;
     }
+//Another solution using shifting bits
+public class Solution {
+    public int FindComplement(int num) {     
+        if (num == 0) 
+            return 1;
+        int curr = num, bit = 1;
+        while (curr != 0) 
+        {
+          num = num ^ bit;
+          bit = bit << 1;
+          curr = curr >> 1;
+        }
+        return num;
+    }
+}
