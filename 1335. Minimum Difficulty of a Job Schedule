@@ -1,0 +1,41 @@
+public class Solution {
+    private int d, n;
+    private int[][] memo;
+    private int[] hardestJobRemaining;
+    
+    private int DP(int i, int day, int[] jobDifficulty)
+    {
+        if(d == day)
+            return hardestJobRemaining[i];
+        if(memo[i][day] == -1)
+        {
+            int best = Int32.MaxValue;
+            int hardest = 0;
+            for(int j = i; j < n - (d - day); j++)
+            {
+                hardest = Math.Max(hardest, jobDifficulty[j]);
+                best = Math.Min(best, hardest + DP(j + 1, day + 1, jobDifficulty));
+            }
+            memo[i][day] = best;
+        }
+        return memo[i][day];
+    }
+    
+    public int MinDifficulty(int[] jobDifficulty, int d) {
+        n = jobDifficulty.Length;
+        if(n < d)
+            return -1;
+        hardestJobRemaining = new int[n];
+        int hardestJob = 0;
+        for(int i = n - 1; i >= 0; i--)
+        {
+            hardestJob = Math.Max(hardestJob, jobDifficulty[i]);
+            hardestJobRemaining[i] = hardestJob;
+        }
+        this.d = d;
+        memo = new int[n][];
+        for(int i = 0; i < n; i++)
+            memo[i] = Enumerable.Repeat<int>(-1, d + 1).ToArray();
+        return DP(0, 1, jobDifficulty);
+    }
+}
