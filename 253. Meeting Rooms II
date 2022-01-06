@@ -1,0 +1,33 @@
+public class Solution {
+    public int MinMeetingRooms(int[][] intervals) {
+        Array.Sort(intervals, (a, b) => { return a[0] - b[0]; }); 
+        SortedDictionary<int, int> endTimeQueue = new SortedDictionary<int, int>();
+        SortedDictionary<int, int> endTimeCount = new SortedDictionary<int, int>();
+        int noOfRooms = 0;
+        for(int i = 0; i < intervals.Length; i++)
+        {
+            noOfRooms++;
+            if(endTimeQueue.Count > 0 && intervals[i][0] >= endTimeQueue[endTimeQueue.Keys.First()])
+            {
+                noOfRooms--;
+                if(endTimeCount[endTimeQueue.Keys.First()] > 1)
+                    endTimeCount[endTimeQueue.Keys.First()]--;
+                else
+                {
+                    endTimeCount.Remove(endTimeQueue.Keys.First());
+                    endTimeQueue.Remove(endTimeQueue.Keys.First());
+                }
+                    
+            } 
+            if(endTimeQueue.ContainsKey(intervals[i][1]))
+                endTimeCount[intervals[i][1]]++;
+            else
+            {
+                endTimeQueue[intervals[i][1]] = intervals[i][1];
+                endTimeCount[intervals[i][1]] = 1;
+            }
+                
+        }        
+        return noOfRooms;
+    }
+}
