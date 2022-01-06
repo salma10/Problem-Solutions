@@ -1,0 +1,16 @@
+public class Solution {
+    public int Change(int amount, int[] coins) {       
+        int[] res = new int[amount + 1];
+        res[0] = 1;
+        
+        for(int i = 0; i < coins.Length; i++)
+        {
+            for(int j = coins[i]; j <= amount; j++)
+            {
+                int a = coins[i];
+                res[j] += res[j - a];
+            }
+        }
+        return res[amount];
+    }  
+}
