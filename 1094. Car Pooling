@@ -1,0 +1,19 @@
+public class Solution {
+    public bool CarPooling(int[][] trips, int capacity) {
+        int[] count = new int[1001];
+        foreach(int[] trip in trips)
+        {
+            count[trip[1]] -= trip[0];
+            count[trip[2]] += trip[0];
+        }
+        
+        foreach(int single in count)
+        {
+            capacity += single;
+            if(capacity < 0)
+                return false;
+        }
+        
+        return true;
+    }
+}
