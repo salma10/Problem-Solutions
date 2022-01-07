@@ -1,0 +1,12 @@
+public class Solution {
+    public int NumPairsDivisibleBy60(int[] time) {
+        int count = 0;
+        int[] dict = new int[60];
+        for(int i = 0; i < time.Length; i++)
+        {
+            count += dict[(60 - time[i] % 60) % 60];                
+            dict[time[i] % 60]++;
+        }
+        return count;
+    }
+}
