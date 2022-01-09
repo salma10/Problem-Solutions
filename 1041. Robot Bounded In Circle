@@ -1,0 +1,26 @@
+public class Solution {
+    public bool IsRobotBounded(string instructions) {
+        int[][] directions = new int[][]{
+            new int[] {0,1},
+            new int[] {-1,0},
+            new int[] {0,-1},
+            new int[] {1,0}
+        };
+        int x = 0, y = 0, i = 0;
+        for(int j = 0; j < instructions.Length; j++)
+        {
+            if(instructions[j] == 'L')
+            {
+                i = (i + 1) % 4;
+            }
+            else if(instructions[j] == 'R')
+                i = (i + 3) % 4;
+            else
+            {
+                x = x + directions[i][0];
+                y = y + directions[i][1];
+            }
+        }
+        return (x == 0 && y == 0) || i != 0;
+    }
+}
