@@ -1,0 +1,15 @@
+public class Solution {
+    public int MinCost(int[][] costs) {
+        int[] prevRow = costs[costs.Length - 1];
+        
+        for(int i = costs.Length - 2; i >= 0; i--)
+        {
+            int[] curr = (int[])costs[i].Clone();
+            curr[0] += Math.Min(prevRow[1], prevRow[2]);
+            curr[1] += Math.Min(prevRow[0], prevRow[2]);
+            curr[2] += Math.Min(prevRow[0], prevRow[1]);
+            prevRow = curr;
+        }
+        return Math.Min(prevRow[0], Math.Min(prevRow[1], prevRow[2]));
+    }
+}
