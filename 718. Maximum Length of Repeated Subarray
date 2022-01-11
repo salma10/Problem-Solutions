@@ -44,3 +44,38 @@ public class Solution {
         return maxLen;
     }
 }
+//Another solution with better time
+public class Solution {
+    public int FindLength(int[] nums1, int[] nums2) {
+        int len1 = nums1.Length;
+        int len2 = nums2.Length;
+        int curr = 0;
+        int maxLen = 0;
+        
+        for(int i = 0; i < len1; i++)
+        {
+            for(int j = 0; j < len2; j++)
+            {
+                if(nums1[i] == nums2[j])
+                {
+                    curr++;
+                    int curRow = i + 1;
+                    int curCol = j + 1;
+                    while(curRow < len1 && curCol < len2 && nums1[curRow] == nums2[curCol])
+                    {
+                        curr++;
+                        curRow++;
+                        curCol++;
+                    }
+                    
+                    if(curr > maxLen)
+                       maxLen = curr;
+                    curr = 0;
+                    if(maxLen == len1 || maxLen == len2)
+                        return maxLen;
+                }  
+            }
+        }
+        return maxLen;
+    }
+}
