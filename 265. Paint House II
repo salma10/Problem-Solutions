@@ -1,0 +1,41 @@
+public class Solution {
+    public int MinCostII(int[][] costs) {
+        int[] prevRow = costs[costs.Length - 1];
+        
+        for(int i = costs.Length - 2; i >= 0; i--)
+        {
+            int[] curr = (int[])costs[i].Clone();
+            int minPos = -1;
+            int min = FindMinimum(prevRow, -1, out minPos);
+            
+            for(int j = 0; j < curr.Length; j++)
+            {
+                if(minPos != j)
+                    curr[j] += min;
+                else
+                {
+                    int pos = -1;
+                    curr[j] += FindMinimum(prevRow, j, out pos);
+                }
+            }
+            prevRow = curr;
+        }
+        int tempPos = -1;
+        return FindMinimum(prevRow, -1, out tempPos);
+    }
+    
+    private int FindMinimum(int[] current, int skipPos, out int minPos)
+    {
+        int min = Int32.MaxValue;
+        minPos = -1;
+        for(int i= 0; i < current.Length; i++)
+        {
+            if(skipPos != i && min > current[i])
+            {
+                min = current[i];
+                minPos = i;
+            }             
+        }
+        return min;
+    }
+}
