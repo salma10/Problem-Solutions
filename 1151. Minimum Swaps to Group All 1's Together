@@ -1,0 +1,24 @@
+//Problem description
+/*
+Given a binary array data, return the minimum number of swaps required to group all 1’s present in the array together in any place in the array.
+*/
+public class Solution {
+    public int MinSwaps(int[] data) {    
+        int ones = data.Sum();
+        int cnt_one = 0, max_one = 0;
+        int left = 0, right = 0;
+
+        while (right < data.Length) 
+        {
+            cnt_one += data[right++];
+            
+            if (right - left > ones) 
+            {
+                cnt_one -= data[left++];
+            }
+            
+            max_one = Math.Max(max_one, cnt_one);
+        }
+        return ones - max_one;
+    }
+}
