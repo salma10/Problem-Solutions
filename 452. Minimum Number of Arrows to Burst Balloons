@@ -1,0 +1,32 @@
+//Problem Description
+/*
+There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented as a 2D integer array points where points[i] = [xstart, xend] denotes a balloon whose horizontal diameter stretches between xstart and xend. You do not know the exact y-coordinates of the balloons.
+Arrows can be shot up directly vertically (in the positive y-direction) from different points along the x-axis. A balloon with xstart and xend is burst by an arrow shot at x if xstart <= x <= xend. There is no limit to the number of arrows that can be shot. A shot arrow keeps traveling up infinitely, bursting any balloons in its path.
+Given the array points, return the minimum number of arrows that must be shot to burst all balloons.
+*/
+
+public class Solution {
+    public int FindMinArrowShots(int[][] points) {
+        Array.Sort(points, (a, b) => { 
+            return a[0].CompareTo(b[0]);
+        });   
+       
+        Stack<int[]> result = new Stack<int[]>();
+        result.Push(points[0]);
+        for(int i = 1; i < points.Length; i++)
+        {
+            int[] prev = result.Peek();
+            if(prev[1] >= points[i][0])
+            {
+                result.Pop();
+                if(prev[1] < points[i][1])
+                    result.Push(new int[]{points[i][0], prev[1]});
+                else
+                   result.Push(new int[]{points[i][0], points[i][1]}); 
+            }
+            else
+                result.Push(points[i]);
+        }
+        return result.Count;
+    }
+}
