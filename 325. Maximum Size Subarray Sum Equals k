@@ -1,0 +1,22 @@
+//Problem Description
+/*
+Given an integer array nums and an integer k, return the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
+*/
+public class Solution {
+    public int MaxSubArrayLen(int[] nums, int k) {
+        int sum = 0, maxLen = 0;
+        Dictionary<int, int> dict = new Dictionary<int, int>(){ {0, -1}};
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            sum += nums[i];          
+            if(dict.ContainsKey(sum - k))
+                maxLen = Math.Max(maxLen, i - dict[sum - k]);
+            
+            if(!dict.ContainsKey(sum))
+                dict.Add(sum, i);
+        }
+        
+        return maxLen;
+    }
+}
