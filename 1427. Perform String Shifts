@@ -1,0 +1,29 @@
+//Problem description
+/*
+You are given a string s containing lowercase English letters, and a matrix shift, where shift[i] = [directioni, amounti]:
+directioni can be 0 (for left shift) or 1 (for right shift).
+amounti is the amount by which string s is to be shifted.
+A left shift by 1 means remove the first character of s and append it to the end.
+Similarly, a right shift by 1 means remove the last character of s and add it to the beginning.
+Return the final string after all operations.
+*/
+public class Solution {
+    public string StringShift(string s, int[][] shift) {
+        int units = 0;
+        int len = s.Length;
+        for(int i = 0; i < shift.Length; i++)
+        {
+            if(shift[i][0] == 0)
+                units -= shift[i][1];
+            else
+                units += shift[i][1];
+        }
+        units = units % len;
+        if(units == 0)
+            return s;
+        else if(units < 0)
+            return s.Substring(Math.Abs(units)) + s.Substring(0, Math.Abs(units));
+        else
+            return s.Substring(len - units) + s.Substring(0, len - units);          
+    }
+}
