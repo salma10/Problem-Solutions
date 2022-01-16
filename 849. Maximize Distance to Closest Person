@@ -1,0 +1,42 @@
+//Problem Description
+/*
+You are given an array representing a row of seats where seats[i] = 1 represents a person sitting in the ith seat, and seats[i] = 0 represents that the ith seat is empty (0-indexed).
+There is at least one empty seat, and at least one person sitting.
+Alex wants to sit in the seat such that the distance between him and the closest person to him is maximized. 
+Return that maximum distance to the closest person.
+*/
+public class Solution {
+    public int MaxDistToClosest(int[] seats) {
+        if(seats.Length <= 2)
+            return 1;
+        int maxDistance = 0;
+        int currDis = 0;
+        for(int i = 0; i < seats.Length; i++)
+        {
+            if(seats[i] == 1)
+                currDis = 0;
+            else
+            {
+                currDis++;
+                maxDistance = Math.Max(maxDistance, (currDis + 1) / 2);
+            }
+        }
+        for(int i = 0; i < seats.Length; i++)
+        {
+            if(seats[i] == 1)
+            {
+                maxDistance = Math.Max(maxDistance, i);
+                break;
+            }
+        }
+        for(int i = seats.Length - 1; i >= 0; i--)
+        {
+            if(seats[i] == 1)
+            {
+                maxDistance = Math.Max(maxDistance, seats.Length - 1 - i);
+                break;
+            }
+        }
+        return maxDistance;
+    }
+}
