@@ -1,0 +1,27 @@
+//Problem description
+/*
+Given three integer arrays nums1, nums2, and nums3, return a distinct array containing all the values that are present in at least two out of the three arrays.
+You may return the values in any order.
+*/
+public class Solution {
+    public IList<int> TwoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {
+        HashSet<int> result = new HashSet<int>();
+        HashSet<int> set1 = new HashSet<int>(nums1);
+        HashSet<int> set2 = new HashSet<int>(nums2);
+        HashSet<int> set3 = new HashSet<int>(nums3);
+        
+        foreach(int num in set1)
+        {
+            if(set2.Contains(num))
+                result.Add(num);
+            else if(set3.Contains(num))
+                result.Add(num);
+        }
+        foreach(int num in set2)
+        {
+            if(set3.Contains(num))
+                result.Add(num);
+        }        
+        return result.ToList();
+    }
+}
