@@ -24,3 +24,26 @@ public class Solution {
         return s;
     }
 }
+//O(n) time complexity
+public class Solution {
+    public string ShortestPalindrome(string s) {
+        char[] reverse = s.ToCharArray();
+        Array.Reverse(reverse);
+        string rev = new string(reverse);
+        string combinedStr = s + "#" + rev;
+        int comLen = combinedStr.Length - 1;
+
+        int[] temp = new int[combinedStr.Length];
+        
+        for(int i = 1; i <= comLen; i++)
+        {
+            int t = temp[i - 1];
+            while(t > 0 && combinedStr[i] != combinedStr[t])
+                t = temp[t - 1];
+            if(combinedStr[i] == combinedStr[t])
+                t++;
+            temp[i] = t;
+        }        
+        return rev.Substring(0, s.Length - temp[comLen]) + s;
+    }
+}
