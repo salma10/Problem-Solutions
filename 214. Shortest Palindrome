@@ -1,0 +1,26 @@
+//Problem description
+/*
+You are given a string s. You can convert s to a palindrome by adding characters in front of it.
+Return the shortest palindrome you can find by performing this transformation.
+*/
+public class Solution {
+    public string ShortestPalindrome(string s) {
+
+        for(int k = s.Length - 1; k >= 0; k--)
+        {
+            for (int i = 0, j = k; i <= j; i++, j--)
+            {
+                if (s[i] != s[j]) 
+                    break;
+                if (i == j || i == j - 1)
+                {
+                    char[] s1 = s.Substring(k + 1).ToArray();
+                    Array.Reverse(s1);
+                    return new string(s1) + s;
+                }
+            }
+        }
+        
+        return s;
+    }
+}
