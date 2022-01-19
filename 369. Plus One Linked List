@@ -1,0 +1,41 @@
+//Problem description
+/*
+Given a non-negative integer represented as a linked list of digits, plus one to the integer.
+The digits are stored such that the most significant digit is at the head of the list.
+*/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode PlusOne(ListNode head) {
+         int remainder = 0;
+         ListNode result = Add(head, out remainder);
+         if(remainder > 0)
+             return new ListNode(remainder, result);
+         return result;
+    }
+    private ListNode Add(ListNode head, out int remainder)
+    {
+        if(head.next == null)
+        {
+            int sum = head.val + 1;
+            remainder = sum / 10;
+            head.val = sum % 10;
+            return head;
+        }
+        remainder = 0;
+        head.next = Add(head.next, out remainder);
+        int tempSum = head.val + remainder;
+        remainder = tempSum / 10;
+        head.val = tempSum % 10;
+        return head;
+    }
+}
