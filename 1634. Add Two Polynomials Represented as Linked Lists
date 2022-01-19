@@ -1,0 +1,77 @@
+//Problem description
+/*
+A polynomial linked list is a special type of linked list where every node represents a term in a polynomial expression.
+Each node has three attributes:
+coefficient: an integer representing the number multiplier of the term. The coefficient of the term 9x4 is 9.
+power: an integer representing the exponent. The power of the term 9x4 is 4.
+next: a pointer to the next node in the list, or null if it is the last node of the list.
+For example, the polynomial 5x3 + 4x - 7 is represented by the polynomial linked list illustrated below:
+The polynomial linked list must be in its standard form: the polynomial must be in strictly descending order by its power value. Also, terms with a coefficient of 0 are omitted.
+Given two polynomial linked list heads, poly1 and poly2, add the polynomials together and return the head of the sum of the polynomials.
+PolyNode format:
+The input/output format is as a list of n nodes, where each node is represented as its [coefficient, power]. For example, the polynomial 5x3 + 4x - 7 would be represented as: [[5,3],[4,1],[-7,0]].
+*/
+/**
+ * Definition for polynomial singly-linked list.
+ * public class PolyNode {
+ *     public int coefficient, power;
+ *     public PolyNode next;
+ *
+ *     public PolyNode(int x=0, int y=0, PolyNode next=null) {
+ *         this.coefficient = x;
+ *         this.power = y;
+ *         this.next = next;
+ *     }
+ * }
+ */
+
+public class Solution {
+    public PolyNode AddPoly(PolyNode poly1, PolyNode poly2) {
+        if(poly1 == null)
+            return poly2;
+        else if(poly2 == null)
+            return poly1;
+        
+        PolyNode result = new PolyNode();
+        PolyNode temp = result;
+        
+        while(poly1 != null && poly2 != null)
+        {
+            if(poly1.power == poly2.power && poly1.coefficient + poly2.coefficient == 0)
+            {
+                poly1 = poly1.next;
+                poly2 = poly2.next;
+            }
+            else
+            {
+                if(poly1.power > poly2.power)
+                {
+                    temp.next = poly1;
+                    poly1 = poly1.next;
+                }
+                else if(poly2.power > poly1.power)
+                {
+                    temp.next = poly2;
+                    poly2 = poly2.next;
+                }
+                else
+                {
+                    temp.next = poly1;
+                    poly1.coefficient += poly2.coefficient;
+                    poly1 = poly1.next;
+                    poly2 = poly2.next;
+                }
+                temp = temp.next;
+                if(temp != null)
+                    temp.next = null;
+            }
+            
+        }
+        if(poly1 != null)
+            temp.next = poly1;
+        if(poly2 != null)
+            temp.next = poly2;
+       
+        return result.next;
+    }
+}
