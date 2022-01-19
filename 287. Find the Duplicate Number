@@ -25,3 +25,16 @@ public class Solution {
         return hare;
     }
 }
+//Another approach to solve
+public class Solution {
+    public int FindDuplicate(int[] nums) {     
+        for(int i = 0; i < nums.Length; i++)
+        {
+            int current = Math.Abs(nums[i]);
+            if(nums[current] < 0)
+                return current;
+            nums[current] *= -1;
+        }       
+        return -1;
+    }
+}
