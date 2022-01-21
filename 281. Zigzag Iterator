@@ -59,3 +59,67 @@ public class ZigzagIterator {
  * ZigzagIterator i = new ZigzagIterator(v1, v2);
  * while (i.HasNext()) v[f()] = i.Next();
  */
+ 
+ 
+ //Space complexity optimized
+ public class ZigzagIterator {
+    IList<int> vector1; 
+    IList<int> vector2;
+    int lastAccessed;
+    int v1Pos = 0;
+    int v2Pos = 0;
+    int v1Len;
+    int v2Len;
+    public ZigzagIterator(IList<int> v1, IList<int> v2) {        
+        vector1 = v1;
+        vector2 = v2;
+        v1Pos = 0;
+        v2Pos = 0;
+        v1Len = vector1.Count;
+        v2Len = vector2.Count;
+        lastAccessed = 2;
+    }
+
+    public bool HasNext() {
+        if(v1Pos < v1Len || v2Pos < v2Len)
+            return true;
+        else
+            return false;
+    }
+
+    public int Next() {      
+        if(lastAccessed == 2 && v1Pos < v1Len)
+        {
+            lastAccessed = 1;
+            int elm = vector1[v1Pos];
+            v1Pos++;
+            return elm;
+        } 
+        else if(lastAccessed == 1 && v2Pos < v2Len)
+        {
+            lastAccessed = 2;
+            int elm = vector2[v2Pos];
+            v2Pos++;
+            return elm;
+        }  
+        else if(v1Pos < v1Len)
+        {
+            int elm = vector1[v1Pos];
+            v1Pos++;
+            return elm;
+        }
+        else
+        {
+            int elm = vector2[v2Pos];
+            v2Pos++;
+            return elm;
+        }
+      //  return vector1.Count > 0 ? vector1.Dequeue() : vector2.Dequeue();
+    }
+}
+
+/**
+ * Your ZigzagIterator will be called like this:
+ * ZigzagIterator i = new ZigzagIterator(v1, v2);
+ * while (i.HasNext()) v[f()] = i.Next();
+ */
