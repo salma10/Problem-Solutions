@@ -78,3 +78,41 @@ public class Solution {
         }
     }
 }
+//Another solution with improved space complexity
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode SortList(ListNode head) {
+        SortedDictionary<int, int> temp = new SortedDictionary<int, int>();
+        while(head != null)
+        {
+            if(temp.ContainsKey(head.val))
+                temp[head.val]++;
+            else
+                temp[head.val] = 1;
+            head = head.next;
+        }
+        ListNode tempNode = new ListNode();
+        head = tempNode;
+        foreach(var item in temp)
+        {
+            int count = item.Value;
+            while(count > 0)
+            {
+                head.next = new ListNode(item.Key);
+                head = head.next;
+                count--;
+            }
+        }
+        return tempNode.next;
+    }    
+}
