@@ -1,0 +1,80 @@
+//Problem description
+/*
+Given the head of a linked list, return the list after sorting it in ascending order.
+*/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode SortList(ListNode head) {
+        List<int> temp = new List<int>();
+        while(head != null)
+        {
+            temp.Add(head.val);
+            head = head.next;
+        }
+        Sort(temp, 0, temp.Count - 1);
+        ListNode tempNode = new ListNode();
+        head = tempNode;
+        for(int i = 0; i < temp.Count; i++)
+        {
+            head.next = new ListNode(temp[i]);
+            head = head.next;
+        }
+        return tempNode.next;
+    }    
+    void Sort(List<int> arr, int l, int r)
+    {
+        if (l < r) {
+            int m = l+ (r-l)/2;
+            Sort(arr, l, m);
+            Sort(arr, m + 1, r);
+            merge(arr, l, m, r);
+        }
+    }
+    void merge(List<int> arr, int l, int m, int r)
+    {
+        int n1 = m - l + 1;
+        int n2 = r - m;
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+        int i, j;
+        for (i = 0; i < n1; ++i)
+            L[i] = arr[l + i];
+        for (j = 0; j < n2; ++j)
+            R[j] = arr[m + 1 + j];
+
+        i = 0;
+        j = 0;
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            }
+            else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+}
