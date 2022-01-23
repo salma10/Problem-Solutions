@@ -37,3 +37,42 @@ public class Solution {
         return s;
     }
 }
+//With improved time complexity
+public class Solution {
+    public string RemoveKdigits(string num, int k) {
+        Stack<char> stack = new Stack<char>();
+        
+        for(int i = 0; i < num.Length; i++)
+        {
+            while(stack.Count > 0 && k > 0 && stack.Peek() > num[i])
+            {
+                stack.Pop();
+                k--;
+            }
+            stack.Push(num[i]);
+        }
+        
+        for(int i = 0; i < k; i++)
+        {
+            stack.Pop();
+        }
+        
+        string s = string.Empty;
+        int start = 0;
+        
+        while(stack.Count > 0)
+            s =  stack.Pop() + s;
+        
+        for(int i = 0; i < s.Length; i++)
+        {
+            start = i;
+            if(s[i] != '0')
+                break;
+        }
+        s = s.Substring(start, s.Length - start);
+        
+        if(s.Length == 0)
+            return "0";
+        return s;
+    }
+}
