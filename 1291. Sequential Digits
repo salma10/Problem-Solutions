@@ -1,0 +1,24 @@
+//Problem description
+/*
+An integer has sequential digits if and only if each digit in the number is one more than the previous digit.
+Return a sorted list of all the integers in the range [low, high] inclusive that have sequential digits.
+*/
+public class Solution {
+    public IList<int> SequentialDigits(int low, int high) {
+        List<int> result = new List<int>();
+        string allDigits = "123456789";
+        int startLen = Convert.ToString(low).Length;
+        int endLen = Convert.ToString(high).Length;
+        
+        for(int i = startLen; i <= endLen; i++)
+        {
+            for(int j = 0; j < 10 - i; j++)
+            {
+                int number = Int32.Parse(allDigits.Substring(j, i));
+                if(number >= low && number <= high)
+                    result.Add(number);
+            }
+        }
+        return result;
+    }
+}
