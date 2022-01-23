@@ -1,0 +1,39 @@
+//Problem description
+/*
+Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.
+*/
+public class Solution {
+    public string RemoveKdigits(string num, int k) {
+        LinkedList<char> stack = new LinkedList<char>();
+        
+        for(int i = 0; i < num.Length; i++)
+        {
+            while(stack.Count > 0 && k > 0 && stack.Last() > num[i])
+            {
+                stack.RemoveLast();
+                k--;
+            }
+            
+            stack.AddLast(num[i]);
+        }
+        
+        for(int i = 0; i < k; i++)
+        {
+            stack.RemoveLast();
+        }
+        
+        string s = string.Empty;
+        bool isZero = true;
+        foreach(var item in stack)
+        {
+            if(isZero && item == '0')
+                continue;
+            isZero = false;
+            s =  s + item;
+        }
+        
+        if(s.Length == 0)
+            return "0";
+        return s;
+    }
+}
