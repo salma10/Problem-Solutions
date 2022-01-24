@@ -1,0 +1,29 @@
+//Problem description
+/*
+Given an integer array nums and an integer k,
+return the length of the shortest non-empty subarray of nums with a sum of at least k. If there is no such subarray, return -1.
+A subarray is a contiguous part of an array.
+*/
+public class Solution {
+    public int ShortestSubarray(int[] nums, int k) {
+        int len = nums.Length;
+        long[] sum = new long[len + 1];
+        int minDistance = Int32.MaxValue;     
+        for (int i = 1; i <= len; i++)
+            sum[i] = sum[i - 1] + nums[i - 1];      
+        LinkedList<int> queue = new LinkedList<int>();       
+        for (int start = 0; start < sum.Length; start++) 
+        {
+            while(queue.Count > 0 && sum[queue.Last.Value] >= sum[start])
+                queue.RemoveLast();
+            queue.AddLast(start);
+            while(queue.Count > 1 && sum[start] - sum[queue.First.Next.Value] >= k)
+                queue.RemoveFirst();
+            if (start > 0 && sum[start] - sum[queue.First.Value] >= k) 
+            {
+                minDistance = Math.Min(minDistance, start - queue.First.Value);
+            }
+        }
+        return Int32.MaxValue == minDistance ? -1 : minDistance;
+    }
+}
