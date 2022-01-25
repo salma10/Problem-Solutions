@@ -23,3 +23,39 @@ public class Solution {
         return result;
     }
 }
+//Another solution with better time complexity
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<int> GetLonelyNodes(TreeNode root) {
+        Queue<TreeNode> nodes = new Queue<TreeNode>();
+        nodes.Enqueue(root);
+        List<int> lonelyChildList = new List<int>();
+        while(nodes.Count > 0)
+        {
+            TreeNode currentNode = nodes.Dequeue();
+            if(currentNode.left != null && currentNode.right == null)
+                lonelyChildList.Add(currentNode.left.val);
+            else if(currentNode.left == null && currentNode.right != null)
+                lonelyChildList.Add(currentNode.right.val);
+            
+            if(currentNode.left != null)
+                nodes.Enqueue(currentNode.left);
+            if(currentNode.right != null)
+                nodes.Enqueue(currentNode.right);
+            
+        }
+        return lonelyChildList;
+    }
+}
