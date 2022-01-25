@@ -1,0 +1,41 @@
+//Problem description
+/*
+Given the root of a binary tree and a node u in the tree, 
+return the nearest node on the same level that is to the right of u, or return null if u is the rightmost node in its level.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public TreeNode FindNearestRightNode(TreeNode root, TreeNode u) {
+        
+        Queue<TreeNode> levelNodes = new Queue<TreeNode>();
+        levelNodes.Enqueue(root);
+        while(levelNodes.Count > 0)
+        {
+            int count = levelNodes.Count;
+            while(count > 0)
+            {
+                TreeNode currentNode =  levelNodes.Dequeue();
+                count--;
+                if(currentNode == u)
+                   return count > 0 ? levelNodes.Dequeue() : null;
+                if(currentNode.left != null)
+                    levelNodes.Enqueue(currentNode.left);
+                if(currentNode.right != null)
+                    levelNodes.Enqueue(currentNode.right);
+            }
+        }
+        return null;
+    }
+}
