@@ -28,3 +28,22 @@ public class Solution {
         return trappedWater;
     }
 }
+//Dynamic programming solution
+public class Solution {
+    public int Trap(int[] height) {
+        int trappedWater = 0, length = height.Length;  
+        int[] leftMax = new int[length];
+        int[] rightMax = new int[length];
+        leftMax[0] = height[0];
+        rightMax[length - 1] = height[length - 1];
+        
+        for(int i = 1; i < length; i++)
+            leftMax[i] = Math.Max(leftMax[i - 1], height[i]);
+        for(int i = length - 2; i >= 0; i--)
+            rightMax[i] = Math.Max(rightMax[i + 1], height[i]);   
+        for(int i = 1; i < length - 1; i++)
+            trappedWater += Math.Min(leftMax[i], rightMax[i]) - height[i];
+        
+        return trappedWater;
+    }
+}
