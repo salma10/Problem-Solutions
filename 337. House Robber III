@@ -1,0 +1,39 @@
+//Problem description
+/*
+The thief has found himself a new place for his thievery again. There is only one entrance to this area, called root.
+Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that all houses in this place form a binary tree. 
+It will automatically contact the police if two directly-linked houses were broken into on the same night.
+Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public int Rob(TreeNode root) {
+        int[] maxAmount = GetMaxSum(root);
+        return Math.Max(maxAmount[0], maxAmount[1]);
+    }
+    private int[] GetMaxSum(TreeNode root)
+    {
+        if(root== null)
+            return new int[2];
+        
+        int[] left = GetMaxSum(root.left);
+        int[] right = GetMaxSum(root.right);
+        
+        int[] maxAmount = new int[2];
+        maxAmount[0] = Math.Max(left[0], left[1]) + Math.Max(right[0], right[1]);
+        maxAmount[1] = root.val + left[0] + right[0];
+        return maxAmount;
+    }
+}
