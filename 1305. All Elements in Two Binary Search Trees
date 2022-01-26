@@ -1,0 +1,62 @@
+//Problem description
+/*
+Given two binary search trees root1 and root2, return a list containing all the integers from both trees sorted in ascending order.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<int> GetAllElements(TreeNode root1, TreeNode root2) {
+        List<int> result = new List<int>();
+        List<int> result1 = TraverseTree(root1);
+        List<int> result2 = TraverseTree(root2);
+        int len1 = result1.Count, len2 = result2.Count, i = 0, j = 0;
+        
+        while(i < len1 && j < len2)
+        {
+            if(result1[i] < result2[j])
+            {
+                result.Add(result1[i]);
+                i++;
+            }
+            else
+            {
+                result.Add(result2[j]);
+                j++;
+            }
+        }
+        
+        while(i < len1)
+        {
+            result.Add(result1[i]);
+            i++;
+        }
+        while(j < len2)
+        {
+            result.Add(result2[j]);
+            j++;
+        }
+        
+        return result;
+    }
+    private List<int> TraverseTree(TreeNode root)
+    {
+        if(root == null)
+            return new List<int>();
+        List<int> result = new List<int>();
+        result.AddRange(TraverseTree(root.left));
+        result.Add(root.val);
+        result.AddRange(TraverseTree(root.right));
+        return result;
+    }
+}
