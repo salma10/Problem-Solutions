@@ -1,0 +1,59 @@
+//Problem description
+/*
+Given the root of a binary tree, collect a tree's nodes as if you were doing this:
+Collect all the leaf nodes.
+Remove all the leaf nodes.
+Repeat until the tree is empty.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<IList<int>> FindLeaves(TreeNode root) {
+        List<IList<int>> result = new List<IList<int>>();
+        while(root.left != null || root.right != null)
+        {
+            List<int> levelResult = new List<int>();
+            levelResult = FindSingleLevelLeaves(root);
+            result.Add(levelResult);
+        }
+        result.Add(new List<int>{root.val});
+        return result;
+    }
+    
+    private List<int> FindSingleLevelLeaves(TreeNode root)
+    {
+        if(root == null || (root.left == null && root.right == null))
+            return new List<int>();
+        List<int> result = new List<int>();
+        if(root.left != null && root.left.left == null && root.left.right == null)
+        {
+            result.Add(root.left.val);
+            root.left = null;
+        }
+        if(root.right != null && root.right.left == null && root.right.right == null)
+        {
+            result.Add(root.right.val);
+            root.right = null;
+        }
+        if(root.left == null && root.right == null)
+            return result;
+        else
+        {
+            result.AddRange(FindSingleLevelLeaves(root.left));
+            result.AddRange(FindSingleLevelLeaves(root.right));
+        }
+        return result;
+    }
+    
+}
