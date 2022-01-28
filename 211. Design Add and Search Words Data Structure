@@ -1,0 +1,71 @@
+//Problem description
+/*
+Design a data structure that supports adding new words and finding if a string matches any previously added string.
+Implement the WordDictionary class:
+WordDictionary() Initializes the object.
+void addWord(word) Adds word to the data structure, it can be matched later.
+bool search(word) Returns true if there is any string in the data structure 
+that matches word or false otherwise. word may contain dots '.' where dots can be matched with any letter.
+*/
+public class Trie
+{
+    public Dictionary<char, Trie> child = new Dictionary<char, Trie>();
+    public bool isWord = false;
+}
+
+public class WordDictionary {
+    Trie objTrie;
+    
+    public WordDictionary() {
+        objTrie = new Trie();
+    }
+    
+    public void AddWord(string word) {
+        Trie current = objTrie;
+        
+        for(int i = 0; i < word.Length; i++)
+        {
+            if(!current.child.ContainsKey(word[i]))
+            {
+                current.child[word[i]] = new Trie();
+            }
+            current = current.child[word[i]];
+        }
+        current.isWord = true;
+    }
+    
+    public bool Search(string word) {
+        return SearchNode(word, objTrie);
+    }
+    
+    public bool SearchNode(string word, Trie node) 
+    {
+        for (int i = 0; i < word.Length; ++i) {
+            char currentChar = word[i];
+            if (!node.child.ContainsKey(currentChar)) {
+                if (currentChar == '.') {
+                    foreach (char x in node.child.Keys)
+                    {
+                        Trie child = node.child[x];
+                        if (SearchNode(word.Substring(i + 1), child)) {
+                            return true;    
+                        }    
+                    }   
+                }
+                return false;    
+            } 
+            else 
+            {
+                node = node.child[currentChar]; 
+            }   
+        }      
+        return node.isWord;
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.AddWord(word);
+ * bool param_2 = obj.Search(word);
+ */
