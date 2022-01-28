@@ -1,0 +1,43 @@
+//Problem description
+/*
+You are given the root of a binary tree. 
+We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children.
+Return the minimum number of cameras needed to monitor all nodes of the tree.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public int MinCameraCover(TreeNode root) {
+        int[] minCount = GetMinCameraSum(root);
+        return Math.Min(minCount[1], minCount[2]);
+    }
+    private int[] GetMinCameraSum(TreeNode root)
+    {
+        if(root== null)
+            return new int[]{0, 0, 99999};
+        
+        int[] left = GetMinCameraSum(root.left);
+        int[] right = GetMinCameraSum(root.right);
+        
+        int minLeft = Math.Min(left[1], left[2]);
+        int minRight = Math.Min(right[1], right[2]);
+        
+        int[] minCount = new int[3];
+        minCount[0] = left[1] + right[1];
+        minCount[1] = Math.Min(left[2] + minRight, right[2] + minLeft);
+        minCount[2] = 1 + Math.Min(left[0], minLeft) + Math.Min(right[0], minRight);
+        
+        return minCount;
+    }
+}
