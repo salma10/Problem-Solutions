@@ -1,0 +1,58 @@
+//Problem description
+/*
+We want to split a group of n people (labeled from 1 to n) into two groups of any size. 
+Each person may dislike some other people, and they should not go into the same group.
+Given the integer n and the array dislikes where dislikes[i] = [ai, bi] indicates that the person labeled ai does not like the person labeled bi, 
+return true if it is possible to split everyone into two groups in this way.
+*/
+public class Solution {
+    public bool PossibleBipartition(int N, int[][] dislikes) {
+        
+        if(dislikes == null || dislikes.Length == 0)
+            return true;
+        
+        Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>();
+        
+        for(int i = 0; i < dislikes.Length; i++)
+        {
+            if(!graph.ContainsKey(dislikes[i][0]))
+               graph[dislikes[i][0]] = new List<int>();
+            if(!graph.ContainsKey(dislikes[i][1]))
+               graph[dislikes[i][1]] = new List<int>();
+            
+            graph[dislikes[i][0]].Add(dislikes[i][1]);
+            graph[dislikes[i][1]].Add(dislikes[i][0]);
+        }
+        
+        int[] numbers = new int[N+1];
+        int[] grapKey = graph.Keys.ToArray();
+        
+        for(int i = 0; i < grapKey.Length; i++)
+        {
+            if(numbers[grapKey[i]] == 0 && !CheckKeyElements(graph, grapKey[i], numbers, 1))
+                return false;
+        }
+        
+        return true;
+    }
+    public bool CheckKeyElements(Dictionary<int, List<int>> graph, int key, int[] numbers, int keyNumber)
+    {
+        if(numbers[key] != 0)
+        {
+            return numbers[key] == keyNumber;
+        }
+    
+        numbers[key] = keyNumber;
+
+        foreach(var n in graph[key])
+        {
+            if(!CheckKeyElements(graph, n, numbers, -keyNumber))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+}
