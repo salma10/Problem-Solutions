@@ -1,0 +1,34 @@
+//Problem description
+/*
+There are n cities connected by some number of flights. 
+You are given an array flights where flights[i] = [fromi, toi, pricei] indicates that there is a flight from city fromi to city toi with cost pricei.
+You are also given three integers src, dst, and k, return the cheapest price from src to dst with at most k stops. 
+If there is no such route, return -1.
+*/
+public class Solution {
+    public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int K) {  
+            int[] result = new int[n]; 
+        
+            for(int i = 0; i < n; i++)
+                result[i] = Int32.MaxValue -100000;
+
+            result[src] = 0;
+
+            for(int i = 0; i <= K;i++)
+            {
+                int[] Cost = new int[n];
+                Array.Copy(result,Cost,n);
+                foreach(int[] route in flights)
+                {
+                    int srcn = route[0];
+                    int dist = route[1];
+                    int cost = route[2];
+
+                    if (Cost[dist] > result[srcn] + cost)
+                        Cost[dist] = result[srcn] + cost;
+                }
+                result = Cost;
+            }
+            return (result[dst] < Int32.MaxValue - 100000) ? result[dst] : -1;
+    }
+}
