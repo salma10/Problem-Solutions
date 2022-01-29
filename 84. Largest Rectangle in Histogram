@@ -1,0 +1,24 @@
+//Problem description
+/*
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, 
+return the area of the largest rectangle in the histogram.
+*/
+public class Solution {
+    public int LargestRectangleArea(int[] heights) {
+        Stack<int> positions = new Stack<int>();
+        int maxArea = 0;
+        for(int i = 0; i <= heights.Length; i++)
+        {
+            int currentHeight = i == heights.Length ? 0 : heights[i];
+            while(positions.Count > 0 && heights[positions.Peek()] > currentHeight)
+            {
+                int lastHeight = positions.Pop();
+                int left = positions.Count == 0 ? -1 : positions.Peek();
+                int area = (i - left - 1) * heights[lastHeight];
+                maxArea = Math.Max(maxArea, area);
+            }
+            positions.Push(i);
+        }
+        return maxArea;
+    }
+}
