@@ -1,0 +1,37 @@
+//Problem description
+/*
+Given two integers n and k, construct a list answer that contains n different positive integers ranging from 1 to n and obeys the following requirement:
+Suppose this list is answer = [a1, a2, a3, ... , an], then the list [|a1 - a2|, |a2 - a3|, |a3 - a4|, ... , |an-1 - an|] has exactly k distinct integers.
+Return the list answer. If there multiple valid answers, return any of them.
+*/
+public class Solution {
+    public int[] ConstructArray(int n, int k) {
+        int[] res = new int[n];
+            res[0] = 1;
+
+            int diff = k;
+            bool useHigh = true;
+            for (int i = 1; i <= k; i++)
+            {
+                if (useHigh)
+                {
+                    res[i] = res[i - 1] + diff;
+                }
+                else
+                {
+                    res[i] = res[i - 1] - diff;
+                }
+
+                useHigh = !useHigh;
+                diff--;
+            }
+
+            int val = res[1] + 1;
+            for (int i = k + 1; i < n; i++)
+            {
+                res[i] = val++;
+            }
+
+            return res;
+    }
+}
