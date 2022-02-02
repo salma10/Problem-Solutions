@@ -1,0 +1,25 @@
+//Problem description
+/*
+You are given a string s and an integer k. You can choose one of the first k letters of s and append it at the end of the string..
+Return the lexicographically smallest string you could have after applying the mentioned step any number of moves.
+*/
+public class Solution {
+    public string OrderlyQueue(string s, int k) {
+        if(k > 1)
+        {
+            var charArray = s.ToCharArray();
+            Array.Sort(charArray);
+            return new string(charArray);
+        }
+        
+        var result = s;
+        for(int i = 0; i < s.Length; i++)
+        {
+            var newString = s.Substring(i) + s.Substring(0, i);
+            if(newString.CompareTo(result) < 0)
+                result = newString;
+        }
+        
+        return result;
+    }
+}
