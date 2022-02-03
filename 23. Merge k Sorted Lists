@@ -1,0 +1,43 @@
+//Problem description
+/*
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+Merge all the linked-lists into one sorted linked-list and return it.
+*/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        if(lists.Length == 0)
+            return null;
+        ListNode current = new ListNode();
+        current.next = lists[0];
+        
+        for(int i = 1; i < lists.Length; i++)
+        {
+            current.next = MergeTwoLists(current.next, lists[i]);
+        }
+        return current.next;
+    }
+    public ListNode MergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null)
+            return l2;
+        if (l2 == null)
+            return l1;
+        if (l2.val > l1.val)
+        {
+            l1.next = MergeTwoLists(l1.next, l2);               
+            return l1; 
+        }
+        l2.next = MergeTwoLists(l1, l2.next);           
+        return l2;                                    
+    }
+}
