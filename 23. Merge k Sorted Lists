@@ -41,3 +41,49 @@ public class Solution {
         return l2;                                    
     }
 }
+//Better solution
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        if(lists == null || lists.Length == 0)
+            return null;
+        return Merge(lists, 0, lists.Length -  1);
+    }
+    private ListNode Merge(ListNode[] lists, int i, int j)
+    {
+        if (j == i)
+            return lists[i];
+        else
+        {
+            int mid = i + (j - i) / 2;
+
+            ListNode left = Merge(lists, i, mid),
+                     right = Merge(lists, mid + 1, j);
+
+            return MergeTwoLists(left, right);
+        }
+    }
+    public ListNode MergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null)
+            return l2;
+        if (l2 == null)
+            return l1;
+        if (l2.val > l1.val)
+        {
+            l1.next = MergeTwoLists(l1.next, l2);               
+            return l1; 
+        }
+        l2.next = MergeTwoLists(l1, l2.next);           
+        return l2;                                    
+    }
+}
