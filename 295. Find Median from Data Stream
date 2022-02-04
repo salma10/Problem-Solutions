@@ -1,0 +1,75 @@
+//Problem description
+/*
+The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value and the median is the mean of the two middle values.
+For example, for arr = [2,3,4], the median is 3.
+For example, for arr = [2,3], the median is (2 + 3) / 2 = 2.5.
+Implement the MedianFinder class:
+MedianFinder() initializes the MedianFinder object.
+void addNum(int num) adds the integer num from the data stream to the data structure.
+double findMedian() returns the median of all elements so far. Answers within 10-5 of the actual answer will be accepted.
+*/
+public class MedianFinder {
+    List<int> aMap;  
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        aMap = new List<int>();  
+    }
+    
+    static int SearchPosition(List<int> aMap, int inputNum)
+    {
+        int min = 0;
+        int max =  aMap.Count() - 1; 
+        int mid = (min + max) / 2; 
+
+        while (min <=max)  
+        {  
+            mid = (min + max) / 2; 
+            if (min == max && aMap[max] <= inputNum)  
+            {  
+                return ++mid;  
+            }  
+            else if(min == max)
+            {
+                return mid;
+            }
+            else if (inputNum < aMap[mid])  
+            {  
+                max = mid - 1;  
+            }  
+            else  
+            {  
+                min = mid + 1;  
+            } 
+        }  
+        return min;
+    }
+    
+    public void AddNum(int num) {       
+        int position = SearchPosition(aMap, num);
+        aMap.Insert(position, num);
+    }    
+    public double FindMedian() {        
+        int currLength = aMap.Count();
+        double result = 0;
+        
+        if(currLength % 2 == 1)
+        {
+            int index = currLength / 2;
+            result = (double)aMap[index];
+        }
+        else
+        {
+            int index1 = currLength / 2;
+            int index2 = index1 - 1;
+            result = (double)((aMap[index1] + aMap[index2]) / 2.0);
+        }        
+        return result;
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.AddNum(num);
+ * double param_2 = obj.FindMedian();
+ */
