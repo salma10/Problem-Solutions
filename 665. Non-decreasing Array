@@ -1,0 +1,29 @@
+//Problem description
+/*
+Given an array nums with n integers, your task is to check if it could become non-decreasing by modifying at most one element.
+We define an array is non-decreasing if nums[i] <= nums[i + 1] holds for every i (0-based) such that (0 <= i <= n - 2).
+*/
+public class Solution {
+    public bool CheckPossibility(int[] nums) {
+        int count = 0;
+        for (int i = 1; i < nums.Length; i++) 
+        {
+            
+            if (nums[i - 1] > nums[i]) {
+                
+                if (count == 1) {
+                    return false;
+                }
+                
+                count++;
+                
+                if (i < 2 || nums[i - 2] <= nums[i]) {
+                    nums[i - 1] = nums[i];
+                } else {
+                    nums[i] = nums[i - 1];
+                }
+            }
+        }
+        return true;
+    }
+}
