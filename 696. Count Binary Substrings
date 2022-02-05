@@ -1,0 +1,30 @@
+//Problem description
+/*
+Give a binary string s, return the number of non-empty substrings that have the same number of 0's and 1's, 
+and all the 0's and all the 1's in these substrings are grouped consecutively.
+Substrings that occur multiple times are counted the number of times they occur.
+*/
+public class Solution {
+    public int CountBinarySubstrings(string s) {
+        int counter = 0, num0 = 0, num1 = 0;
+        char prev = s[0];
+        for(int i = 0; i < s.Length; i++)
+        {
+            char curr = s[i];
+            if(curr == prev)
+            {
+                if(curr is '0') num0++;
+                else num1++;
+            }
+            else
+            {
+                counter += Math.Min(num0, num1);
+                if(curr is '0') num0 = 1;
+                else num1 = 1;
+            }
+            prev = curr;
+        }
+        counter += Math.Min(num0, num1);
+        return counter;
+    }
+}
