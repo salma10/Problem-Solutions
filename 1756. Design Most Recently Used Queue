@@ -1,0 +1,31 @@
+//Problem description
+/*
+Design a queue-like data structure that moves the most recently used element to the end of the queue.
+Implement the MRUQueue class:
+MRUQueue(int n) constructs the MRUQueue with n elements: [1,2,3,...,n].
+int fetch(int k) moves the kth element (1-indexed) to the end of the queue and returns it.
+*/
+public class MRUQueue {
+    int[] data;
+    public MRUQueue(int n) {
+        data = Enumerable.Range(1, n).ToArray();
+    }
+    
+    public int Fetch(int k) {
+        if(data.Length == 1)
+            return data[0];
+        int elementToMove = data[k - 1];
+        for(int i = k; i < data.Length; i++)
+        {
+            data[i -1] = data[i];
+        }
+        data[data.Length - 1] = elementToMove;
+        return elementToMove;
+    }
+}
+
+/**
+ * Your MRUQueue object will be instantiated and called as such:
+ * MRUQueue obj = new MRUQueue(n);
+ * int param_1 = obj.Fetch(k);
+ */
