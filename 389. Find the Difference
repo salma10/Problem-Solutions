@@ -33,3 +33,26 @@ public class Solution {
         return ' ';
     }
 }
+//ANother solution with slight improvement
+public class Solution {
+    public char FindTheDifference(string s, string t) {
+        Dictionary<char, int> data = new Dictionary<char, int>();
+        
+        for(int i = 0; i < s.Length; i++)
+        {
+            if(data.ContainsKey(s[i]))
+                data[s[i]]++;
+            else
+                data[s[i]] = 1;
+        }
+        
+        for(int i = 0; i < t.Length; i++)
+        {
+            if(!data.ContainsKey(t[i]) || data[t[i]] == 0)
+                return t[i];
+            else
+               data[t[i]]--; 
+        }
+        return ' ';
+    }
+}
