@@ -1,0 +1,82 @@
+//Problem description
+/*
+You are given an empty 2D binary grid grid of size m x n. 
+The grid represents a map where 0's represent water and 1's represent land. Initially, all the cells of grid are water cells (i.e., all the cells are 0's).
+We may perform an add land operation which turns the water at position into a land. 
+You are given an array positions where positions[i] = [ri, ci] is the position (ri, ci) at which we should operate the ith operation.
+Return an array of integers answer where answer[i] is the number of islands after turning the cell (ri, ci) into a land.
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
+You may assume all four edges of the grid are all surrounded by water.
+*/
+public class Solution {
+    public IList<int> NumIslands2(int m, int n, int[][] positions) {
+        int[] root = new int[m * n];
+        int[] rank = new int[m * n];
+        List<int> result = new List<int>();
+        int count = 0;
+        
+        for(int i = 0; i < m * n; i++)
+        {
+            root[i] = -1;
+            rank[i] = 0;
+        }
+        
+        for(int i = 0; i < positions.Length; i++)
+        {
+            int row = positions[i][0], col = positions[i][1];
+            List<int> neighbor = new List<int>();
+            
+            if(row - 1 >= 0 && root[(row - 1) * n + col] >= 0)
+                neighbor.Add((row - 1) * n + col);
+            if(row + 1 < m && root[(row + 1) * n + col] >= 0)
+                neighbor.Add((row + 1) * n + col);
+            if(col - 1 >= 0 && root[row * n + col - 1] >= 0)
+                neighbor.Add(row * n + col - 1);
+            if(col + 1 < n && root[row * n + col + 1] >= 0)
+                neighbor.Add(row * n + col + 1);
+            
+            int index = row * n + col;
+            count = SetParent(index, count, root);
+            for(int k = 0; k < neighbor.Count(); k++)
+                count = Union(neighbor[k], index, count, root, rank);
+            result.Add(count);
+        }
+        return result;
+    }
+    public int SetParent(int i, int count, int[] root) 
+    {
+        if (root[i] == -1)
+        {
+            root[i] = i;
+            count++;
+         }
+        return count;
+    }
+    private int Find(int idx, int[] root) 
+    {
+        if (idx == root[idx]) {
+            return root[idx];
+        }
+        return root[idx] = Find(root[idx], root);
+    }
+
+    private int Union(int x, int y, int count, int[] root, int[] rank) 
+    {
+        int rootX = Find(x, root);
+        int rootY = Find(y, root);
+        
+        if (rootX != rootY) 
+        {
+            if (rank[rootX] > rank[rootY]) {
+                root[rootY] = rootX;
+            } else if (rank[rootX] < rank[rootY]) {
+                root[rootX] = rootY;
+            } else {
+                root[rootY] = rootX;
+                rank[rootX] += 1;
+            }
+            count--;
+        }
+        return count;
+    }
+}
