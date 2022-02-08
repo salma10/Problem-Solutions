@@ -1,0 +1,56 @@
+//Problem description
+/*
+Given an array of strings words, find the longest string in words such that every prefix of it is also in words.
+For example, let words = ["a", "app", "ap"]. The string "app" has prefixes "ap" and "a", all of which are in words.
+Return the string described above. If there is more than one string with the same length, return the lexicographically smallest one, and if no string exists, return "".
+*/
+public class Solution {
+    public class TrieNode
+    {
+        public char c;
+        public string word;
+        public TrieNode[] Children;
+        public TrieNode(char c)
+        {
+            this.c = c;
+            this.word = "";
+            Children = new TrieNode[26];
+        }
+    }
+    public string longestWord = "";
+    public string LongestWord(string[] words) {
+        TrieNode root = new TrieNode('#');
+        BuildTrieTree(root, words);
+        DFS(root);
+        return longestWord;
+    }
+    private void DFS(TrieNode curr)
+    {
+        if(curr == null)
+            return;
+         for(int i = 0; i < 26; i++)
+         {
+            TrieNode child = curr.Children[i];
+            if(child != null && child.word != "")
+            {
+                if(child.word.Length > longestWord.Length)
+                    longestWord = child.word;
+                DFS(child);
+            }
+         }
+    }
+    private void BuildTrieTree(TrieNode root, string[] words)
+    {
+        foreach(string word in words)
+        {
+            TrieNode curr = root;
+            foreach(char c in word)
+            {
+                if(curr.Children[c - 'a'] == null)
+                    curr.Children[c - 'a'] = new TrieNode(c);
+                curr = curr.Children[c - 'a'];
+            }
+            curr.word = word;
+        }
+    }
+}
