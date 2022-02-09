@@ -1,0 +1,60 @@
+//Problem description
+/*
+We are given a list schedule of employees, which represents the working time for each employee.
+Each employee has a list of non-overlapping Intervals, and these intervals are in sorted order.
+Return the list of finite intervals representing common, positive-length free time for all employees, also in sorted order.
+(Even though we are representing Intervals in the form [x, y], the objects inside are Intervals, not lists or arrays. For example, 
+schedule[0][0].start = 1, schedule[0][0].end = 2, 
+and schedule[0][0][0] is not defined).  Also, we wouldn't include intervals like [5, 5] in our answer, as they have zero length.
+*/
+/*
+// Definition for an Interval.
+public class Interval {
+    public int start;
+    public int end;
+
+    public Interval(){}
+    public Interval(int _start, int _end) {
+        start = _start;
+        end = _end;
+    }
+}
+*/
+
+public class Solution {
+    public IList<Interval> EmployeeFreeTime(IList<IList<Interval>> schedule) {
+        List<Interval> result = new List<Interval>();
+        List<Interval> allSchedule = new List<Interval>();
+        for(int i = 0; i < schedule.Count(); i++)
+            allSchedule.AddRange(schedule[i]);
+        allSchedule.Sort((a, b) => {
+            return a.start - b.start;
+        });
+        
+        List<Interval> mergedSchedule = new List<Interval>{allSchedule[0]};
+        int schedulePos = 1;
+        int mergedSchedulePos = 0;
+        while(schedulePos < allSchedule.Count())
+        {
+            if(mergedSchedule[mergedSchedulePos].start <= allSchedule[schedulePos].start && allSchedule[schedulePos].start <= mergedSchedule[mergedSchedulePos].end)
+            {
+                mergedSchedule[mergedSchedulePos].start = Math.Min(mergedSchedule[mergedSchedulePos].start, allSchedule[schedulePos].start);
+                mergedSchedule[mergedSchedulePos].end = Math.Max(mergedSchedule[mergedSchedulePos].end, allSchedule[schedulePos].end);
+                schedulePos++;
+            }
+            else
+            {
+                mergedSchedule.Add(allSchedule[schedulePos]);
+                schedulePos++;
+                mergedSchedulePos++;
+            }
+        }
+        
+        for(int i = 1; i < mergedSchedule.Count(); i++)
+        {
+            if(mergedSchedule[i - 1].end < mergedSchedule[i].start)
+                result.Add(new Interval(mergedSchedule[i - 1].end, mergedSchedule[i].start));
+        }
+        return result;
+    }
+}
