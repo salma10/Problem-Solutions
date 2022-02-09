@@ -1,0 +1,42 @@
+//Problem description
+/*
+Given a string s and an integer k, 
+rearrange s such that the same characters are at least distance k from each other. 
+If it is not possible to rearrange the string, return an empty string "".
+*/
+public class Solution {
+    public string RearrangeString(string s, int k) {
+        int[] count = new int[26];
+        int[] valid = new int[26];
+        int len = s.Length;
+        for (int i = 0; i < len; i++)
+            count[s[i] - 'a']++;
+
+        var sb = new StringBuilder();
+        for(int idx = 0; idx<len; idx++)
+        {
+            int candidatePos = FindValidMax(count, valid, idx);
+            if (candidatePos == -1) return "";
+            count[candidatePos]--;
+            valid[candidatePos] = idx + k;
+            sb = sb.Append((char)(candidatePos + 'a'));
+        }
+
+        return sb.ToString();
+    }
+    public int FindValidMax(int[] count, int[] valid, int idx)
+    {
+        int max = int.MinValue;
+        int candidatePos = -1;
+
+        for(int j = 0; j < count.Length; j++)
+        {
+            if(count[j] > 0 && count[j] > max && idx >= valid[j])
+            {
+                max = count[j];
+                candidatePos = j;
+            }
+        }
+        return candidatePos;
+    }
+}
