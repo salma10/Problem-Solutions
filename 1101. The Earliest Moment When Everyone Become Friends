@@ -1,0 +1,57 @@
+//Problem description
+/*
+There are n people in a social group labeled from 0 to n - 1. You are given an array logs where logs[i] = [timestampi, xi, yi]
+indicates that xi and yi will be friends at the time timestampi.
+Friendship is symmetric. That means if a is friends with b, then b is friends with a. 
+Also, person a is acquainted with a person b if a is friends with b, or a is a friend of someone acquainted with b.
+Return the earliest time for which every person became acquainted with every other person. If there is no such earliest time, return -1.
+*/
+public class Solution {
+    public int EarliestAcq(int[][] logs, int n) {
+        int[] root = new int[n];
+        int[] rank = new int[n];
+        int count = n;
+        
+        for(int i = 0; i < n; i++)
+        {
+            root[i] = i;
+            rank[i] = 1;
+        }
+        Array.Sort(logs, (x, y) => x[0].CompareTo(y[0]));
+        int k = 0;
+        
+        while(count > 0 && k < logs.Length)
+        {
+            count = Union(logs[k][1], logs[k][2], count, root, rank);
+            if(count == 1)
+                return logs[k][0];
+            k++;
+        }
+        return -1; 
+    }
+    private int Find(int idx, int[] root) 
+    {
+        if (idx == root[idx]) {
+            return idx;
+        }
+        return root[idx] = Find(root[idx], root);
+    }
+
+    private int Union(int x, int y, int count, int[] root, int[] rank) 
+    {
+        int rootX = Find(x, root);
+        int rootY = Find(y, root);
+        if (rootX != rootY) {
+            if (rank[rootX] > rank[rootY]) {
+                root[rootY] = rootX;
+            } else if (rank[rootX] < rank[rootY]) {
+                root[rootX] = rootY;
+            } else {
+                root[rootY] = rootX;
+                rank[rootX] += 1;
+            }
+            count--;
+        }
+        return count;
+    }
+}
