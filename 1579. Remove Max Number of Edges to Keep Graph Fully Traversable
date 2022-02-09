@@ -1,0 +1,66 @@
+//Problem description
+/*
+Alice and Bob have an undirected graph of n nodes and 3 types of edges:
+Type 1: Can be traversed by Alice only.
+Type 2: Can be traversed by Bob only.
+Type 3: Can by traversed by both Alice and Bob.
+Given an array edges where edges[i] = [typei, ui, vi] represents a bidirectional edge of type typei between nodes ui and vi, find the maximum number of edges you can remove so that after removing the edges, the graph can still be fully traversed by both Alice and Bob. 
+The graph is fully traversed by Alice and Bob if starting from any node, they can reach all other nodes.
+Return the maximum number of edges you can remove, or return -1 if it's impossible for the graph to be fully traversed by Alice and Bob.
+*/
+public class Solution {
+    public int MaxNumEdgesToRemove(int n, int[][] edges) {
+        int res = 0;
+        UnionFind alice = new UnionFind(n);
+        UnionFind bob = new UnionFind(n);
+        foreach (int[] edge in edges)
+        {
+            if(edge[0] == 3 && (!alice.Union(edge[1], edge[2]) || !bob.Union(edge[1], edge[2])))
+                res++;
+        }
+
+        foreach (int[] edge in edges)
+        {
+            if (edge[0] == 1 && !alice.Union(edge[1], edge[2]))
+                res++;
+            if (edge[0] == 2 && !bob.Union(edge[1], edge[2]))
+                res++;
+        }
+
+        return alice.Componets == 1 && bob.Componets == 1 ? res : -1;
+    }
+    public class UnionFind
+    {
+        private int[] parent;
+        public int Componets { get; private set; }
+        public UnionFind(int n)
+        {
+            Componets = n;
+            parent = new int[n + 1];
+            for (int i = 0; i <= n; i++)
+            {
+                parent[i] = i;
+            }
+        }
+
+        public int Find(int x)
+        {
+            if (parent[x] != x)
+                parent[x] = Find(parent[x]);
+            return parent[x];
+        }
+
+        public bool Union(int x, int y)
+        {
+            int px = Find(x);
+            int py = Find(y);
+            if (px != py)
+            {
+                parent[px] = py;
+                Componets--;
+                return true;
+            }
+            return false;
+        }
+    }
+}
