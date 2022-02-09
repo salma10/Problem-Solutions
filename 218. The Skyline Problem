@@ -1,0 +1,69 @@
+//Problem description
+/*
+A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. 
+Given the locations and heights of all the buildings, return the skyline formed by these buildings collectively.
+The geometric information of each building is given in the array buildings where buildings[i] = [lefti, righti, heighti]:
+lefti is the x coordinate of the left edge of the ith building.
+righti is the x coordinate of the right edge of the ith building.
+heighti is the height of the ith building.
+You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.
+The skyline should be represented as a list of "key points" sorted by their x-coordinate in the form [[x1,y1],[x2,y2],...]. 
+Each key point is the left endpoint of some horizontal segment in the skyline except the last point in the list, 
+which always has a y-coordinate 0 and is used to mark the skyline's termination where the rightmost building ends. 
+Any ground between the leftmost and rightmost buildings should be part of the skyline's contour.
+Note: There must be no consecutive horizontal lines of equal height in the output skyline. 
+For instance, [...,[2 3],[4 5],[7 5],[11 5],[12 7],...] is not acceptable;
+the three lines of height 5 should be merged into one in the final output as such: [...,[2 3],[4 5],[12 7],...]
+*/
+public class Solution {
+    public IList<IList<int>> GetSkyline(int[][] buildings) {
+        List<int[]> height = new List<int[]>();
+        List<IList<int>> result = new List<IList<int>>();
+        Dictionary<int, int> dic = new Dictionary<int, int>();
+        
+        for(int i=0; i < buildings.GetLength(0); i++)
+        {
+            height.Add(new int[]{buildings[i][0], -buildings[i][2]});
+            height.Add(new int[]{buildings[i][1], buildings[i][2]});
+        }
+        
+        height.Sort((a,b)=>{
+            if(a[0] != b[0])
+            {
+                return a[0].CompareTo(b[0]);
+            }
+            return a[1].CompareTo(b[1]);
+        });
+        
+        SortedSet<int> data = new SortedSet<int>();
+        data.Add(0);
+        int pre = 0;
+        foreach(var h in height)
+        {
+            if(h[1] < 0)
+            {
+                if(!dic.ContainsKey(-h[1]))
+                {
+                    dic.Add(-h[1],0);
+                }
+                data.Add(-h[1]);
+                dic[-h[1]]++;
+            }
+            else
+            {
+                dic[h[1]]--;
+                if(dic[h[1]] <= 0)
+                {
+                     data.Remove(h[1]);
+                }
+            }
+            int cur = data.Max;
+            if(pre != cur)
+            {
+                result.Add(new List<int>{h[0], cur});
+                pre =cur;
+            }
+        }
+        return result;
+    }
+}
