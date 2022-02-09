@@ -1,0 +1,48 @@
+//Problem description
+/*
+Given a list of unique words, return all the pairs of the distinct indices (i, j) in the given list, 
+so that the concatenation of the two words words[i] + words[j] is a palindrome.
+*/
+public class Solution {
+    public IList<IList<int>> PalindromePairs(string[] words) {
+
+        List<IList<int>> result = new List<IList<int>>();
+        Dictionary<string, int> reverseList = new Dictionary<string, int>();
+        
+        for(int i = 0; i < words.Length; i++)
+        {
+            char[] reverseWord = words[i].Reverse().ToArray();
+            reverseList.Add(new string(reverseWord), i);
+        }
+        
+        for(int i = 0; i < words.Length; i++)
+        {
+            for(int j = 0; j <= words[i].Length; j++)
+            {
+                string prefix = words[i].Substring(0, j);
+                string suffix = words[i].Substring(j);
+                if(reverseList.ContainsKey(prefix) && reverseList[prefix] != i && IsPalindrome(suffix)) 
+                   result.Add(new List<int>{i, reverseList[prefix]});
+                if(prefix.Length > 0 && reverseList.ContainsKey(suffix) && reverseList[suffix] != i && IsPalindrome(prefix)) 
+                   result.Add(new List<int>{reverseList[suffix], i});
+            }
+        }
+        
+        return result;
+    }
+    private bool IsPalindrome(string word)
+    {
+        int left = 0;
+        int right = word.Length - 1;
+        
+        while(left < right)
+        {
+            if (word[left] != word[right]) 
+                return false;
+
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
