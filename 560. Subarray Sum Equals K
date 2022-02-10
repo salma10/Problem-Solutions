@@ -1,3 +1,4 @@
+//O(n2) solution
 public class Solution {
     public int SubarraySum(int[] nums, int k) {
         int count = 0;
@@ -10,6 +11,24 @@ public class Solution {
                 if (sum[end] - sum[start] == k)
                     count++;
             }
+        }
+        return count;
+    }
+}
+//O(n) solution
+public class Solution {
+    public int SubarraySum(int[] nums, int k) {
+        int count = 0;
+        int sum = 0;
+        Dictionary<int, int> sumOccurrences = new Dictionary<int, int>();
+        sumOccurrences[0] = 1;
+        for (int start = 0; start < nums.Length; start++) {
+            sum += nums[start];
+            if(sumOccurrences.ContainsKey(sum - k))
+            {
+                count += sumOccurrences[sum - k];
+            }  
+            sumOccurrences[sum] = sumOccurrences.ContainsKey(sum) ? sumOccurrences[sum] + 1 : 1;
         }
         return count;
     }
