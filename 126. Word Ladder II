@@ -1,0 +1,64 @@
+//Problem description
+/*
+A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+Every adjacent pair of words differs by a single letter.
+Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+sk == endWord
+Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, 
+or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
+*/
+public class Solution {
+    public IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList) {
+        List<IList<string>> result = new List<IList<string>>();
+        HashSet<string> words = new HashSet<string>(wordList);
+        if(!words.Contains(endWord))
+            return result;
+        
+        Queue<List<string>> queue = new Queue<List<string>>();
+        List<string> path = new List<string>(){beginWord};
+        words.Remove(beginWord);
+        queue.Enqueue(path);
+        int wordLen = beginWord.Length;
+        HashSet<string> visited = new HashSet<string>();
+        bool found = false;
+        
+        while(queue.Count > 0)
+        {
+            int size = queue.Count;
+            for(int i = 0; i < size; i++)
+            {
+                List<string> currentList = queue.Dequeue();
+                char[] currentWord = currentList[currentList.Count - 1].ToCharArray();
+                
+                for(int j = 0; j < wordLen; j++)
+                {
+                    char temp = currentWord[j];
+                    for(char c = 'a'; c <= 'z'; c++)
+                    {
+                        currentWord[j] = c;
+                        string newWord = new string(currentWord);
+                        if(words.Contains(newWord))
+                        {
+                            visited.Add(newWord);
+                            currentList.Add(newWord);
+                            if(newWord.Equals(endWord))
+                            {
+                                found = true;
+                                result.Add(new List<string>(currentList));
+                            }
+                            queue.Enqueue(new List<string>(currentList));
+                            currentList.RemoveAt(currentList.Count - 1);
+                        }
+                    }
+                    currentWord[j] = temp;
+                }
+            }
+            foreach(string word in visited)
+                words.Remove(word);
+
+            if(found)
+                break;
+        }
+        return result;
+    }
+}
