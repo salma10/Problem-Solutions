@@ -1,0 +1,52 @@
+//Problem description
+/*
+A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'.
+Suppose we need to investigate a mutation from a gene string start to a gene string end where one mutation is defined as one single character changed in the gene string.
+For example, "AACCGGTT" --> "AACCGGTA" is one mutation.
+There is also a gene bank bank that records all the valid gene mutations. A gene must be in bank to make it a valid gene string.
+Given the two gene strings start and end and the gene bank bank, return the minimum number of mutations needed to mutate from start to end. 
+If there is no such a mutation, return -1.
+Note that the starting point is assumed to be valid, so it might not be included in the bank.
+*/
+public class Solution {
+    public int MinMutation(string start, string end, string[] bank) {
+        HashSet<string> mutations = new HashSet<string>(bank);
+        if(!mutations.Contains(end))
+            return -1;
+        
+        LinkedList<string> queue = new LinkedList<string>();
+        char[] charBank = new char[4]{'A', 'C', 'G', 'T'};
+        mutations.Remove(start);
+        queue.AddLast(start);
+        int level = 0;
+        
+        while(queue.Count > 0)
+        {
+            int size = queue.Count;
+            for(int i = 0; i < size; i++)
+            {
+                char[] currentMutation = queue.First().ToCharArray();
+                queue.RemoveFirst();
+                for(int j = 0; j < 8; j++)
+                {
+                    char temp = currentMutation[j];
+                    foreach(char c in charBank)
+                    {
+                        currentMutation[j] = c;
+                        string newMutation = new string(currentMutation);
+                        if(mutations.Contains(newMutation))
+                        {
+                            if(newMutation.Equals(end))
+                                return level + 1;
+                            queue.AddLast(newMutation);
+                            mutations.Remove(newMutation);
+                        }
+                    }
+                    currentMutation[j] = temp;
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
