@@ -1,0 +1,24 @@
+//Problem description
+/*
+Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
+*/
+public class Solution {
+    public IList<int> MajorityElement(int[] nums) {
+        Dictionary<int, int> count = new Dictionary<int, int>();
+        int majorityCount = (nums.Length / 3) + 1;
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(count.ContainsKey(nums[i]))
+                count[nums[i]]++;
+            else
+                count[nums[i]] = 1;
+        }
+        foreach(var item in count)
+        {
+            if(item.Value < majorityCount)
+                count.Remove(item.Key);
+        }
+        return count.Keys.ToList();
+    }
+}
