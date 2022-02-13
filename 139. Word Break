@@ -19,3 +19,32 @@ public class Solution {
         return isWord[s.Length];
     }
 }
+//Solution graph breadh first search
+public class Solution {
+    public bool WordBreak(string s, IList<string> wordDict) {
+        if (wordDict.Contains(s)) 
+            return true;
+        LinkedList<int> queue = new LinkedList<int>();
+        queue.AddLast(0);
+        HashSet<int> visited = new HashSet<int>();
+        visited.Add(0);
+        while (queue.Count > 0)
+        {
+            int curIdx = queue.First();
+            queue.RemoveFirst();
+            for (int i = curIdx + 1; i <= s.Length; i++) 
+            {
+                if (visited.Contains(i)) 
+                    continue;
+                if (wordDict.Contains(s.Substring(curIdx, i - curIdx))) 
+                {
+                    if (i == s.Length)
+                        return true;
+                    queue.AddLast(i);
+                    visited.Add(i);
+                }
+            }
+        }
+        return false;
+    }
+}
