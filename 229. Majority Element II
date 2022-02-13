@@ -22,3 +22,53 @@ public class Solution {
         return count.Keys.ToList();
     }
 }
+//Solution with O(1) space and O(n)
+public class Solution {
+    public IList<int> MajorityElement(int[] nums) {
+        int count1 = 0;
+        int count2 = 0;
+        int? candidate1 = null;
+        int? candidate2 = null;
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(candidate1 != null && candidate1 == nums[i])
+                count1++;
+            else if(candidate2 != null && candidate2 == nums[i])
+            {
+                count2++;
+            }
+            else if(count1 == 0)
+            {
+                candidate1 = nums[i];
+                count1++;
+            }
+            else if(count2 == 0)
+            {
+                candidate2 = nums[i];
+                count2++;
+            }
+            else{
+                count1--;
+                count2--;
+            }          
+        }
+        count1 = 0;
+        count2 = 0;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(candidate1 != null && candidate1 == nums[i])
+                count1++;
+            if(candidate2 != null && candidate2 == nums[i])
+                count2++;
+        }
+        
+        List<int> result = new List<int>();
+        if(count1 > nums.Length / 3)
+            result.Add((int)candidate1);
+        if(count2 > nums.Length / 3)
+            result.Add((int)candidate2);
+        
+        return result;
+    }
+}
