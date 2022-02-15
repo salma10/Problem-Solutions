@@ -1,0 +1,36 @@
+//Problem description
+/*
+Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
+Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
+*/
+public class Solution {
+    public bool CanThreePartsEqualSum(int[] arr) {
+        int sum = 0;
+        for(int i = 0; i < arr.Length; i++)
+        {
+            sum += arr[i];
+        }
+        
+        if(sum % 3 != 0)
+            return false;
+        
+        int singlePartitionSum = sum / 3;
+        int currentSum = singlePartitionSum;
+        bool isFirstFound = false;
+        
+        for(int i = 0; i < arr.Length - 1; i++)
+        {
+            currentSum -= arr[i];
+            if(currentSum == 0 && !isFirstFound)
+            {
+                isFirstFound = true;
+                currentSum = singlePartitionSum;
+            }
+            else if(currentSum == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
