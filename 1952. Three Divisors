@@ -1,0 +1,26 @@
+//Problem description
+/*
+Given an integer n, return true if n has exactly three positive divisors. Otherwise, return false.
+An integer m is a divisor of n if there exists an integer k such that n = k * m.
+*/
+public class Solution {
+    public bool IsThree(int n) {
+        if(n < 4)
+            return false;
+        
+        int sqrt = (int)Math.Sqrt(n);
+        
+        if(sqrt * sqrt != n)
+            return false;
+        
+        int divisor = 2;
+        
+        while(divisor < sqrt)
+        {
+            if(n % divisor == 0)
+                return false;
+            divisor++;
+        }
+        return true;
+    }
+}
