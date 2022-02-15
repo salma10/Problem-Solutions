@@ -1,0 +1,24 @@
+//Problem description
+/*
+Given an integer array nums, return the greatest common divisor of the smallest number and largest number in nums.
+The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
+*/
+public class Solution {
+    public int FindGCD(int[] nums) {
+        int maxNumber = 0;
+        int minNumber = 1001;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            maxNumber = Math.Max(maxNumber, nums[i]);
+            minNumber = Math.Min(minNumber, nums[i]);
+        }
+        
+        while(minNumber != 0)
+        {
+            int temp = minNumber;
+            minNumber = maxNumber % minNumber;
+            maxNumber = temp;
+        }
+        return maxNumber;
+    }
+}
