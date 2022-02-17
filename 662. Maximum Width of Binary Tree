@@ -1,0 +1,72 @@
+//Problem description
+/*
+Given the root of a binary tree, return the maximum width of the given tree.
+The maximum width of a tree is the maximum width among all levels.
+The width of one level is defined as the length between the end-nodes (the leftmost and rightmost non-null nodes), 
+where the null nodes between the end-nodes are also counted into the length calculation.
+It is guaranteed that the answer will in the range of 32-bit signed integer.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    internal class UpdatedNode
+    {
+        public int val;
+        public TreeNode Node;
+        public UpdatedNode(int val, TreeNode Node)
+        {
+            this.val = val;
+            this.Node = Node;
+        }
+    }
+    public int WidthOfBinaryTree(TreeNode root) {
+        
+        if(root == null)
+            return 0;
+        
+        Queue<UpdatedNode> queue = new Queue<UpdatedNode>();
+        UpdatedNode rootbase = new UpdatedNode(1, root);
+        queue.Enqueue(rootbase);
+        int result = 0;
+        
+        while(queue.Count > 0)
+        {
+            int len = queue.Count;
+            int firstLen = 0;
+            int lastLen = 0;
+            
+            for(int i = 0; i < len; i++)
+            {
+                UpdatedNode current = queue.Dequeue();
+                
+                if(i == 0)
+                   firstLen =  current.val;
+                if(i == len - 1)
+                   lastLen =  current.val;
+                
+                if(current.Node.left != null)
+                    queue.Enqueue(new UpdatedNode(current.val * 2 - 1, current.Node.left));
+                
+                if(current.Node.right != null)
+                    queue.Enqueue(new UpdatedNode(current.val * 2, current.Node.right));
+            }
+            
+            int levelLen = lastLen - firstLen + 1;
+            result = result < levelLen ? levelLen : result;
+            
+        }
+               
+        return result;
+    }
+}
