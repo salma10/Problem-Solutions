@@ -1,0 +1,70 @@
+//Problem description
+/*
+Design a max stack data structure that supports the stack operations and supports finding the stack's maximum element.
+Implement the MaxStack class:
+MaxStack() Initializes the stack object.
+void push(int x) Pushes element x onto the stack.
+int pop() Removes the element on top of the stack and returns it.
+int top() Gets the element on the top of the stack without removing it.
+int peekMax() Retrieves the maximum element in the stack without removing it.
+int popMax() Retrieves the maximum element in the stack and removes it. If there is more than one maximum element, only remove the top-most one.
+*/
+
+public class MaxStack {
+    Stack<int> data;
+    Stack<int> maxData;
+    
+    public MaxStack() {
+        data = new Stack<int>();
+        maxData = new Stack<int>();
+    }
+    
+    public void Push(int x) {
+        data.Push(x);
+        int maxValue = maxData.Count > 0 ? Math.Max(maxData.Peek(), x) : x;
+        maxData.Push(maxValue);
+    }
+    
+    public int Pop() {
+        maxData.Pop();
+        return data.Pop();
+    }
+    
+    public int Top() {
+        return data.Peek();
+    }
+    
+    public int PeekMax() {
+        return maxData.Peek();
+    }
+    
+    public int PopMax() {
+        Stack<int> temp = new Stack<int>();
+        int maxVal = maxData.Peek();
+        while(data.Count > 0 && data.Peek() != maxVal)
+        {
+            temp.Push(data.Pop());
+            maxData.Pop();
+        }
+        data.Pop();
+        maxData.Pop();
+        while(temp.Count > 0)
+        {
+            int curr = temp.Pop();
+            int maxValue = maxData.Count > 0 ? Math.Max(maxData.Peek(), curr) : curr;
+            data.Push(curr);
+            maxData.Push(maxValue);
+        }
+        return maxVal;
+    }
+}
+
+/**
+ * Your MaxStack object will be instantiated and called as such:
+ * MaxStack obj = new MaxStack();
+ * obj.Push(x);
+ * int param_2 = obj.Pop();
+ * int param_3 = obj.Top();
+ * int param_4 = obj.PeekMax();
+ * int param_5 = obj.PopMax();
+ */
