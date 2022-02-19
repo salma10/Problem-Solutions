@@ -1,0 +1,53 @@
+//Problem description
+/*
+You are given an array nums of n positive integers.
+You can perform two types of operations on any element of the array any number of times:
+If the element is even, divide it by 2.
+For example, if the array is [1,2,3,4], then you can do this operation on the last element, and the array will be [1,2,3,2].
+If the element is odd, multiply it by 2.
+For example, if the array is [1,2,3,4], then you can do this operation on the first element, and the array will be [2,2,3,4].
+The deviation of the array is the maximum difference between any two elements in the array.
+Return the minimum deviation the array can have after performing some number of operations.
+*/
+public class Solution {
+    public int MinimumDeviation(int[] nums) {
+        PriorityQueue<int, int> numbers = new PriorityQueue<int, int>(new DescendingComparer<int>());
+        int min = Int32.MaxValue;
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(nums[i] % 2 == 0)
+            {
+                numbers.Enqueue(nums[i], nums[i]);
+                min = Math.Min(min, nums[i]);
+            }
+            else
+            {
+                numbers.Enqueue(nums[i] * 2, nums[i] * 2);
+                min = Math.Min(min, nums[i] * 2);
+            }
+        }
+        
+        int minDeviation = Int32.MaxValue;
+        while(numbers.Count > 0)
+        {
+            int current = numbers.Dequeue();
+            minDeviation = Math.Min(minDeviation, current - min);
+            if(current % 2 == 0)
+            {
+                numbers.Enqueue(current / 2, current / 2);
+                min = Math.Min(min, current / 2);
+            }
+            else
+                break;
+        }
+        return minDeviation;
+    }
+    class DescendingComparer<T> : IComparer<T> where T : IComparable<T>
+    {
+        public int Compare(T x, T y)
+        {
+            return y.CompareTo(x);
+        }
+    }
+}
