@@ -1,0 +1,40 @@
+//Problem description
+/*
+There is a bi-directional graph with n vertices, where each vertex is labeled from 0 to n - 1 (inclusive). 
+The edges in the graph are represented as a 2D integer array edges, where each edges[i] = [ui, vi] denotes a bi-directional edge between vertex ui and vertex vi. 
+Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.
+You want to determine if there is a valid path that exists from vertex source to vertex destination.
+Given edges and the integers n, source, and destination, return true if there is a valid path from source to destination, or false otherwise.
+*/
+public class Solution {
+    public bool ValidPath(int n, int[][] edges, int source, int destination) {
+        var dict = new Dictionary<int,List<int>>();
+        foreach(var edge in edges)
+        {
+            if(!dict.ContainsKey(edge[0]))
+                dict.Add(edge[0],new List<int>());
+            if(!dict.ContainsKey(edge[1]))
+                dict.Add(edge[1],new List<int>());
+            dict[edge[0]].Add(edge[1]);
+            dict[edge[1]].Add(edge[0]);
+        }
+        var hs = new HashSet<int>();
+        return Search(source, destination, dict, hs);
+    }
+    private bool Search(int start,int end,Dictionary<int,List<int>> dict,HashSet<int> hs)
+    {
+        if(start == end)
+            return true;
+        
+        if(!hs.Add(start))
+            return false;
+        
+        foreach(var next in dict[start])
+        {
+            if(Search(next, end, dict, hs))
+                return true; 
+        }
+        
+        return false;
+    }
+}
