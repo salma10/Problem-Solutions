@@ -3,3 +3,42 @@
 Given the root of a binary tree, return all root-to-leaf paths in any order.
 A leaf is a node with no children.
 */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public IList<string> BinaryTreePaths(TreeNode root) {
+        List<string> result = new List<string>();
+        TreePaths(root, result, "");
+        return result;
+    }
+    private void TreePaths(TreeNode root, List<string> result, string path)
+    {
+        if(root == null)
+        {
+            result.Add(path);
+            return;
+        }
+        if(root != null && root.left == null && root.right == null)
+        {
+            path = path + root.val.ToString();
+            result.Add(path);
+            return;
+        }
+        path = path + root.val.ToString() + "->";
+        if(root.left != null)
+            TreePaths(root.left, result, path);
+        if(root.right != null)
+            TreePaths(root.right, result, path);
+    }
+}
