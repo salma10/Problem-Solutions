@@ -57,3 +57,48 @@ public class Solution {
         }
     }
 }
+//Solution with better space complexity
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public double MaximumAverageSubtree(TreeNode root) {
+        int count = 0;
+        int total = 0;
+        return subTreeAverageCalculate(root, out count, out total);
+    }
+    
+    private double subTreeAverageCalculate(TreeNode root, out int count, out int total)
+    {
+        if(root == null)
+        {
+            count = 0;
+            total = 0;
+            return 0;
+        }
+        
+        int leftcount = 0;
+        int lefttotal = 0;
+        double left = subTreeAverageCalculate(root.left, out leftcount, out lefttotal);
+        
+        int rightcount = 0;
+        int righttotal = 0;
+        double right = subTreeAverageCalculate(root.right, out rightcount, out righttotal);
+        
+        count =  leftcount + rightcount + 1;
+        total = lefttotal + righttotal + root.val;
+        double current = (double)total / count;
+        
+        return Math.Max(Math.Max(left, right), current);
+    }
+}
