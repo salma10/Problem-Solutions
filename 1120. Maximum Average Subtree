@@ -1,0 +1,59 @@
+//Problem description
+/*
+Given the root of a binary tree, return the maximum average value of a subtree of that tree. Answers within 10-5 of the actual answer will be accepted.
+A subtree of a tree is any node of that tree plus all its descendants.
+The average value of a tree is the sum of its values, divided by the number of nodes.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    double maxAvg = 0;
+    public double MaximumAverageSubtree(TreeNode root) {
+         subTreeAverageCalculate(root);
+        return maxAvg;
+    }
+    
+    public ArrayList subTreeAverageCalculate(TreeNode root)
+    {
+        if(root == null)
+            return new ArrayList {0, 0};
+        else 
+        {       
+            if(root.left == null && root.right == null)
+            {
+                if(maxAvg < root.val)
+                    maxAvg = root.val;
+                return new ArrayList {root.val, 1};
+            }
+            
+            ArrayList resultLeft = new ArrayList {0, 0};
+            ArrayList resultRight = new ArrayList {0, 0};
+            
+            if(root.left != null)
+                resultLeft = subTreeAverageCalculate(root.left);
+            if(root.right != null)
+                resultRight = subTreeAverageCalculate(root.right);
+            //Console.WriteLine(resultLeft[1]);
+           // Console.WriteLine(resultRight[1]);
+            int totalNode = (int)resultLeft[1] + (int)resultRight[1] + 1;
+            int totalValue = (int)resultLeft[0] + (int)resultRight[0] + root.val;
+            
+            double avg = (double)totalValue / (double)totalNode;
+            if(maxAvg < avg)
+                    maxAvg = avg;
+            return new ArrayList {totalValue, totalNode};
+            //return null;
+        }
+    }
+}
