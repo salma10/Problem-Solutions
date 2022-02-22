@@ -1,0 +1,43 @@
+//Problem description
+/*
+Given the root of a binary search tree (BST) and an integer target, split the tree into two subtrees where one subtree has nodes that are all smaller or equal to the target value, while the other subtree has all nodes that are greater than the target value. 
+It Is not necessarily the case that the tree contains a node with the value target.
+Additionally, most of the structure of the original tree should remain. Formally, 
+for any child c with parent p in the original tree, if they are both in the same subtree after the split, then node c should still have the parent p.
+Return an array of the two roots of the two subtrees.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    TreeNode leftResult;
+    public TreeNode[] SplitBST(TreeNode root, int target) {
+        if(root == null)
+            return new TreeNode[2];
+        if(root.val <= target)
+        {
+            TreeNode[] temp = SplitBST(root.right, target);
+            root.right = temp[0];
+            temp[0] = root;
+            return temp;
+        } 
+        else
+        {
+            TreeNode[] temp = SplitBST(root.left, target);
+            root.left = temp[1];
+            temp[1] = root;
+            return temp;
+        } 
+    }
+  
+}
