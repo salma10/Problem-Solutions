@@ -1,0 +1,59 @@
+//Problem description
+/*
+A binary tree is given such that each node contains an additional random pointer which could point to any node in the tree or null.
+Return a deep copy of the tree.
+The tree is represented in the same input/output way as normal binary trees where each node is represented as a pair of [val, random_index] where:
+val: an integer representing Node.val
+random_index: the index of the node (in the input) where the random pointer points to, or null if it does not point to any node.
+You will be given the tree in class Node and you should return the cloned tree in class NodeCopy. 
+NodeCopy class is just a clone of Node class with the same attributes and constructors.
+*/
+/**
+ * Definition for Node.
+ * public class Node {
+ *     public int val;
+ *     public Node left;
+ *     public Node right;
+ *     public Node random;
+ *     public Node(int val=0, Node left=null, Node right=null, Node random=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *         this.random = random;
+ *     }
+ * }
+ */
+
+public class Solution {
+    Dictionary<Node, NodeCopy> nodes = new Dictionary<Node, NodeCopy>();
+    
+    public NodeCopy CopyRandomBinaryTree(Node root) {
+        NodeCopy CopiedNode = MakeCopy(root);
+        MakeRandomCopy(root, CopiedNode);
+        return CopiedNode;
+    }
+    private void MakeRandomCopy(Node root, NodeCopy CopiedNode)
+    {
+        if(root == null)
+            return;
+        if(root.random == null)
+            CopiedNode.random = null;
+        else
+        {
+            CopiedNode.random = nodes[root.random];
+        }
+        MakeRandomCopy(root.left, CopiedNode.left);
+        MakeRandomCopy(root.right, CopiedNode.right);
+    }
+    private NodeCopy MakeCopy(Node root)
+    {
+        if(root == null)
+            return null;
+        NodeCopy left = MakeCopy(root.left);
+        NodeCopy right = MakeCopy(root.right);
+        
+        NodeCopy current = new NodeCopy(root.val, left, right);
+        nodes[root] = current;
+        return current;
+    }
+}
