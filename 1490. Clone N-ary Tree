@@ -1,0 +1,50 @@
+//Problem description
+/*
+Given a root of an N-ary tree, return a deep copy (clone) of the tree.
+Each node in the n-ary tree contains a val (int) and a list (List[Node]) of its children.
+class Node {
+    public int val;
+    public List<Node> children;
+}
+Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value.
+*/
+/*
+// Definition for a Node.
+public class Node {
+    public int val;
+    public IList<Node> children;
+    
+    public Node() {
+        val = 0;
+        children = new List<Node>();
+    }
+
+    public Node(int _val) {
+        val = _val;
+        children = new List<Node>();
+    }
+    
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+}
+*/
+
+
+public class Solution {
+    public Node CloneTree(Node root) {
+        if(root == null)
+            return root;
+        
+        List<Node> newChildren = new List<Node>();
+        Node newNode = new Node(root.val, newChildren);
+        
+        foreach(Node child in root.children)
+        {
+            Node currChildren = CloneTree(child);
+            newChildren.Add(currChildren);
+        }
+        return newNode;
+    }
+}
