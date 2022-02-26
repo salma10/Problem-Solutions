@@ -73,3 +73,43 @@ public class MedianFinder {
  * obj.AddNum(num);
  * double param_2 = obj.FindMedian();
  */
+//Another solution with heap
+public class MedianFinder {
+    PriorityQueue<int, int> minHeap;
+    PriorityQueue<int, int> maxHeap;
+    int count;
+    /** initialize your data structure here. */
+    
+    public MedianFinder() {
+        minHeap = new PriorityQueue<int, int>();  
+        maxHeap = new PriorityQueue<int, int>(new DescendingComparer<int>());  
+        count = 0;
+    }
+    
+    public void AddNum(int num) {       
+        count++;
+        minHeap.Enqueue(num, num);
+        maxHeap.Enqueue(minHeap.Peek(), minHeap.Peek());
+        minHeap.Dequeue();
+        
+        if(minHeap.Count < maxHeap.Count)
+        {
+            minHeap.Enqueue(maxHeap.Peek(), maxHeap.Peek());
+            maxHeap.Dequeue();
+        }
+    }    
+    
+    public double FindMedian() {    
+        if(count % 2 == 0)
+            return (double)(minHeap.Peek() + maxHeap.Peek()) / 2;
+        else
+            return minHeap.Peek();
+    }
+    class DescendingComparer<T> : IComparer<T> where T : IComparable<T>
+    {
+        public int Compare(T x, T y)
+        {
+            return y.CompareTo(x);
+        }
+    }
+}
