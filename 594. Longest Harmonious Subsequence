@@ -1,0 +1,30 @@
+//Problem description
+/*
+We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+A subsequence of array is a sequence that can be derived from the array by deleting some or no elements without changing the order of the remaining elements.
+*/
+public class Solution {
+    public int FindLHS(int[] nums) {
+           Dictionary<int, int> elementCounts = new Dictionary<int, int>();
+          int maxCount = 0;
+          for(int index = 0; index < nums.Length; index++)
+          {
+            int current = nums[index];
+            if(elementCounts.ContainsKey(current))
+              elementCounts[current]++;
+            else
+              elementCounts[current] = 1;
+          }
+          foreach(var number in elementCounts)
+          {
+            int minElement = number.Key - 1;
+            int maxElement = number.Key + 1;
+            if(elementCounts.ContainsKey(minElement))
+              maxCount = Math.Max(maxCount,number.Value + elementCounts[minElement]);
+            if(elementCounts.ContainsKey(maxElement))
+              maxCount = Math.Max(maxCount,number.Value + elementCounts[maxElement]);
+          }
+          return maxCount;
+    }
+}
