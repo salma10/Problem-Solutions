@@ -1,0 +1,67 @@
+//Problem description
+/*
+The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle values.
+For examples, if arr = [2,3,4], the median is 3.
+For examples, if arr = [1,2,3,4], the median is (2 + 3) / 2 = 2.5.
+You are given an integer array nums and an integer k. There is a sliding window of size k which is moving from the very left of the array to the very right. 
+You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+Return the median array for each window in the original array. Answers within 10-5 of the actual value will be accepted.
+*/
+public class Solution {
+    public double[] MedianSlidingWindow(int[] nums, int k) {
+        List<double> result = new List<double>();
+        bool isEven = k % 2 == 0 ? true : false;
+        List<int> data = new List<int>();
+        
+        for(int i = 0; i < k; i++)
+        {
+            data.Add(nums[i]);
+        }
+        
+        data.Sort();
+        int mid = k / 2;
+        
+        for(int i = k; i <= nums.Length; i++)
+        {
+            double midean;
+            if(isEven)
+            {
+                midean = (data[mid - 1] / 2.0) + (data[mid] / 2.0);
+            }
+            else
+                midean = (double)data[mid];
+            result.Add(midean);
+            if(i != nums.Length)
+            {
+                data.Remove(nums[i - k]);
+                int index = InsertSearchPosition(data, nums[i]);
+                data.Insert(index, nums[i]);
+            }
+        }
+        return result.ToArray();
+    }
+    
+    private int InsertSearchPosition(List<int> nums, int target)
+    {
+        if(nums.Count == 0)
+            return 0;
+        int left = 0, right = nums.Count - 1;
+        while(left < right)
+        {
+            int mid = left + (right - left) / 2;
+            if(nums[mid] >= target)
+            { 
+                right = mid; 
+            }
+            else 
+            { 
+                left = mid + 1; 
+            }
+        }
+        
+        if(right == nums.Count - 1 && target > nums[nums.Count - 1])
+            return right + 1;
+        else 
+            return right;
+    }
+}
