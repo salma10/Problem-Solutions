@@ -59,3 +59,62 @@ public class FreqStack {
  * obj.Push(val);
  * int param_2 = obj.Pop();
  */
+//Improved time complexity
+public class FreqStack {
+    Dictionary<int, int> frequencey;
+    Dictionary<int, Stack<int>> groups;
+    int mxFreq;
+    public FreqStack() {
+        frequencey = new Dictionary<int, int>();
+        groups = new Dictionary<int, Stack<int>>();
+        mxFreq = 0;
+    }
+    
+    public void Push(int val) 
+    {
+        int freq = 0;
+        if(frequencey.ContainsKey(val))
+        {
+           frequencey[val]++;
+           freq = frequencey[val];
+        }
+        else
+        {
+           frequencey[val] = 1;
+           freq = 1;
+        }
+        if(freq > mxFreq)
+            mxFreq = freq;
+        if(groups.ContainsKey(freq))
+        {
+           groups[freq].Push(val);
+        }
+        else
+        {
+           groups[freq] = new Stack<int>();
+           groups[freq].Push(val);
+        }
+    }
+    
+    public int Pop() 
+    {
+        int val = groups[mxFreq].Pop();
+        if(groups[mxFreq].Count == 0)
+        {
+            groups.Remove(mxFreq);
+            mxFreq--;
+        }
+            
+        frequencey[val]--;
+        if(frequencey[val] == 0)
+            frequencey.Remove(val);
+        return val;
+    }
+}
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack obj = new FreqStack();
+ * obj.Push(val);
+ * int param_2 = obj.Pop();
+ */
