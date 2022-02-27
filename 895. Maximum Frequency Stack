@@ -1,0 +1,61 @@
+//Problem description
+/*
+Design a stack-like data structure to push elements to the stack and pop the most frequent element from the stack.
+Implement the FreqStack class:
+FreqStack() constructs an empty frequency stack.
+void push(int val) pushes an integer val onto the top of the stack.
+int pop() removes and returns the most frequent element in the stack.
+If there is a tie for the most frequent element, the element closest to the stack's top is removed and returned.
+*/
+public class FreqStack {
+    Dictionary<int, int> frequencey;
+    SortedDictionary<int, Stack<int>> groups;
+    public FreqStack() {
+        frequencey = new Dictionary<int, int>();
+        groups = new SortedDictionary<int, Stack<int>>();
+    }
+    
+    public void Push(int val) 
+    {
+        int freq = 0;
+        if(frequencey.ContainsKey(val))
+        {
+           frequencey[val]++;
+           freq = frequencey[val];
+        }
+        else
+        {
+           frequencey[val] = 1;
+           freq = 1;
+        }
+        
+        if(groups.ContainsKey(freq))
+        {
+           groups[freq].Push(val);
+        }
+        else
+        {
+           groups[freq] = new Stack<int>();
+           groups[freq].Push(val);
+        }
+    }
+    
+    public int Pop() 
+    {
+        int maxFreq = groups.Last().Key;
+        int val = groups[maxFreq].Pop();
+        if(groups[maxFreq].Count == 0)
+            groups.Remove(maxFreq);
+        frequencey[val]--;
+        if(frequencey[val] == 0)
+            frequencey.Remove(val);
+        return val;
+    }
+}
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack obj = new FreqStack();
+ * obj.Push(val);
+ * int param_2 = obj.Pop();
+ */
