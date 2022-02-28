@@ -43,3 +43,46 @@ public class Solution {
         return result;
     }
 }
+//Updated one
+public class Solution {
+    public int[] MaxSlidingWindow(int[] nums, int k) {
+        
+        if(nums.Length * k == 0)
+            return new int[0];
+        if(k == 1)
+            return nums;
+        
+        int[] result = new int[nums.Length - k + 1];
+        LinkedList<int> maxQueue = new LinkedList<int>();
+        int maxValue = Int32.MinValue;
+        
+        //For the first window
+        for(int i = 0; i < k; i++)
+        {
+            while(maxQueue.Count > 0 && maxQueue.Last.Value < nums[i])
+                maxQueue.RemoveLast();
+            maxQueue.AddLast(nums[i]);
+            maxValue = Math.Max(maxValue, nums[i]);
+        }
+        
+        result[0] = maxValue;
+        int index = 1;
+        
+        //For the rest of the array
+        for(int i = k; i < nums.Length; i++)
+        {
+            if(nums[i - k] == maxQueue.First.Value)
+            {
+                maxQueue.RemoveFirst();
+            }
+            while(maxQueue.Count > 0 && maxQueue.Last.Value < nums[i])
+            {
+                maxQueue.RemoveLast();  
+            }
+            maxQueue.AddLast(nums[i]);
+            result[index] = maxQueue.First.Value;
+            index++;
+        }
+        return result;
+    }
+}
