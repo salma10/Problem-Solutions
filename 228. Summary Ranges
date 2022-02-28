@@ -1,0 +1,51 @@
+//Problem description
+/*
+You are given a sorted unique integer array nums.
+Return the smallest sorted list of ranges that cover all the numbers in the array exactly. 
+That is, each element of nums is covered by exactly one of the ranges, and there is no integer x such that x is in one of the ranges but not in nums.
+Each range [a,b] in the list should be output as:
+"a->b" if a != b
+"a" if a == b
+*/
+public class Solution {
+    public IList<string> SummaryRanges(int[] nums) {
+        
+        if(nums == null || nums.Length == 0)
+            return new List<string>();
+        
+        List<string> result = new List<string>();
+        int firstNumber = nums[0];
+        int lastNumber = nums[0];
+        
+        for(int i = 1; i < nums.Length; i++)
+        {
+            if(lastNumber + 1 == nums[i])
+                lastNumber = nums[i];
+            else
+            {
+                string currRange;
+                if(firstNumber == lastNumber)
+                {
+                    currRange = firstNumber.ToString();               
+                }
+                else
+                {
+                    currRange = firstNumber.ToString() + "->" + lastNumber.ToString();
+                }  
+                result.Add(currRange);
+                lastNumber = nums[i];
+                firstNumber = nums[i];
+            }
+        }
+        if(firstNumber == lastNumber)
+        {
+            result.Add(firstNumber.ToString());               
+        }
+        else
+        {
+            string currRange = firstNumber.ToString() + "->" + lastNumber.ToString();
+            result.Add(currRange);
+        }  
+        return result;
+    }
+}
