@@ -27,3 +27,9 @@ public class Solution {
         return num == 1;
     }
 }
+//Another solution
+public class Solution {
+    public bool IsPowerOfFour(int num) {
+        return (Math.Log10(num) / Math.Log10(4)) % 1 == 0;
+    }
+}
