@@ -1,0 +1,24 @@
+//Problem description
+/*
+You are given two positive integers n and k. A factor of an integer n is defined as an integer i where n % i == 0.
+Consider a list of all factors of n sorted in ascending order, return the kth factor in this list or return -1 if n has less than k factors.
+*/
+public class Solution {
+    public int KthFactor(int n, int k) {
+        int count = 0;
+        int div = 1;
+        while(count < k && div <= n/ 2)
+        {
+            if(n % div == 0)
+                count++;
+            if(count == k)
+                return div;
+            div++;
+        }
+        
+        if(count + 1 == k)
+            return n;
+        else
+            return -1;
+    }
+}
