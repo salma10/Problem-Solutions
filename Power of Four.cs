@@ -27,9 +27,15 @@ public class Solution {
         return num == 1;
     }
 }
-//Another solution
+//Another solution Log math
 public class Solution {
     public bool IsPowerOfFour(int num) {
         return (Math.Log10(num) / Math.Log10(4)) % 1 == 0;
+    }
+}
+//Another solution bit manipulation
+public class Solution {
+    public bool IsPowerOfFour(int num) {
+        return (num > 0) && ((num & (num - 1)) == 0) && (num & 0xaaaaaaaa) == 0;
     }
 }
