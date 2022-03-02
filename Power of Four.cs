@@ -13,3 +13,17 @@ Given an integer (signed 32 bits), write a function to check whether it is a pow
         }
         return true;
     }
+//Another solution
+public class Solution {
+    public bool IsPowerOfFour(int num) {
+        if(num <= 0)
+          return false;
+        
+        while(num % 4 == 0)
+        {
+          num = num / 4;      
+        }
+        
+        return num == 1;
+    }
+}
