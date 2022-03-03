@@ -22,3 +22,33 @@ public class Solution {
         return ones - max_one;
     }
 }
+//Another solution
+public class Solution {
+    public int MinSwaps(int[] data) {    
+        int ones = 0;
+        
+        for(int index = 0; index < data.Length; index++)
+        {
+            if(data[index] == 1)
+                ones++;
+        }
+        int numOfZero = 0;
+        int minZero = Int32.MaxValue;
+        for(int index = 0; index < data.Length; index++)
+        {
+            if(data[index] == 0)
+                numOfZero++;
+            if(ones - 1 == index)
+            {
+                minZero = Math.Min(minZero, numOfZero);
+            }
+            else if(index >= ones)
+            {
+                if(data[index - ones] == 0)
+                    numOfZero--;
+                minZero = Math.Min(minZero, numOfZero);
+            }
+        }
+        return minZero;
+    }
+}
