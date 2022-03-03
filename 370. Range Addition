@@ -1,0 +1,32 @@
+//Problem description
+/*
+You are given an integer length and an array updates where updates[i] = [startIdxi, endIdxi, inci].
+You have an array arr of length length with all zeros, and you have some operation to apply on arr. 
+In the ith operation, you should increment all the elements arr[startIdxi], arr[startIdxi + 1], ..., arr[endIdxi] by inci.
+Return arr after applying all the updates.
+*/
+public class Solution {
+    public int[] GetModifiedArray(int length, int[][] updates) {
+        int[] result = new int[length];
+        
+        if(updates == null || updates.Length == 0)
+            return result;
+        
+        for(int index = 0; index < updates.Length; index++)
+        {
+            int[] currentUpdate = updates[index];
+            result[currentUpdate[0]] = result[currentUpdate[0]] + currentUpdate[2];
+            if(currentUpdate[1] < length - 1)
+                result[currentUpdate[1] + 1] = result[currentUpdate[1] + 1] - currentUpdate[2];
+        }
+
+        int prev = 0;
+        for(int index = 0; index < length; index++)
+        {
+            result[index] += prev;
+            prev = result[index];
+        }
+        
+        return result;
+    }
+}
