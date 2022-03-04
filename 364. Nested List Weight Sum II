@@ -51,3 +51,37 @@ public class Solution {
         return sum;
     }
 }
+//BFS
+public class Solution {
+    public int DepthSumInverse(IList<NestedInteger> nestedList) {
+        if(nestedList == null || nestedList.Count == 0)
+            return 0;
+        
+        Queue<NestedInteger> queue = new Queue<NestedInteger>();
+        foreach(var list in nestedList)
+            queue.Enqueue(list);
+        
+        int levelSum = 0, res = 0;
+        
+        while(queue.Count > 0)
+        {
+            int size = queue.Count;
+            for(int i = 0; i < size; i++)
+            {
+                var curr = queue.Dequeue();
+                if(curr.IsInteger())
+                    levelSum += curr.GetInteger();
+                else
+                {
+                    foreach(var next in curr.GetList())
+                        queue.Enqueue(next);
+                }   
+            }
+            
+            res += levelSum;
+        }
+        
+        return res;
+    }
+   
+}
