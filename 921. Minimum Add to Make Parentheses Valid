@@ -28,3 +28,29 @@ public class Solution {
         return data.Count + count;
     }
 }
+//Without extra memory
+public class Solution {
+    public int MinAddToMakeValid(string s) {
+        if(s == null|| s.Length == 0)
+            return 0;
+        int balance = 0;
+        int count = 0;
+        int index = 0;
+        while(index < s.Length)
+        {
+            if(s[index] == '(')
+                balance++;
+            else
+               balance--; 
+            
+            if(balance == -1)
+            {
+                balance++;
+                count++;
+            }
+            
+            index++;
+        }
+        return balance + count;
+    }
+}
