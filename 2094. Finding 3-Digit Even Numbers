@@ -55,3 +55,47 @@ public class Solution {
         }
     }
 }
+//Another solution
+public class Solution {
+    public int[] FindEvenNumbers(int[] digits) {
+        Dictionary<int, int> digitsDict = new Dictionary<int, int>();
+        List<int> result = new List<int>();
+        for(int index = 0; index < digits.Length; index++)
+        {
+            int currDigit = digits[index];
+            if(digitsDict.ContainsKey(currDigit))
+                digitsDict[currDigit]++;
+            else
+                digitsDict[currDigit] = 1;
+        }
+        
+        for(int index = 100; index < 999; index += 2)
+        {
+            Dictionary<int, int> dd = new Dictionary<int, int>();
+            int currentNumber = index;
+            while(currentNumber > 0) 
+            {
+                int first = currentNumber % 10;
+                currentNumber /= 10;
+                if (!dd.ContainsKey(first)) {
+                    dd.Add(first, 1);
+                } else {
+                    dd[first]++;
+                }
+            }
+            bool isValid = true;
+            foreach(KeyValuePair<int, int> item in dd)
+            {
+                if(!digitsDict.ContainsKey(item.Key) || digitsDict[item.Key] < item.Value) 
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+            if(isValid)
+                result.Add(index);
+        }
+        return result.ToArray();
+    }
+   
+}
