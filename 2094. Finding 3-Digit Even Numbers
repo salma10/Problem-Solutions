@@ -1,0 +1,57 @@
+//Problem description
+/*
+You are given an integer array digits, where each element is a digit. The array may contain duplicates.
+You need to find all the unique integers that follow the given requirements:
+The integer consists of the concatenation of three elements from digits in any arbitrary order.
+The integer does not have leading zeros.
+The integer is even.
+For example, if the given digits were [1, 2, 3], integers 132 and 312 follow the requirements.
+Return a sorted array of the unique integers.
+*/
+public class Solution {
+    public int[] FindEvenNumbers(int[] digits) {
+        Dictionary<int, int> digitsDict = new Dictionary<int, int>();
+        List<int> result = new List<int>();
+        for(int index = 0; index < digits.Length; index++)
+        {
+            int currDigit = digits[index];
+            if(digitsDict.ContainsKey(currDigit))
+                digitsDict[currDigit]++;
+            else
+                digitsDict[currDigit] = 1;
+        }
+        
+        for(int index = 100; index < 999; index++)
+        {
+            if(index % 2 == 1)
+                continue;
+            int currentNumber = index;
+            int first = currentNumber % 10;
+            currentNumber /= 10;
+            int second = currentNumber % 10;
+            currentNumber /= 10;
+            if(CheckIsValidNumber(digitsDict, first, second, currentNumber))
+                result.Add(index);
+        }
+        return result.ToArray();
+    }
+    
+    private bool CheckIsValidNumber(Dictionary<int, int> digitsDict, int first, int second, int third)
+    {
+         if(!digitsDict.ContainsKey(first) || !digitsDict.ContainsKey(second) || !digitsDict.ContainsKey(third))
+                return false;
+        else
+        {
+            if(first == second && second == third && digitsDict[first] < 3)
+                return false;
+            else if(first == second && digitsDict[first] < 2)
+                return false;
+            else if(first == third && digitsDict[first] < 2)
+                return false;
+            else if(second == third && digitsDict[second] < 2)
+                return false;
+            else
+                return true;
+        }
+    }
+}
