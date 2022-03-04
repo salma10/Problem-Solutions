@@ -1,0 +1,23 @@
+//Problem description
+/*
+Given an array nums of integers, return how many of them contain an even number of digits
+*/
+public class Solution {
+    public int FindNumbers(int[] nums) {
+        int count = 0;
+        for(int index = 0; index < nums.Length; index++)
+        {
+            int digits = GetNumnerOfDigits(nums[index]);
+            if(digits % 2 == 0)
+                count++;
+        }
+        return count;
+    }
+    
+    private int GetNumnerOfDigits(int num)
+    {
+        if(num <= 9)
+            return 1;
+        return 1 + GetNumnerOfDigits(num / 10);
+    }
+}
