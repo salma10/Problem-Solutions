@@ -1,0 +1,53 @@
+//Problem description
+/*
+You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists.
+The depth of an integer is the number of lists that it is inside of. 
+For example, the nested list [1,[2,2],[[3],2],1] has each integer's value set to its depth. Let maxDepth be the maximum depth of any integer.
+The weight of an integer is maxDepth - (the depth of the integer) + 1.
+Return the sum of each integer in nestedList multiplied by its weight.
+*/
+public class Solution {
+    public int DepthSumInverse(IList<NestedInteger> nestedList) {
+        int sum = 0;
+        int maxDepth = 0;
+        foreach(NestedInteger child in nestedList)
+        {
+            int childDepth = GetDepth(child);
+            maxDepth = Math.Max(maxDepth, childDepth);
+        }
+       // Console.WriteLine(maxDepth);
+        foreach(NestedInteger child in nestedList)
+        {
+            sum += GetSum(child, maxDepth);
+        }
+        return sum;
+    }
+    private int GetDepth(NestedInteger current)
+    {
+        if(current.IsInteger())
+        {
+            return 1;
+        }
+        int depth = 0;
+        IList<NestedInteger> nestedList = current.GetList();
+        foreach(NestedInteger child in nestedList)
+        {
+            int childDepth = 1;
+            childDepth += GetDepth(child);
+            depth = Math.Max(depth, childDepth);
+        }
+        return depth;
+    }  
+    private int GetSum(NestedInteger current, int depth)
+    {
+        if(current.IsInteger())
+            return current.GetInteger() * depth;
+        int sum = 0;
+        IList<NestedInteger> nestedList = current.GetList();
+        foreach(NestedInteger child in nestedList)
+        {
+            sum += GetSum(child, depth - 1);
+        }
+        return sum;
+    }
+}
