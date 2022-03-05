@@ -1,0 +1,56 @@
+//Problem description
+/*
+Given two strings s and t, return true if they are both one edit distance apart, otherwise return false.
+A string s is said to be one distance apart from a string t if you can:
+Insert exactly one character into s to get t.
+Delete exactly one character from s to get t.
+Replace exactly one character of s with a different character to get t.
+*/
+public class Solution {
+    public bool IsOneEditDistance(string s, string t) {
+        
+        int sLen = s.Length, tLen = t.Length;
+        
+        if(Math.Abs(sLen - tLen) > 1)
+            return false;
+        
+        int sIndex = 0;
+        int tIndex = 0;
+        bool isSGreater = sLen > tLen ? true : false;
+        int count = 0;
+        
+        while(sIndex < sLen && tIndex < tLen)
+        {
+            if(s[sIndex] == t[tIndex])
+            {
+                sIndex++;
+                tIndex++;
+            }
+            else
+            {
+                if(sLen == tLen)
+                {
+                    sIndex++; 
+                    tIndex++;
+                }
+                else if(isSGreater)
+                {
+                   sIndex++; 
+                }
+                else
+                {
+                    tIndex++;
+                }
+               count++; 
+            }
+            if(count > 1)
+                return false;
+        }
+        if(count + Math.Abs(sLen - sIndex) + Math.Abs(tLen - tIndex) != 1)
+        {
+           return false;
+        }
+            
+        return true;
+    }
+}
