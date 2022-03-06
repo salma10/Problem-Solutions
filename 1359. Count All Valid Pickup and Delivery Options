@@ -1,0 +1,19 @@
+//Problem description
+/*
+Given n orders, each order consist in pickup and delivery services. 
+Count all valid pickup/delivery possible sequences such that delivery(i) is always after of pickup(i). 
+Since the answer may be too large, return it modulo 10^9 + 7.
+*/
+public class Solution {
+    public int CountOrders(int n) {
+        long current = 1;
+        for(int i = 1; i <= 2 * n; i++)
+        {
+            current = current * i;
+            if(i % 2 == 0)
+                current /= 2;
+           current = current % 1_000_000_007;
+        }
+        return (int)current % 1_000_000_007;
+    }
+}
