@@ -1,0 +1,34 @@
+//Problem description
+/*
+Given an array of strings words representing an English Dictionary, return the longest word in words that can be built one character at a time by other words in words.
+If there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.
+*/
+public class Solution {
+    public string LongestWord(string[] words) {
+        HashSet<string> data = new HashSet<string>(words);
+        int count = 0;
+        string maxWord = "";
+        foreach(string word in data)
+        {
+            bool prev = true;
+            for(int index = 0; index < word.Length; index++)
+            {
+                string currentSubWord = word.Substring(0, index + 1);
+                prev = prev && data.Contains(currentSubWord);
+                if(!prev)
+                    break;
+                if(count < index + 1)
+                {
+                    count = index + 1;
+                    maxWord = currentSubWord;
+                }
+                else if(count == index + 1 && String.Compare(maxWord, currentSubWord) > 0)
+                {
+                    maxWord = currentSubWord;
+                }
+                    
+            }
+        }
+        return maxWord;
+    }
+}
