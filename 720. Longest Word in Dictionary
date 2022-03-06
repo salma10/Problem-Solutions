@@ -32,3 +32,71 @@ public class Solution {
         return maxWord;
     }
 }
+//Using Trie
+public class Solution {
+    public string LongestWord(string[] words) {
+        Trie currentDic = new Trie('#');
+        
+        foreach(string word in words)
+        {
+           currentDic.Add(word);
+        }
+        return SearchMaxWord(currentDic.root, "");
+    }
+    private string SearchMaxWord(TrieNode root, string longestWord)
+    {
+        if(root == null)
+            return "";
+        for(int i = 0; i < 26; i++)
+        {
+            TrieNode child = root.children[i];
+            if(child != null && child.isWord)
+            {
+                if(child.word.Length > longestWord.Length)
+                    longestWord = child.word;
+                longestWord = SearchMaxWord(child, longestWord);
+            }
+        }
+        return longestWord;
+    }
+    public class TrieNode
+    {
+        public char c;
+        public TrieNode[] children;
+        public bool isWord;
+        public string word;
+        public TrieNode(char ch = ' ', bool isWord1 = false, string word1 = "")
+        {
+            c = ch;
+            children = new TrieNode[26];
+            isWord = isWord1;
+            word = word1;
+        }
+    }
+    public class Trie{
+        public TrieNode root;
+        public Trie(char character)
+        {
+            root = new TrieNode(character);
+        }
+        
+        public void Add(string word)
+        {
+            TrieNode current = root;
+            for(int index = 0; index < word.Length; index++)
+            {
+                //Console.WriteLine("word " + word);
+                char currentChar = word[index];
+                int charIndex = currentChar - 'a';
+                //Console.WriteLine("charIndex " + charIndex);
+                if(current.children[charIndex] == null)
+                {
+                    current.children[charIndex] = new TrieNode(currentChar);
+                }
+                current = current.children[charIndex];
+            }
+            current.isWord = true;
+            current.word = word;
+        }
+    }
+}
