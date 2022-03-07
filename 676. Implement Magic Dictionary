@@ -1,0 +1,81 @@
+//Problem decription
+/*
+Design a data structure that is initialized with a list of different words. 
+Provided a string, you should determine if you can change exactly one character in this string to match any word in the data structure.
+Implement the MagicDictionary class:
+MagicDictionary() Initializes the object.
+void buildDict(String[] dictionary) Sets the data structure with an array of distinct strings dictionary.
+bool search(String searchWord) Returns true if you can change exactly one character in searchWord to match any string in the data structure, otherwise returns false.
+*/
+public class MagicDictionary {
+    TrieNode root;
+    public MagicDictionary() {
+        root = new TrieNode('#');   
+    }
+    
+    public void BuildDict(string[] dictionary) {
+        
+        for(int index = 0; index < dictionary.Length; index++)
+        {
+            TrieNode current = root;
+            string currentWord = dictionary[index];
+            
+            for(int index2 = 0; index2 < currentWord.Length; index2++)
+            {
+                int charIndex = currentWord[index2] - 'a';
+                TrieNode child = current.children[charIndex];
+                if(child == null)
+                    current.children[charIndex] = new TrieNode(currentWord[index2]);
+                current = current.children[charIndex];
+            }
+            current.isWord = true;
+        }
+    }
+    
+    public bool Search(string searchWord) {
+        return SearchWord(root, searchWord, 0, 0);
+    }
+    
+    private bool SearchWord(TrieNode currentRoot, string word, int index, int diffCount)
+    {
+        if(diffCount > 1)
+            return false;
+        if(index == word.Length)
+            return currentRoot.isWord && diffCount == 1;
+        
+        bool isValid = false;
+        for(int index2 = 0; index2 < 26; index2++)
+        {
+            TrieNode child = currentRoot.children[index2];
+            if(child != null && child.c == word[index])
+            {
+                if(SearchWord(child, word, index + 1, diffCount))
+                    return true;
+            }
+            else if(child != null && child.c != word[index])
+            {
+                if(SearchWord(child, word, index + 1, diffCount + 1))
+                    return true;
+            }
+        }
+        return false;
+    }
+}
+public class TrieNode
+{
+    public char c;
+    public TrieNode[] children;
+    public bool isWord;
+    public TrieNode(char ch)
+    {
+        c = ch;
+        children = new TrieNode[26];
+        isWord = false;
+    }
+}
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary obj = new MagicDictionary();
+ * obj.BuildDict(dictionary);
+ * bool param_2 = obj.Search(searchWord);
+ */
