@@ -1,0 +1,32 @@
+//Problem description
+/*
+In English, we have a concept called root, which can be followed by some other word to form another longer word - let's call this word successor. 
+For example, when the root "an" is followed by the successor word "other", we can form a new word "another".
+Given a dictionary consisting of many roots and a sentence consisting of words separated by spaces, replace all the successors in the sentence with the root forming it. 
+If a successor can be replaced by more than one root, replace it with the root that has the shortest length.
+Return the sentence after the replacement.
+*/
+public class Solution {
+    public string ReplaceWords(IList<string> dictionary, string sentence) {
+        HashSet<string> dict = new HashSet<string>(dictionary);
+        List<string> result = new List<string>();
+        
+        string[] splittedSentence = sentence.Split(" ");
+        
+        for(int index = 0; index < splittedSentence.Length; index++)
+        {
+            string currentWord = splittedSentence[index];
+            for(int index2 = 1; index2 <= currentWord.Length; index2++)
+            {
+                string currentSubWord = currentWord.Substring(0, index2);
+                if(dict.Contains(currentSubWord))
+                {
+                    currentWord = currentSubWord;
+                    break;
+                }
+            }
+            result.Add(currentWord);
+        }
+        return string.Join(" ", result);
+    }
+}
