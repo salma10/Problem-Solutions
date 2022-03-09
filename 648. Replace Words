@@ -30,3 +30,67 @@ public class Solution {
         return string.Join(" ", result);
     }
 }
+public class Solution {
+    public string ReplaceWords(IList<string> dictionary, string sentence) {
+        
+        Trie root = new Trie('#');
+        BuldTrie(dictionary, root);
+        
+        List<string> result = new List<string>();
+        
+        string[] splittedSentence = sentence.Split(" ");
+        
+        for(int index = 0; index < splittedSentence.Length; index++)
+        {
+            string currentWord = splittedSentence[index];
+            result.Add(Search(currentWord, root));
+        }
+        return string.Join(" ", result);
+    }
+    private string Search(string word, Trie root)
+    {
+        if(!root.children.ContainsKey(word[0]))
+            return word;
+        
+        root = root.children[word[0]];
+
+        for(int index = 1; index < word.Length; index++)
+        {
+            if(!string.IsNullOrEmpty(root.word))
+                return root.word;
+            if(!root.children.ContainsKey(word[index]))
+                return word;
+            root = root.children[word[index]];
+        }
+        return word;
+    }
+    private void BuldTrie(IList<string> dictionary, Trie root)
+    {
+        for(int index = 0; index < dictionary.Count; index++)
+        {
+            Trie current = root;
+            string currentWord = dictionary[index];
+            for(int index2 = 0; index2 < currentWord.Length; index2++)
+            {
+                if(!current.children.ContainsKey(currentWord[index2]))
+                {
+                    current.children[currentWord[index2]] = new Trie(currentWord[index2]);
+                }
+                current = current.children[currentWord[index2]];
+            }
+            current.word = currentWord;
+        }
+    }
+    public class Trie
+    {
+        public char ch;
+        public Dictionary<char, Trie> children;
+        public string word;
+        public Trie(char c)
+        {
+            ch = c;
+            children = new Dictionary<char, Trie>();
+            word = "";
+        }
+    }
+}
