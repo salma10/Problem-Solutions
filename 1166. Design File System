@@ -74,3 +74,29 @@ public class FileSystem {
  * bool param_1 = obj.CreatePath(path,value);
  * int param_2 = obj.Get(path);
  */
+public class FileSystem {
+    Dictionary<string, int> paths;
+    
+    public FileSystem() {
+        paths = new Dictionary<string, int>();
+    }
+    
+    public bool CreatePath(string path, int value) {
+        if(string.IsNullOrEmpty(path) || (path.Length == 1 && string.Equals(path, "/")) || paths.ContainsKey(path))
+        {
+            return false;
+        }
+        
+        int lastIndex = path.LastIndexOf("/");
+        string parent = path.Substring(0, lastIndex);
+        
+        if(parent.Length > 1 && !paths.ContainsKey(parent))
+            return false;
+        paths[path] = value;
+        return true;
+    }
+    
+    public int Get(string path) {
+        return paths.ContainsKey(path) ? paths[path] : -1;
+    }
+}
