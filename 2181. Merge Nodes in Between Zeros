@@ -37,3 +37,22 @@ public class Solution {
         return newHead.next;
     }
 }
+//Another approach
+public class Solution {
+    public ListNode MergeNodes(ListNode head) {
+        ListNode currentNode = head;
+        while(currentNode.next != null)
+        {
+            if(currentNode.next.val == 0 && currentNode.next.next != null)
+            {
+               currentNode = currentNode.next;
+            }
+            else
+            {
+                currentNode.val += currentNode.next.val;
+                currentNode.next = currentNode.next.next;
+            }
+        }
+        return head;
+    }
+}
