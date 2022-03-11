@@ -1,0 +1,138 @@
+//Problem description
+/*
+Design a queue that supports push and pop operations in the front, middle, and back.
+Implement the FrontMiddleBack class:
+FrontMiddleBack() Initializes the queue.
+void pushFront(int val) Adds val to the front of the queue.
+void pushMiddle(int val) Adds val to the middle of the queue.
+void pushBack(int val) Adds val to the back of the queue.
+int popFront() Removes the front element of the queue and returns it. If the queue is empty, return -1.
+int popMiddle() Removes the middle element of the queue and returns it. If the queue is empty, return -1.
+int popBack() Removes the back element of the queue and returns it. If the queue is empty, return -1.
+Notice that when there are two middle position choices, the operation is performed on the frontmost middle position choice. For example:
+Pushing 6 into the middle of [1, 2, 3, 4, 5] results in [1, 2, 6, 3, 4, 5].
+Popping the middle from [1, 2, 3, 4, 5, 6] returns 3 and results in [1, 2, 4, 5, 6].
+*/
+public class FrontMiddleBackQueue {
+
+    LinkedList<int> firstHalfOfList;
+    LinkedList<int> secondHalfOfList;
+    int count;
+    public FrontMiddleBackQueue() {
+        firstHalfOfList = new LinkedList<int>();
+        secondHalfOfList = new LinkedList<int>();
+        count = 0;
+    }
+    
+    public void PushFront(int val) {
+        firstHalfOfList.AddFirst(val);
+        count++;
+        Balance();
+    }
+    
+    public void PushMiddle(int val) {
+        if(firstHalfOfList.Count > secondHalfOfList.Count)
+        {
+            secondHalfOfList.AddFirst(firstHalfOfList.Last.Value);
+            firstHalfOfList.RemoveLast();
+        }
+        firstHalfOfList.AddLast(val);
+        count++;
+        Balance();
+    }
+    
+    public void PushBack(int val) {
+        secondHalfOfList.AddLast(val);
+        count++;
+        Balance();
+    }
+    
+    public int PopFront() {
+        int value = -1;
+        if(count > 0)
+        {
+            if(firstHalfOfList.Count > 0)
+            {
+                value = firstHalfOfList.First.Value;
+                firstHalfOfList.RemoveFirst();
+            }
+            else
+            {
+                value = secondHalfOfList.First.Value;
+                secondHalfOfList.RemoveFirst();
+            }
+            count--;
+        }
+        Balance();
+        return value;
+    }
+    
+    public int PopMiddle() {
+        int value = -1;
+        if(count > 0)
+        {
+            if(firstHalfOfList.Count > 0)
+            {
+                value = firstHalfOfList.Last.Value;
+                firstHalfOfList.RemoveLast();
+            }
+            else
+            {
+                value = secondHalfOfList.First.Value;
+                secondHalfOfList.RemoveFirst();
+            }
+            count--;
+        }
+        Balance();
+        return value;
+    }
+    
+    public int PopBack() {
+        int value = -1;
+        if(count > 0)
+        {
+            if(secondHalfOfList.Count > 0)
+            {
+                value = secondHalfOfList.Last.Value;
+                secondHalfOfList.RemoveLast();
+            }
+            else
+            {
+                value = firstHalfOfList.Last.Value;
+                firstHalfOfList.RemoveLast();
+            }
+            count--;
+        }
+        Balance();
+        return value;
+    }
+    
+    private void Balance()
+    {
+        if(firstHalfOfList.Count == secondHalfOfList.Count)
+            return;
+        if(count % 2 == 1 && firstHalfOfList.Count - 1 == secondHalfOfList.Count)
+            return;
+        if(firstHalfOfList.Count > secondHalfOfList.Count)
+        {
+            secondHalfOfList.AddFirst(firstHalfOfList.Last.Value);
+            firstHalfOfList.RemoveLast();
+        }
+        else
+        {
+            firstHalfOfList.AddLast(secondHalfOfList.First.Value);
+            secondHalfOfList.RemoveFirst();
+        }
+    }
+}
+
+/**
+ * Your FrontMiddleBackQueue object will be instantiated and called as such:
+ * FrontMiddleBackQueue obj = new FrontMiddleBackQueue();
+ * obj.PushFront(val);
+ * obj.PushMiddle(val);
+ * obj.PushBack(val);
+ * int param_4 = obj.PopFront();
+ * int param_5 = obj.PopMiddle();
+ * int param_6 = obj.PopBack();
+ */
