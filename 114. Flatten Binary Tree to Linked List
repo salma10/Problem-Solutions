@@ -23,3 +23,26 @@ public class Solution {
         return root;  
     }
 }
+//Complexity Time - O(n) Space - O(1)
+public class Solution {
+    public void Flatten(TreeNode root) {
+        if(root == null)
+            return;
+        TreeNode node = root;
+        while(node != null)
+        {
+            if(node.left != null)
+            {
+                TreeNode rightNode = node.left;
+                while(rightNode.right != null)
+                {
+                    rightNode = rightNode.right;
+                }
+                rightNode.right = node.right;
+                node.right = node.left;
+                node.left = null;
+            }
+            node = node.right;
+        }
+    }
+}
