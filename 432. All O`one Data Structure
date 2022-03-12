@@ -1,0 +1,83 @@
+//Problem description
+/*
+Design a data structure to store the strings' count with the ability to return the strings with minimum and maximum counts.
+Implement the AllOne class:
+AllOne() Initializes the object of the data structure.
+inc(String key) Increments the count of the string key by 1. If key does not exist in the data structure, insert it with count 1.
+dec(String key) Decrements the count of the string key by 1. If the count of key is 0 after the decrement, remove it from the data structure. It is guaranteed that key exists in the data structure before the decrement.
+getMaxKey() Returns one of the keys with the maximal count. If no element exists, return an empty string "".
+getMinKey() Returns one of the keys with the minimum count. If no element exists, return an empty string "".
+*/
+public class AllOne {
+    Dictionary<string, int> keys;
+    SortedDictionary<int, HashSet<string>> keyCounts;
+    public AllOne() {
+        keys = new Dictionary<string, int>();
+        keyCounts = new SortedDictionary<int, HashSet<string>>();
+    }
+    
+    public void Inc(string key) {
+        if(keys.ContainsKey(key))
+        {
+            int prevCount = keys[key];
+            keys[key]++;
+            keyCounts[prevCount].Remove(key);
+            if(keyCounts[prevCount].Count == 0)
+                keyCounts.Remove(prevCount);
+            if(!keyCounts.ContainsKey(prevCount + 1))
+                keyCounts[prevCount + 1] = new HashSet<string>();
+            keyCounts[prevCount + 1].Add(key);
+        }
+        else
+        {
+            keys[key] = 1;
+            if(!keyCounts.ContainsKey(1))
+                keyCounts[1] = new HashSet<string>();
+            keyCounts[1].Add(key);
+        }
+    }
+    
+    public void Dec(string key) {
+        int prevCount = keys[key];
+        keys[key]--;
+        if(keys[key] == 0)
+        {
+            keys.Remove(key);
+            keyCounts[1].Remove(key);
+            if(keyCounts[1].Count == 0)
+                keyCounts.Remove(1);
+        }
+        else
+        {
+             keyCounts[prevCount].Remove(key);
+             if(keyCounts[prevCount].Count == 0)
+                keyCounts.Remove(prevCount);
+             if(!keyCounts.ContainsKey(keys[key]))
+                keyCounts[keys[key]] = new HashSet<string>();
+            keyCounts[keys[key]].Add(key);
+        }
+    }
+    
+    public string GetMaxKey() {
+        if(keys.Count == 0)
+            return "";
+        int maxCount = keyCounts.Keys.Last();
+        return keyCounts[maxCount].First();
+    }
+    
+    public string GetMinKey() {
+        if(keys.Count == 0)
+            return "";
+        int minCount = keyCounts.Keys.First();
+        return keyCounts[minCount].First();
+    }
+}
+// hello - 2 goodbye - 1 leet - 3 code - 3
+/**
+ * Your AllOne object will be instantiated and called as such:
+ * AllOne obj = new AllOne();
+ * obj.Inc(key);
+ * obj.Dec(key);
+ * string param_3 = obj.GetMaxKey();
+ * string param_4 = obj.GetMinKey();
+ */
