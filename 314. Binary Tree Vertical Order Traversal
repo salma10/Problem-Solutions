@@ -1,0 +1,54 @@
+//Prolem description
+/*
+Given the root of a binary tree, return the vertical order traversal of its nodes' values. (i.e., from top to bottom, column by column).
+If two nodes are in the same row and column, the order should be from left to right.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    
+    public IList<IList<int>> VerticalOrder(TreeNode root) {
+        List<IList<int>> result = new List<IList<int>>();
+        if(root == null)
+            return result;
+        Dictionary<int, List<int>> nodes = new Dictionary<int, List<int>>();
+        Traversal(root, nodes);
+        foreach(KeyValuePair<int, List<int>> item in nodes.OrderBy(i => i.Key))
+        {
+            result.Add(item.Value);
+        }
+        return result;
+    }
+    
+    private void Traversal(TreeNode root, Dictionary<int, List<int>> nodes)
+    {
+        Queue<Tuple<int, TreeNode>> nodeQueue = new Queue<Tuple<int, TreeNode>>();
+        nodeQueue.Enqueue(new Tuple<int, TreeNode>(1, root));
+        
+        while(nodeQueue.Count > 0)
+        {
+            Tuple<int, TreeNode> current = nodeQueue.Dequeue();
+            int weight = current.Item1;
+            TreeNode currentNode = current.Item2;
+            if(!nodes.ContainsKey(weight))
+                nodes[weight] = new List<int>();
+            nodes[weight].Add(currentNode.val);
+           
+            if(currentNode.left != null)
+                nodeQueue.Enqueue(new Tuple<int, TreeNode>(weight - 1, currentNode.left));
+            if(currentNode.right != null)
+                nodeQueue.Enqueue(new Tuple<int, TreeNode>(weight + 1, currentNode.right));
+        }
+    }
+}
