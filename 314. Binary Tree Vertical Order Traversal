@@ -16,6 +16,7 @@ If two nodes are in the same row and column, the order should be from left to ri
  *     }
  * }
  */
+ //Time Complexity - O(nlogn) space - O(n)
 public class Solution {
     
     public IList<IList<int>> VerticalOrder(TreeNode root) {
@@ -52,3 +53,65 @@ public class Solution {
         }
     }
 }
+//Another solution
+ //Time Complexity - O(n) space - O(n)
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    
+    public IList<IList<int>> VerticalOrder(TreeNode root) {
+        List<IList<int>> result = new List<IList<int>>();
+        if(root == null)
+            return result;
+        Dictionary<int, List<int>> nodes = new Dictionary<int, List<int>>();
+        int min = 0;
+        int max = 0;
+        Traversal(root, nodes, out min, out max);
+        for(int index = min; index <= max; index++)
+        {
+            if(nodes.ContainsKey(index))
+                result.Add(nodes[index]);
+        }
+        return result;
+    }
+    
+    private void Traversal(TreeNode root, Dictionary<int, List<int>> nodes, out int min, out int max)
+    {
+        Queue<Tuple<int, TreeNode>> nodeQueue = new Queue<Tuple<int, TreeNode>>();
+        nodeQueue.Enqueue(new Tuple<int, TreeNode>(1, root));
+        
+        min = Int32.MaxValue;
+        max = Int32.MinValue;
+        
+        while(nodeQueue.Count > 0)
+        {
+            Tuple<int, TreeNode> current = nodeQueue.Dequeue();
+            int weight = current.Item1;
+            TreeNode currentNode = current.Item2;
+            
+            if(!nodes.ContainsKey(weight))
+                nodes[weight] = new List<int>();
+            nodes[weight].Add(currentNode.val);
+            
+            min = Math.Min(min, weight);
+            max = Math.Max(max, weight);
+            
+            if(currentNode.left != null)
+                nodeQueue.Enqueue(new Tuple<int, TreeNode>(weight - 1, currentNode.left));
+            if(currentNode.right != null)
+                nodeQueue.Enqueue(new Tuple<int, TreeNode>(weight + 1, currentNode.right));
+        }
+    }
+}
+ //Time Complexity - O(nlogn) space - O(n)
