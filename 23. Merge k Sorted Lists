@@ -87,3 +87,46 @@ public class Solution {
         return l2;                                    
     }
 }
+//Another solution
+//Time complexity - O(nlogk) space complexity - O(k)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        
+        if(lists == null || lists.Length == 0)
+            return null;
+        
+        PriorityQueue<ListNode, int> queue = new PriorityQueue<ListNode, int>();
+        
+        for(int index = 0; index < lists.Length; index++)
+        {
+            if(lists[index] != null)
+                queue.Enqueue(lists[index], lists[index].val);
+        }
+        
+        ListNode result = new ListNode();
+        ListNode tempResult = result;
+        
+        while(queue.Count > 0)
+        {
+            ListNode currentNode = queue.Dequeue();
+            if(currentNode.next != null)
+                queue.Enqueue(currentNode.next, currentNode.next.val);
+            currentNode.next = null;
+            tempResult.next = currentNode;
+            tempResult = tempResult.next;
+        }
+        
+        return result.next;
+    }
+}
