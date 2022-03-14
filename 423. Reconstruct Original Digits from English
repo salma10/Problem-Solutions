@@ -1,0 +1,67 @@
+//Problem description
+/*
+Given a string s containing an out-of-order English representation of digits 0-9, return the digits in ascending order.
+*/
+public class Solution {
+    public string OriginalDigits(string s) {
+        int[] num = new int[10];
+        
+        foreach(char c in s)
+        {
+            switch (c)
+            {
+                case 'z':
+                    num[0]++;
+                    break;
+                case 'w':
+                    num[2]++;
+                    break;
+                case 'u':
+                    num[4]++;
+                    break;
+                case 'x':
+                    num[6]++;
+                    break;
+                case 'g':
+                    num[8]++;
+                    break;
+                case 'f': // 5,4
+                    num[5]++;
+                    break;
+                case 's': // 7,6
+                    num[7]++;
+                    break;
+                case 'h': // 3,8
+                    num[3]++;
+                    break;
+                case 'i': // 9,8,6,5
+                    num[9]++;
+                    break;
+                case 'o': // 1,0,2,4,
+                    num[1]++;
+                    break;
+                default:
+                    break;
+            }
+        }
+           
+        num[5] = num[5] - num[4];
+        num[7] = num[7] - num[6];
+        num[3] = num[3] - num[8];
+        num[9] = num[9] - num[6] - num[8] - num[5];
+        num[1] = num[1] - num[0] - num[2] - num[4];
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < num.Length; i++)
+        {
+            int cnt = num[i];
+            while(cnt > 0)
+            {
+                sb.Append(i);
+                cnt--;
+            }
+        } 
+        
+        return sb.ToString();
+    }
+}
