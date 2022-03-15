@@ -1,0 +1,105 @@
+//Problem description
+/*
+Design a data structure that simulates an in-memory file system.
+Implement the FileSystem class:
+FileSystem() Initializes the object of the system.
+List<String> ls(String path)
+If path is a file path, returns a list that only contains this file's name.
+If path is a directory path, returns the list of file and directory names in this directory.
+The answer should in lexicographic order.
+void mkdir(String path) Makes a new directory according to the given path. The given directory path does not exist. If the middle directories in the path do not exist, you should create them as well.
+void addContentToFile(String filePath, String content)
+If filePath does not exist, creates that file containing given content.
+If filePath already exists, appends the given content to original content.
+String readContentFromFile(String filePath) Returns the content in the file at filePath.
+*/
+public class FileSystem {
+    Dictionary<string, string> fileContents;
+    Trie directories;
+    public FileSystem() {
+        fileContents = new Dictionary<string, string>();
+        directories = new Trie("/");
+    }
+    public void Add(string path, bool isFileCreate)
+    {
+        Trie current = directories;
+        string[] paths = path.Split("/");
+        int len = isFileCreate ? paths.Length - 1 : paths.Length;
+        
+        for(int index = 1; index < len; index++)
+        {
+            string currentDirectory = paths[index];
+            if(!current.childDirectories.ContainsKey(currentDirectory))
+            {
+                current.childDirectories[currentDirectory] = new Trie(currentDirectory);
+                current.childDirectoryList.Add(currentDirectory);
+            } 
+            current =  current.childDirectories[currentDirectory];
+        }
+        
+        if(isFileCreate && !current.childFiles.ContainsKey(paths[len - 1]))
+        {
+            current.childFiles[paths[len]] = new Trie(paths[len]);
+            current.childDirectoryList.Add(paths[len]);
+        }
+    }
+    public IList<string> Ls(string path) {
+        Trie current = directories;
+        if(string.Equals(path, "/"))
+            return current.childDirectoryList.ToList();
+        
+        string[] paths = path.Split("/");
+        for(int index = 1; index < paths.Length - 1; index++)
+        {
+            string currentDirectory = paths[index];
+            current =  current.childDirectories[currentDirectory];
+        }
+        if(current.childDirectories.ContainsKey(paths[paths.Length - 1]))
+        {
+            current = current.childDirectories[paths[paths.Length - 1]];
+            return current.childDirectoryList.ToList();
+        } 
+        else
+            return new List<string>(){paths[paths.Length - 1]};
+    }
+    
+    public void Mkdir(string path) {
+        Add(path, false);
+    }
+    
+    public void AddContentToFile(string filePath, string content) {
+        if(fileContents.ContainsKey(filePath))
+            fileContents[filePath] = fileContents[filePath] + content;
+        else
+        {
+            Add(filePath, true);
+            fileContents[filePath] = content;
+        }
+    }
+    
+    public string ReadContentFromFile(string filePath) {
+        return fileContents[filePath];
+    }
+}
+public class Trie{
+    public string directory { get; set; }
+    public Dictionary<string, Trie> childDirectories { get; set; }
+    public Dictionary<string, Trie> childFiles { get; set; }
+    public SortedSet<string> childDirectoryList { get; set; }
+    
+    public Trie(string dir)
+    {
+        directory = dir;
+        childDirectories = new Dictionary<string, Trie>();
+        childFiles = new Dictionary<string, Trie>();
+        childDirectoryList = new SortedSet<string>();
+    }
+}
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem obj = new FileSystem();
+ * IList<string> param_1 = obj.Ls(path);
+ * obj.Mkdir(path);
+ * obj.AddContentToFile(filePath,content);
+ * string param_4 = obj.ReadContentFromFile(filePath);
+ */
