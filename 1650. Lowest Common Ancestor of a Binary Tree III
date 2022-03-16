@@ -1,0 +1,42 @@
+//Problem description
+/*
+Given two nodes of a binary tree p and q, return their lowest common ancestor (LCA).
+Each node will have a reference to its parent node. The definition for Node is below:
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+According to the definition of LCA on Wikipedia: "The lowest common ancestor of two nodes p and q in a tree T is the lowest node 
+that has both p and q as descendants (where we allow a node to be a descendant of itself)."
+*/
+/*
+// Definition for a Node.
+public class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+*/
+
+public class Solution {
+    public Node LowestCommonAncestor(Node p, Node q) {
+        HashSet<Node> pPath = new HashSet<Node>();
+        HashSet<Node> qPath = new HashSet<Node>();
+        
+        while(p != null)
+        {
+            pPath.Add(p);
+            p = p.parent;
+        }
+        while(q != null)
+        {
+            qPath.Add(q);
+            q = q.parent;
+        }
+        pPath.IntersectWith(qPath);
+        return pPath.First();
+    }
+}
