@@ -40,3 +40,23 @@ public class Solution {
         return pPath.First();
     }
 }
+// Updated solution
+public class Solution {
+    public Node LowestCommonAncestor(Node p, Node q) {
+        HashSet<Node> pPath = new HashSet<Node>();
+        
+        while(p != null)
+        {
+            pPath.Add(p);
+            p = p.parent;
+        }
+        while(q != null)
+        {
+            if(pPath.Contains(q))
+                return q;
+            q = q.parent;
+        }
+
+        return q;
+    }
+}
