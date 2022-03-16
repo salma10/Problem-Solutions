@@ -1,0 +1,63 @@
+//Problem description
+/*
+Given an array of integers nums, find the maximum length of a subarray where the product of all its elements is positive.
+A subarray of an array is a consecutive sequence of zero or more values taken out of that array.
+Return the maximum length of a subarray with positive product.
+*/
+public class Solution {
+    public int GetMaxLen(int[] nums) {
+        int maxLen = 0;
+        int firstNegPos = -1;
+        int lastNegPos = -1;
+        int negCount = 0;
+        int start = 0;
+        int index = 0;
+        for(index = 0; index < nums.Length; index++)
+        {
+            if(nums[index] < 0)
+            {
+                if(firstNegPos == -1)
+                {
+                    firstNegPos = index;
+                }
+                lastNegPos = index;
+                negCount++;
+            }
+            else if(nums[index] == 0)
+            {
+                int len = 0;
+                if(negCount % 2 == 0)
+                {
+                    len = index - start;
+                }
+                else if(index - 1 - lastNegPos > firstNegPos - start)
+                {
+                    len = index - 1 - firstNegPos;
+                }
+                else
+                   len = lastNegPos - start; 
+                 maxLen = Math.Max(maxLen, len);
+                 firstNegPos = -1;
+                 lastNegPos = -1;
+                 negCount = 0;
+                 start = index + 1; 
+            }
+        }  
+
+        int len1 = 0;
+        if(negCount % 2 == 0)
+        {
+            len1 = index - start;
+        }
+        else if(index - lastNegPos > firstNegPos - start + 1)
+        {
+            len1 = index - firstNegPos - 1;
+        }
+        else
+           len1 = lastNegPos - start; 
+
+        maxLen = Math.Max(maxLen, len1);
+        
+        return maxLen;
+    }
+}
