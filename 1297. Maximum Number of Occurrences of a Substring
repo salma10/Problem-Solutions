@@ -1,0 +1,54 @@
+//Problem description
+/*
+Given a string s, return the maximum number of ocurrences of any substring under the following rules:
+The number of unique characters in the substring must be less than or equal to maxLetters.
+The substring size must be between minSize and maxSize inclusive.
+*/
+public class Solution {
+    public int MaxFreq(string s, int maxLetters, int minSize, int maxSize) {
+        
+        Dictionary<string, int> frequencies = new Dictionary<string, int>();
+        Dictionary<char, int> subStringChars = new Dictionary<char, int>();
+        int startPos = 0;
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            if(!subStringChars.ContainsKey(s[index]))
+                subStringChars.Add(s[index], 1);
+            else
+                subStringChars[s[index]]++;
+            
+            int currentLength = index - startPos + 1;
+            
+            while(subStringChars.Count > maxLetters || currentLength > maxSize)
+            {
+               char currentChar = s[startPos];
+               subStringChars[currentChar]--;
+               if(subStringChars[currentChar] == 0)
+                    subStringChars.Remove(currentChar);
+                startPos++;
+                currentLength--;
+            }
+            
+            int tempStartPos = startPos;
+            while(index - tempStartPos + 1 >= minSize)
+            {
+                string current = s.Substring(tempStartPos, index - tempStartPos + 1);
+                if(frequencies.ContainsKey(current))
+                    frequencies[current]++;
+                else
+                   frequencies[current] = 1;
+                tempStartPos++;
+            }
+        }
+        
+        int maxFreq = 0;
+        
+        foreach(KeyValuePair<string, int> frequency in frequencies)
+        {
+            maxFreq = Math.Max(maxFreq, frequency.Value);
+        }
+        
+        return maxFreq;
+    }
+}
