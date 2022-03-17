@@ -31,3 +31,27 @@ public class Solution {
         return parentheses.Pop();
     }
 }
+//Time complexity - O(n) Space complexity - O(1)
+public class Solution {
+    public int ScoreOfParentheses(string s) {
+        int count = 0;
+        int balance = 0;
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            if(s[index] == '(')
+            { 
+                balance++;
+            } 
+            else
+            {
+                balance--;
+                if(s[index - 1] == '(')
+                {
+                    count += 1 << balance;
+                }
+            }
+        }
+        return count;
+    }
+}
