@@ -1,0 +1,33 @@
+//Problem description
+/*
+Given a balanced parentheses string s, return the score of the string.
+The score of a balanced parentheses string is based on the following rule:
+"()" has score 1.
+AB has score A + B, where A and B are balanced parentheses strings.
+(A) has score 2 * A, where A is a balanced parentheses string.
+*/
+
+//Time complexity - O(n) Space complexity - O(n)
+
+public class Solution {
+    public int ScoreOfParentheses(string s) {
+        Stack<int> parentheses = new Stack<int>();
+        int currentCount = 0;
+        parentheses.Push(0);
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            if(s[index] == '(')
+            { 
+                parentheses.Push(0);
+            } 
+            else
+            {
+                currentCount = parentheses.Pop();
+                int weight = parentheses.Pop();
+                parentheses.Push(weight + Math.Max(currentCount * 2, 1));
+            }
+        }
+        return parentheses.Pop();
+    }
+}
