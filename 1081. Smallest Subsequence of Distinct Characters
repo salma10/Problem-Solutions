@@ -1,0 +1,40 @@
+//Problem description
+/*
+Given a string s, return the lexicographically smallest subsequence of s that contains all the distinct characters of s exactly once.
+*/
+
+public class Solution {
+    public string SmallestSubsequence(string s) {
+        Dictionary<char, int> charLastIndexes = new Dictionary<char, int>();
+        Stack<char> characters = new Stack<char>();
+        HashSet<char> seenChar = new HashSet<char>();
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            charLastIndexes[s[index]] = index;
+        }
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            char currentChar = s[index];
+            if(!seenChar.Contains(currentChar))
+            {
+                while(characters.Count > 0 && currentChar <  characters.Peek() && charLastIndexes[characters.Peek()] > index)
+                {
+                    seenChar.Remove(characters.Pop());
+                }
+                seenChar.Add(currentChar);
+                characters.Push(currentChar);
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(characters.Count > 0)
+        {
+            sb.Insert(0, characters.Pop());
+        }
+        
+        return sb.ToString();
+    }
+}
