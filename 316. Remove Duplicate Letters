@@ -1,0 +1,40 @@
+//Problem description
+/*
+Given a string s, remove duplicate letters so that every letter appears once and only once. 
+You must make sure your result is the smallest in lexicographical order among all possible results.
+*/
+public class Solution {
+    public string RemoveDuplicateLetters(string s) {
+        Dictionary<char, int> charLastIndexes = new Dictionary<char, int>();
+        Stack<char> characters = new Stack<char>();
+        HashSet<char> seenChar = new HashSet<char>();
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            charLastIndexes[s[index]] = index;
+        }
+        
+        for(int index = 0; index < s.Length; index++)
+        {
+            char currentChar = s[index];
+            if(!seenChar.Contains(currentChar))
+            {
+                while(characters.Count > 0 && currentChar <  characters.Peek() && charLastIndexes[characters.Peek()] > index)
+                {
+                    seenChar.Remove(characters.Pop());
+                }
+                seenChar.Add(currentChar);
+                characters.Push(currentChar);
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(characters.Count > 0)
+        {
+            sb.Insert(0, characters.Pop());
+        }
+        
+        return sb.ToString();
+    }
+}
