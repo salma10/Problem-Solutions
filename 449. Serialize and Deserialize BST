@@ -77,3 +77,64 @@ public class Codec {
 // String tree = ser.serialize(root);
 // TreeNode ans = deser.deserialize(tree);
 // return ans;
+
+
+//Another solution
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+    // Encodes a tree to a single string.
+    public string serialize(TreeNode root) {
+        if(root == null)
+            return null;
+        
+        string lefttree = serialize(root.left);
+        string righttree = serialize(root.right);
+        return root.val + "," + lefttree + righttree;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(string data) {   
+        if(data == null)
+            return null;
+        
+        string[] dataArray = data.Split(',');
+        Queue<int?> dataQueue = new Queue<int?>();
+        
+        for(int i = 0; i < dataArray.Length; i++)
+        {
+            if(dataArray[i] != null && !string.IsNullOrEmpty(dataArray[i]))
+            {
+                if(dataArray[i] != "null")
+                    dataQueue.Enqueue(Convert.ToInt32(dataArray[i]));
+            }
+        }
+        return deserializeHelper(dataQueue, int.MinValue, int.MaxValue);
+    }
+    
+    public TreeNode deserializeHelper(Queue<int?> s, int min, int max)
+    {
+        if(s.Count == 0)
+            return null;
+        if(s.Peek() == null)
+            return null;
+        
+        int val = (int)s.Peek();
+        TreeNode root = null;       
+        if(min < val && val < max)
+        {
+            s.Dequeue();
+            root = new TreeNode(val);
+            root.left = deserializeHelper(s, min, val);
+            root.right = deserializeHelper(s, val, max);
+        }
+        return root;
+    }
+}
