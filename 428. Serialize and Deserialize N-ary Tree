@@ -1,0 +1,119 @@
+//Problem description
+/*
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, 
+or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+Design an algorithm to serialize and deserialize an N-ary tree. An N-ary tree is a rooted tree in which each node has no more than N children. 
+There is no restriction on how your serialization/deserialization algorithm should work. 
+You just need to ensure that an N-ary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+For example, you may serialize the following 3-ary tree
+*/
+
+/*
+// Definition for a Node.
+public class Node {
+    public int val;
+    public IList<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, IList<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+}
+*/
+
+public class Codec {
+    // Encodes a tree to a single string.
+    public string serialize(Node root) {
+        if(root == null)
+            return null;
+        
+        Queue<Node> dataQueue = new Queue<Node>();
+        dataQueue.Enqueue(root);
+        StringBuilder result = new StringBuilder();
+        
+        while(dataQueue.Count > 0)
+        {
+            int count = dataQueue.Count;
+            while(count > 0)
+            {
+                Node currentNode = dataQueue.Dequeue();
+                result.Append(currentNode.val);
+                result.Append("-");
+                result.Append(currentNode.children.Count);
+                result.Append(",");
+                for(int index = 0; index < currentNode.children.Count; index++)
+                {
+                    dataQueue.Enqueue(currentNode.children[index]);
+                }
+                count--;
+            }
+            result.Length = result.Length - 1;
+            result.Append("#");
+        }
+        return result.ToString();
+    }
+    // Decodes your encoded data to tree.
+    public Node deserialize(string data) {
+        if(data == null)
+            return null;
+        
+        string[] dataArray = data.Split('#');
+        Queue<Node> dataQueue = new Queue<Node>();
+        Queue<int> childQueue = new Queue<int>();
+        string[] currentNode = dataArray[0].Split('-');
+        int val = Convert.ToInt32(currentNode[0]);
+        int noOfChild = Convert.ToInt32(currentNode[1]);
+        Node root = new Node(val, new List<Node>());
+        dataQueue.Enqueue(root);
+        childQueue.Enqueue(noOfChild);
+        int childIndex = 0;
+        
+        while(dataQueue.Count > 0)
+        {
+           int count = dataQueue.Count;
+           childIndex++;
+           int startIndex = 0;
+           int endIndex = 0;
+           string currentLevel = dataArray[childIndex];
+           string[] neighbors = currentLevel.Split(',');
+            
+           while(count > 0)
+           {
+               Node parent = dataQueue.Dequeue();
+               int child = childQueue.Dequeue();
+               if(child > 0)
+               {
+                  endIndex += child;
+                  CreateChildNodes(neighbors, startIndex, endIndex, parent, dataQueue, childQueue); 
+               }  
+               startIndex = endIndex;
+               count--;
+           }
+        }
+        return root;
+    }
+    
+    public void CreateChildNodes(string[] neighbors, int startIndex, int endIndex, Node parent, Queue<Node> child, Queue<int> noOfChildQueue)
+    {
+        for(int i = startIndex; i < endIndex; i++)
+        {
+           string[] currentNode = neighbors[i].Split('-');
+           int val = Convert.ToInt32(currentNode[0]);
+           Node current = new Node(val, new List<Node>());
+           int noOfChild = Convert.ToInt32(currentNode[1]);
+           child.Enqueue(current);
+           noOfChildQueue.Enqueue(noOfChild);
+           parent.children.Add(current);
+        }
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
