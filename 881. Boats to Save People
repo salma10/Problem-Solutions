@@ -1,0 +1,41 @@
+//Problem description
+/*
+You are given an array people where people[i] is the weight of the ith person, and an infinite number of boats where each boat can carry a maximum weight of limit. Each boat carries at most two people at the same time, 
+provided the sum of the weight of those people is at most limit.
+Return the minimum number of boats to carry every given person.
+*/
+
+public class Solution {
+    public int NumRescueBoats(int[] people, int limit) {
+        Array.Sort(people);
+        int count = 0;
+        int weight = 0;
+        int left = 0;
+        int right = people.Length - 1;
+        int currentCount = 0;
+        while(left <= right)
+        {
+            if((weight + people[left] > limit && weight + people[right] > limit) || currentCount == 2)
+            {
+               count++;
+               weight = 0; 
+               currentCount = 0;
+            }
+            else if(weight + people[right] <= limit)
+            {
+                weight += people[right];
+                right--;
+                currentCount++;
+            }
+            else if(weight + people[left] <= limit)
+            {
+                weight += people[left];
+                left++;
+                currentCount++;
+            }
+        }
+        if(weight > 0)
+            count++;
+        return count;
+    }
+}
