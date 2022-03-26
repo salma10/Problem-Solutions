@@ -1,0 +1,48 @@
+//Problem description
+/*
+Design a data structure that will be initialized with a string array, 
+and then it should answer queries of the shortest distance between two different strings from the array.
+Implement the WordDistance class:
+WordDistance(String[] wordsDict) initializes the object with the strings array wordsDict.
+int shortest(String word1, String word2) returns the shortest distance between word1 and word2 in the array wordsDict.
+*/
+
+public class WordDistance {
+    Dictionary<string, List<int>> data;
+    public WordDistance(string[] wordsDict) {
+        data = new Dictionary<string, List<int>>();
+        for(int index = 0; index < wordsDict.Length; index++)
+        {
+            if(!data.ContainsKey(wordsDict[index]))
+                data[wordsDict[index]] = new List<int>();
+            data[wordsDict[index]].Add(index);
+        }
+    }
+    
+    public int Shortest(string word1, string word2) {
+        return SearchShortestDistance(data[word1], data[word2]);
+    }
+    
+    private int SearchShortestDistance(List<int> firstWordPositions, List<int> secondWordPositions)
+    {
+        int minDistance = Int32.MaxValue;
+        for(int index = 0; index < firstWordPositions.Count; index++)
+        {
+            for(int index1 = 0; index1 < secondWordPositions.Count; index1++)
+            {
+                minDistance = Math.Min(minDistance, Math.Abs(secondWordPositions[index1] - firstWordPositions[index]));
+                if(minDistance == 1)
+                    break;
+            }
+            if(minDistance == 1)
+                break;
+        }
+        return minDistance;
+    }
+}
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance obj = new WordDistance(wordsDict);
+ * int param_1 = obj.Shortest(word1,word2);
+ */
