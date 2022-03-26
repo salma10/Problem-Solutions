@@ -1,0 +1,24 @@
+//Problem description
+/*
+Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, 
+return the shortest distance between these two words in the list.
+*/
+public class Solution {
+    public int ShortestDistance(string[] wordsDict, string word1, string word2) {
+        int firstFound = -1;
+        int secondFound = -1;
+        int minDistance = Int32.MaxValue;
+        
+        for(int index = 0; index < wordsDict.Length; index++)
+        {
+            if(wordsDict[index] == word1)
+                firstFound = index;
+            else if(wordsDict[index] == word2)
+                secondFound = index;
+            if(firstFound != -1 && secondFound != -1)
+                minDistance = Math.Min(minDistance, Math.Abs(secondFound - firstFound));
+        }
+        
+        return minDistance;
+    }
+}
