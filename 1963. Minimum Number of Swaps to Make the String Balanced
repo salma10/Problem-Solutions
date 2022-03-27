@@ -1,0 +1,44 @@
+//Problem description
+/*
+You are given a 0-indexed string s of even length n. The string consists of exactly n / 2 opening brackets '[' and n / 2 closing brackets ']'.
+A string is called balanced if and only if:
+It is the empty string, or
+It can be written as AB, where both A and B are balanced strings, or
+It can be written as [C], where C is a balanced string.
+You may swap the brackets at any two indices any number of times.
+Return the minimum number of swaps to make s balanced.
+*/
+public class Solution {
+    public int MinSwaps(string s) {
+        char[] charArray = s.ToCharArray();
+        int noOfSwaps = 0;
+        int left = 0;
+        int right = s.Length - 1;
+        int currentCount = 0;
+        
+        while(left < right)
+        {
+            currentCount = charArray[left] == '[' ? currentCount + 1 : currentCount - 1;
+            
+            if(currentCount < 0)
+            {
+                int rightBal = 0;
+                
+                while(left < right && rightBal >= 0)
+                {
+                    rightBal = charArray[right] == ']' ? rightBal + 1 : rightBal - 1;
+                    if(rightBal < 0)
+                        break;
+                    right--;
+                }
+                
+                charArray[left] = '[';
+                charArray[right] = ']';
+                noOfSwaps++;
+                currentCount = 1;
+            }
+            left++;
+        }
+        return noOfSwaps;
+    }
+}
