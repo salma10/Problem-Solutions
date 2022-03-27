@@ -41,3 +41,53 @@ public class Solution {
         return result;
     }
 }
+//Binary Search solution
+public class Solution {
+    public int[] KWeakestRows(int[][] mat, int k) {
+        Dictionary<int, List<int>> minHeap = new Dictionary<int, List<int>>();
+        int[] result = new int[k];
+        
+        for(int index = 0; index < mat.Length; index++)
+        {
+            int position = SearchPosition(mat[index]);
+            int currentStrength = position + 1;
+            if(!minHeap.ContainsKey(currentStrength))
+                minHeap[currentStrength] = new List<int>();
+            minHeap[currentStrength].Add(index);
+        }
+        int pos = 0;
+        foreach(KeyValuePair<int, List<int>> item in minHeap.OrderBy(v => v.Key))
+        {
+            for(int index = 0; index < item.Value.Count; index++)
+            {
+                result[pos] = item.Value[index];
+                pos++;
+                if(pos == k)
+                    break;
+            }
+            if(pos == k)
+                break;   
+        }
+        return result;
+    }
+    
+    private int SearchPosition(int[] row)
+    {
+        int left = 0;
+        int right = row.Length - 1;
+        int res = -1;
+        
+        while(left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if(row[mid] == 1)
+            {
+                res = mid + 1;
+                left = mid + 1;
+            }
+            else
+                right = mid - 1;
+        }
+        return res;
+    }
+}
