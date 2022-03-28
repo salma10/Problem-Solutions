@@ -1,0 +1,57 @@
+//Problem description
+/*
+You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.
+There are two types of logs:
+Letter-logs: All words (except the identifier) consist of lowercase English letters.
+Digit-logs: All words (except the identifier) consist of digits.
+Reorder these logs so that:
+The letter-logs come before all digit-logs.
+The letter-logs are sorted lexicographically by their contents. If their contents are the same, then sort them lexicographically by their identifiers.
+The digit-logs maintain their relative ordering.
+Return the final order of the logs.
+*/
+public class Solution {
+    public string[] ReorderLogFiles(string[] logs) {
+        
+        string[] result = new string[logs.Length];
+        int endIndex = logs.Length - 1;
+        
+        PriorityQueue<string, string> data = new PriorityQueue<string, string>(new AscendingComparator());
+        
+        for(int index = logs.Length - 1; index >= 0; index--)
+        {
+            string currentLog = logs[index];
+            string[] splittedLog = currentLog.Split(" ", 2);
+            if(Char.IsDigit((splittedLog[1])[0]))
+            {
+                result[endIndex] = currentLog;
+                endIndex--;
+            }
+            else
+            {
+                data.Enqueue(currentLog, currentLog);
+            }
+        }
+        int startIndex = 0;
+        while(data.Count > 0)
+        {
+            result[startIndex] = data.Peek();
+            data.Dequeue();
+            startIndex++;
+        }
+        
+        return result;
+    }
+    
+    public class AscendingComparator : IComparer<string>
+    {
+        public int Compare(string x, string y)
+        {
+            string[] splittedX = x.Split(" ", 2);
+            string[] splittedY = y.Split(" ", 2);
+            if(String.Equals(splittedX[1], splittedY[1]))
+                return splittedX[0].CompareTo(splittedY[0]);
+            return splittedX[1].CompareTo(splittedY[1]);
+        }
+    }
+}
