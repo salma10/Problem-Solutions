@@ -1,0 +1,71 @@
+//Problem description
+/*
+RandomizedCollection is a data structure that contains a collection of numbers, possibly duplicates (i.e., a multiset). 
+It should support inserting and removing specific elements and also removing a random element.
+Implement the RandomizedCollection class:
+RandomizedCollection() Initializes the empty RandomizedCollection object.
+bool insert(int val) Inserts an item val into the multiset, even if the item is already present. Returns true if the item is not present, false otherwise.
+bool remove(int val) Removes an item val from the multiset if present. Returns true if the item is present, false otherwise. Note that if val has multiple occurrences in the multiset, we only remove one of them.
+int getRandom() Returns a random element from the current multiset of elements. The probability of each element being returned is linearly related to the number of same values the multiset contains.
+You must implement the functions of the class such that each function works on average O(1) time complexity.
+Note: The test cases are generated such that getRandom will only be called if there is at least one item in the RandomizedCollection.
+*/
+//Time complexity - O(1) space complexity - O(n)
+public class RandomizedCollection {
+    Dictionary<int, List<int>> data;
+    List<int> position;
+    int dataSize;
+    Random rand;
+    
+    public RandomizedCollection() {
+        data = new Dictionary<int, List<int>>();
+        position = new List<int>();
+        dataSize = 0;
+        rand = new Random();
+    }
+    
+    public bool Insert(int val) {
+        bool isAlreadyExist = false;
+        if(!data.ContainsKey(val))
+        {
+            isAlreadyExist = true;
+            data[val] = new List<int>();
+        }  
+        position.Add(val);
+        data[val].Add(dataSize);
+        dataSize++;
+        return isAlreadyExist;
+    }
+    
+    public bool Remove(int val) {
+         if(!data.ContainsKey(val))
+            return false;
+        
+        int pos = data[val][data[val].Count - 1];
+        int arrElement = position[dataSize - 1];
+        position[pos] = position[dataSize - 1];
+        position.RemoveAt(dataSize - 1);
+        data[arrElement].Remove(dataSize - 1);
+        data[arrElement].Add(pos);
+        
+        if(data[val].Count == 1)
+            data.Remove(val);
+        else
+            data[val].Remove(pos);
+        dataSize--;
+        return true;
+    }
+    
+    public int GetRandom() {
+        int index = rand.Next(dataSize);
+        return position[index];
+    }
+}
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection obj = new RandomizedCollection();
+ * bool param_1 = obj.Insert(val);
+ * bool param_2 = obj.Remove(val);
+ * int param_3 = obj.GetRandom();
+ */
