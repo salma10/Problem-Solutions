@@ -49,3 +49,37 @@ public class Solution {
         return root.val;
     }
 }
+//Another solution
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    int count = 0;
+    public int CountUnivalSubtrees(TreeNode root) {
+        CountSubtrees(root, 0);
+        return count;
+    }
+    
+    public bool CountSubtrees(TreeNode root, int val)
+    {
+        if(root == null)
+            return true;
+        
+        if(!CountSubtrees(root.left, root.val) | !CountSubtrees(root.right, root.val))
+        {
+            return false;
+        }
+        count++; 
+        return root.val == val;
+    }
+}
