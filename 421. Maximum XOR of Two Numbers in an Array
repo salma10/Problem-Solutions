@@ -1,0 +1,72 @@
+//Problem description
+/*
+Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.
+*/
+public class Solution {
+    public int FindMaximumXOR(int[] nums) {
+        if(nums == null || nums.Length == 0)
+            return 0;
+        
+        int maxNumber = 0;
+        int maxLen = 0;
+        string[] strs = new string[nums.Length];
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            string binary = Convert.ToString(nums[i], 2);
+            maxLen = Math.Max(maxLen, binary.Length);
+            strs[i] = binary;
+        }
+        Trie root = new Trie();
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            Trie node = root;
+            strs[i] = strs[i].PadLeft(maxLen, '0');
+            foreach(char c in strs[i])
+            {
+                int index = c - '0';
+                if(node.children[index] == null)
+                    node.children[index] = new Trie();
+                node = node.children[index];
+            }
+        }
+        
+        for(int i = 0; i < strs.Length; i++)
+        {
+            maxNumber = Math.Max(maxNumber, nums[i] ^ GetMaximumXOR(strs[i], root));
+        }        
+        return maxNumber;
+    }
+    private int GetMaximumXOR(string bitstring, Trie root)
+    {
+        int correspondingNum = 0;
+        Trie node = root;
+        foreach(char c in bitstring)
+        {
+            int index = c - '0';
+            int correspondingIndex = index ^ 1;
+
+            if(node.children[correspondingIndex] != null)
+            {
+                correspondingNum =  (correspondingNum << 1) | correspondingIndex;
+                node = node.children[correspondingIndex];
+            }
+            else
+            {
+                correspondingNum =  (correspondingNum << 1) | index;
+                node = node.children[index];
+            }
+        }
+        return correspondingNum;
+    }
+}
+
+public class Trie
+{
+    public Trie[] children;
+    public Trie()
+    {
+        children = new Trie[2];
+    }
+}
