@@ -19,3 +19,29 @@ public class Solution {
         return h;
     }
 }
+//Time complexity - O(n) Space - O(n)
+public class Solution {
+    public int HIndex(int[] citations) {
+        int n = citations.Length;
+        int[] bucket = new int[n + 1];
+        
+        for(int index = 0; index < citations.Length; index++)
+        {
+            if(citations[index] > n)
+                bucket[n]++;
+            else
+                bucket[citations[index]]++;
+        }
+        
+        int count = 0;
+        
+        for(int i = bucket.Length - 1; i >= 0; i--)
+        {
+            count += bucket[i];
+            if(count >= i)
+                return i;
+        }
+        
+        return 0;
+    }
+}
