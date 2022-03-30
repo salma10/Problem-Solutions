@@ -1,0 +1,66 @@
+//Problem description
+/*
+You are given an inclusive range [lower, upper] and a sorted unique integer array nums, where all elements are in the inclusive range.
+A number x is considered missing if x is in the range [lower, upper] and x is not in nums.
+Return the smallest sorted list of ranges that cover every missing number exactly. 
+That is, no element of nums is in any of the ranges, and each missing number is in one of the ranges.
+Each range [a,b] in the list should be output as:
+
+"a->b" if a != b
+"a" if a == b
+*/
+public class Solution {
+    public IList<string> FindMissingRanges(int[] nums, int lower, int upper) {
+        List<string> result = new List<string>();
+        
+        if(nums == null || nums.Length == 0)
+        {
+            if(lower == upper)
+                result.Add((lower).ToString());
+            else
+            {
+                string currRange = lower.ToString() + "->" + upper.ToString();
+                result.Add(currRange);
+            } 
+            return result;
+        }
+        
+        if(nums[0] != lower)
+        {
+            if(lower + 1 == nums[0])
+                    result.Add((lower).ToString());
+            else
+            {
+                string currRange = lower.ToString() + "->" + (nums[0] - 1).ToString();
+                result.Add(currRange);
+            }               
+        }
+        
+        for(int i = 1; i < nums.Length; i++)
+        {
+            if(nums[i - 1] + 1 == nums[i])
+                continue;
+            else
+            {
+                if(nums[i - 1] + 1 == nums[i] - 1)
+                    result.Add((nums[i - 1] + 1).ToString());
+                else
+                {
+                    string currRange = (nums[i - 1] + 1).ToString() + "->" + (nums[i] - 1).ToString();
+                    result.Add(currRange);
+                }
+            }
+        }
+        if(nums[nums.Length - 1] != upper)
+        {
+            if(nums[nums.Length - 1] + 1 == upper)
+                    result.Add((upper).ToString());
+            else
+            {
+                string currRange = (nums[nums.Length - 1] + 1).ToString() + "->" + upper.ToString();
+                result.Add(currRange);
+            }               
+        }
+        return result;
+    }
+}
