@@ -1,0 +1,21 @@
+//Problem description
+/*
+Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, 
+return compute the researcher's h-index.
+According to the definition of h-index on Wikipedia: A scientist has an index h if h of their n papers have at least h citations each, 
+and the other n − h papers have no more than h citations each.
+If there are several possible values for h, the maximum one is taken as the h-index.
+*/
+//Time complexity - O(nlogn) Space - O(1)
+public class Solution {
+    public int HIndex(int[] citations) {
+        Array.Sort(citations, (a, b) => b - a);
+        int h = 0;
+        for(int i = 0; i < citations.Length; i++)
+        {
+            if(citations[i] >= i + 1)
+                h = i + 1;
+        }
+        return h;
+    }
+}
