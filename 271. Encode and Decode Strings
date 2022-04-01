@@ -20,3 +20,52 @@ public class Codec {
 // Your Codec object will be instantiated and called as such:
 // Codec codec = new Codec();
 // codec.decode(codec.encode(strs));
+//Another approach
+public class Codec {
+
+    // Encodes a list of strings to a single string.
+    public string encode(IList<string> strs) {
+        StringBuilder sb = new StringBuilder();
+        
+        foreach(string item in strs)
+        {
+            string len = Convert.ToString(item.Length);
+            sb.Append(len.PadLeft(4,'0'));
+            sb.Append(item);
+        }
+        return sb.ToString();
+    }
+
+    // Decodes a single string to a list of strings.
+    public IList<string> decode(string s) {
+       // Console.WriteLine(s);
+        List<string> result = new List<string>();
+        int index = 0;
+        StringBuilder len = new StringBuilder();
+        
+        while(index < s.Length)
+        {
+            len.Append(s[index]);
+            StringBuilder sb = new StringBuilder();
+            index++;
+            if(len.Length == 4)
+            {
+                int strLen = Int32.Parse(len.ToString());
+                while(strLen > 0)
+                {
+                    sb.Append(s[index]);
+                    index++;
+                    strLen--;
+                }
+                result.Add(sb.ToString());
+                sb = new StringBuilder();
+                len = new StringBuilder();
+            }
+        }
+        return result;
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.decode(codec.encode(strs));
