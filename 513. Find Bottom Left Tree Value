@@ -1,0 +1,41 @@
+//Problem description
+/*
+Given the root of a binary tree, return the leftmost value in the last row of the tree.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public int FindBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> levelQueue = new Queue<TreeNode>();
+        levelQueue.Enqueue(root);
+        int result = root.val;
+        
+        while(levelQueue.Count > 0)
+        {
+            int count = levelQueue.Count;
+            result = levelQueue.Peek().val;
+            while(count > 0)
+            {
+               TreeNode current =  levelQueue.Dequeue();
+               if(current.left != null)
+                  levelQueue.Enqueue(current.left);
+                if(current.right != null)
+                  levelQueue.Enqueue(current.right);
+                count--;
+            }
+        }
+        
+        return result;
+    }
+}
