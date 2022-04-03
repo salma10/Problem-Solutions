@@ -39,3 +39,35 @@ public class Solution {
         return result;
     }
 }
+//Another solution
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    public int FindBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> levelQueue = new Queue<TreeNode>();
+        levelQueue.Enqueue(root);
+        TreeNode current = null;
+        
+        while(levelQueue.Count > 0)
+        {
+           current =  levelQueue.Dequeue();
+            if(current.right != null)
+              levelQueue.Enqueue(current.right);
+           if(current.left != null)
+              levelQueue.Enqueue(current.left);
+        }
+        
+        return current.val;
+    }
+}
