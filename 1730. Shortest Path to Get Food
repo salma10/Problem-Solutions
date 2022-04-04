@@ -1,0 +1,60 @@
+//Problem description
+/*
+You are starving and you want to eat food as quickly as possible. You want to find the shortest path to arrive at any food cell.
+You are given an m x n character matrix, grid, of these different types of cells:
+'*' is your location. There is exactly one '*' cell.
+'#' is a food cell. There may be multiple food cells.
+'O' is free space, and you can travel through these cells.
+'X' is an obstacle, and you cannot travel through these cells.
+You can travel to any adjacent cell north, east, south, or west of your current location if there is not an obstacle.
+Return the length of the shortest path for you to reach any food cell. If there is no path for you to reach food, return -1.
+*/
+public class Solution {
+    public int GetFood(char[][] grid) {
+        Queue<List<int>> queue = new Queue<List<int>>();
+        
+        for(int index = 0; index < grid.Length; index++)
+        {
+            for(int index1 = 0; index1 < grid[0].Length; index1++)
+            {
+                if(grid[index][index1] == '*')
+                {
+                    queue.Enqueue(new List<int>{index, index1});
+                    grid[index][index1] = '1';
+                    break;
+                }
+            }
+        }
+        
+        int countStep = 0;
+        List<int[]> directions = new List<int[]> {new int[] {0, -1}, new int[] {0, 1}, new int[] {-1, 0}, new int[] {1, 0}};
+        
+        while(queue.Count > 0)
+        {
+            int count = queue.Count;
+            countStep++;
+            while(count > 0)
+            {
+                List<int> currentPos = queue.Dequeue();
+                foreach(int[] currDir in directions)
+                {
+                    int currRow = currDir[0] + currentPos[0];
+                    int currCol = currDir[1] + currentPos[1];
+                   
+                    if(currRow < 0 || currRow >= grid.Length || currCol < 0 || currCol >= grid[0].Length || grid[currRow][currCol] == 'X' || grid[currRow][currCol] == '1')
+                    {
+                        continue;
+                    }
+                    if(grid[currRow][currCol] == '#')
+                    {
+                       return countStep; 
+                    }
+                    grid[currRow][currCol] = '1';        
+                    queue.Enqueue(new List<int>{currRow, currCol});
+                }
+                count--;
+            }
+        }
+        return -1;
+    }
+}
