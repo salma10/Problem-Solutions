@@ -1,0 +1,57 @@
+//Problem description
+/*
+Given an integer array arr, and an integer target, return the number of tuples i, j, k such that i < j < k and arr[i] + arr[j] + arr[k] == target.
+As the answer can be very large, return it modulo 109 + 7.
+*/
+public class Solution {
+    public int ThreeSumMulti(int[] nums, int target) {
+        Array.Sort(nums);
+        long count = 0;
+        int MOD = 1_000_000_007;
+        
+        for(int i = 0; i < nums.Length; i++)
+        {
+            int l = i + 1;
+            int r = nums.Length - 1;
+            while (l < r)
+            {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum > target)
+                {
+                    r--;
+                }
+                else if(sum < target)
+                {
+                    l++;
+                }
+                else if (nums[l] != nums[r])
+                {
+                    int left = 1, right = 1;
+                    
+                    while (l + 1 < r && nums[l + 1] == nums[l])
+                    {
+                        left++;
+                        l++;
+                    } 
+                    while (r - 1 > l  && nums[r - 1] == nums[r])
+                    {
+                        right++;
+                        r--;
+                    } 
+                    count += left * right;
+                    count %= MOD;
+                    l++;
+                    r--;
+                }
+                else
+                {
+                    count += (r - l + 1) * (r - l) / 2;
+                    count %= MOD;
+                    break;
+                }
+            }
+        }
+        
+        return (int)count;
+    }
+}
