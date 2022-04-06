@@ -1,0 +1,55 @@
+//Problem description
+/*
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. 
+You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false.
+*/
+public class Solution {
+    public bool CanFinish(int numCourses, int[][] prerequisites) {
+        
+        
+        
+        Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>();
+        
+        for(int i = 0; i < prerequisites.Length; i++)
+        {
+            if(!graph.ContainsKey(prerequisites[i][0]))
+                graph[prerequisites[i][0]] = new List<int>();
+            graph[prerequisites[i][0]].Add(prerequisites[i][1]);
+        }
+        
+        bool[] visited = new bool[numCourses];
+        bool[] visiting = new bool[numCourses];
+        
+        for(int i = 0; i < numCourses; i++)
+        {
+            if(visited[i])
+                continue;
+            visiting[i] = true;
+            
+            if(!IsCircle(visited, visiting, graph, i))
+                return false;
+            
+        }
+       return true; 
+    }
+    
+    public bool IsCircle(bool[] visited, bool[] visiting, Dictionary<int, List<int>> graph, int n)
+    {
+        for(int i = 0; graph.ContainsKey(n) && i < graph[n].Count(); i++)
+        {
+            if(visiting[(graph[n])[i]])
+                return false;
+            visiting[(graph[n])[i]] = true;
+            if(!IsCircle(visited, visiting, graph, (graph[n])[i]))
+                return false;
+        }
+        
+        visiting[n] = false;
+        visited[n] = true;
+        
+        return true;
+    }
+}
+
