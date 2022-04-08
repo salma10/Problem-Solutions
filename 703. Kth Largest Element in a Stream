@@ -1,0 +1,67 @@
+//Problem description
+/*
+Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+Implement KthLargest class:
+KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of integers nums.
+int add(int val) Appends the integer val to the stream and returns the element representing the kth largest element in the stream.
+*/
+//Time complexity - O(nlogn) space complexity - O(N)
+public class KthLargest {
+
+    int[] source;
+    int cap;
+    public KthLargest(int k, int[] nums) {
+        cap = k;
+        Array.Sort(nums);
+        source = nums;
+    }
+    
+    public int Add(int val) {
+        source = SearchInsert(source, val);         
+        return source[source.Length - cap];
+    }
+    
+    public int[] SearchInsert(int[] nums, int target) {
+        
+        if(nums == null || nums.Length == 0)
+            return new int[]{target};
+        
+        int[] result = new int[nums.Length + 1];
+        int left = 0, right = nums.Length - 1 ;
+        int mid = left + (right - left) / 2;
+        
+        while(left < right)
+        {
+             mid = left + (right - left) / 2;
+            
+            if(nums[mid] >= target)
+                { 
+                    right = mid; 
+                }
+            else 
+            { 
+                left = mid + 1; 
+            }
+        }
+        
+        if(right == nums.Length - 1 && target > nums[right])
+            return nums.Concat(new int[]{target}).ToArray();        
+        else
+        {
+            int[] arr1 = new int[right];
+            int[] arr2 = new int[nums.Length - right];
+            Array.Copy(nums, 0, result, 0, right);
+            result[right] = target;
+            Array.Copy(nums, right, result, right + 1, nums.Length - right);
+            return result;
+        }
+    }
+    
+    
+}
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest obj = new KthLargest(k, nums);
+ * int param_1 = obj.Add(val);
+ */
