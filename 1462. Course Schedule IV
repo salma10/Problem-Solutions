@@ -41,3 +41,65 @@ public class Solution {
         return result;
     }
 }
+//Solution using topological sort
+//Time complexity - O(n) - n no of vertices Space complexity - O(n)
+public class Solution {
+    public IList<bool> CheckIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        List<bool> result = new List<bool>();
+        if(queries == null || queries.Length == 0)
+            return result;
+        
+        Dictionary<int, HashSet<int>> isReachable = new Dictionary<int, HashSet<int>>();
+        Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>();
+        
+        for(int index = 0; index < numCourses; index++)
+        {
+           graph[index] = new List<int>();
+           isReachable[index] = new HashSet<int>();
+        }
+        
+        int[] indegrees = new int[numCourses];
+        
+        for(int index = 0; index < prerequisites.Length; index++)
+        {
+            graph[prerequisites[index][0]].Add(prerequisites[index][1]);
+            indegrees[prerequisites[index][1]]++;
+        }
+        
+        Queue<int> queue = new Queue<int>();
+        
+        for(int index = 0; index < numCourses; index++)
+        {
+           if(indegrees[index] == 0)
+               queue.Enqueue(index);
+        }
+        
+        while(queue.Count > 0)
+        {
+            int count = queue.Count;
+            while(count > 0)
+            {
+                int current = queue.Dequeue();
+                List<int> neighbors = graph[current];
+                for(int index = 0; index < neighbors.Count; index++)
+                {
+                    isReachable[neighbors[index]].Add(current);
+                    isReachable[neighbors[index]].UnionWith(isReachable[current]);
+                    indegrees[neighbors[index]]--;
+                    if(indegrees[neighbors[index]] == 0)
+                        queue.Enqueue(neighbors[index]);
+                }
+                count--;
+            }
+        }
+        
+        for(int index = 0; index < queries.Length; index++)
+        {
+            if(isReachable[queries[index][1]].Contains(queries[index][0]))
+                result.Add(true);
+            else
+                result.Add(false);
+        }
+        return result;
+    }
+}
