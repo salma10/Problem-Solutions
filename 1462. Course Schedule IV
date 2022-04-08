@@ -1,0 +1,43 @@
+//Problem description
+/*
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course ai first if you want to take course bi.
+For example, the pair [0, 1] indicates that you have to take course 0 before you can take course 1.
+Prerequisites can also be indirect. If course a is a prerequisite of course b, and course b is a prerequisite of course c, then course a is a prerequisite of course c.
+You are also given an array queries where queries[j] = [uj, vj]. For the jth query, you should answer whether course uj is a prerequisite of course vj or not.
+Return a boolean array answer, where answer[j] is the answer to the jth query.
+*/
+//Floyd-Warshall Algorithm
+//Time complexity - O(n^3) - n no of vertices Space complexity - O(n^2)
+public class Solution {
+    public IList<bool> CheckIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        List<bool> result = new List<bool>();
+        if(queries == null || queries.Length == 0)
+            return result;
+        
+        bool[,] isReachable = new bool[numCourses, numCourses];
+        foreach(int[] prerequisite in prerequisites)
+        {
+            isReachable[prerequisite[0], prerequisite[1]] = true;
+        }
+        
+        for(int index = 0; index < numCourses; index++)
+        {
+            for(int index1 = 0; index1 < numCourses; index1++)
+            {
+                for(int index2 = 0; index2 < numCourses; index2++)
+                {
+                    isReachable[index1, index2] = isReachable[index1, index2] || (isReachable[index1, index] && isReachable[index, index2]);
+                }
+            }
+        }
+        
+        for(int index = 0; index < queries.Length; index++)
+        {
+            if(isReachable[queries[index][0], queries[index][1]])
+                result.Add(true);
+            else
+                result.Add(false);
+        }
+        return result;
+    }
+}
