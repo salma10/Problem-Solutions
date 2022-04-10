@@ -1,0 +1,47 @@
+//Problem description
+/*
+You are keeping score for a baseball game with strange rules. The game consists of several rounds, where the scores of past rounds may affect future rounds' scores.
+At the beginning of the game, you start with an empty record. You are given a list of strings ops, 
+where ops[i] is the ith operation you must apply to the record and is one of the following:
+An integer x - Record a new score of x.
+"+" - Record a new score that is the sum of the previous two scores. It is guaranteed there will always be two previous scores.
+"D" - Record a new score that is double the previous score. It is guaranteed there will always be a previous score.
+"C" - Invalidate the previous score, removing it from the record. It is guaranteed there will always be a previous score.
+Return the sum of all the scores on the record.
+*/
+public class Solution {
+    public int CalPoints(string[] ops) {
+        Stack points = new Stack();
+        int sum = 0;
+        
+        for(int i =0; i < ops.Length; i++)
+        {
+            if(ops[i] == "C" && points.Count != 0)
+               {
+                    sum = sum - (int)points.Pop();
+               }               
+            else if(ops[i] == "D")
+               {
+                   int point = (int)points.Peek();
+                   points.Push(point * 2);
+                   sum = sum + (point * 2);
+               }
+            else if(ops[i] == "+" && points.Count != 0)
+               {
+                   int last =  (int)points.Pop();
+                   int second_last = points.Count != 0 ? (int)points.Peek() : 0;
+                   points.Push(last);
+                   points.Push(last + second_last);
+                   sum = sum + last + + second_last;
+               }
+            else
+               {
+                   int point = Convert.ToInt32(ops[i]);
+                   points.Push(point);
+                   sum = sum + point;
+               }
+        }
+        
+        return sum;
+    }
+}
