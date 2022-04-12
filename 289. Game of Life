@@ -1,0 +1,69 @@
+//Problem description
+/*
+According to Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
+The board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, 
+vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
+Any live cell with fewer than two live neighbors dies as if caused by under-population.
+Any live cell with two or three live neighbors lives on to the next generation.
+Any live cell with more than three live neighbors dies, as if by over-population.
+Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+The next state is created by applying the above rules simultaneously to every cell in the current state, where births and deaths occur simultaneously. Given the current state of the m x n grid board, return the next state.
+*/
+//Time complexity - O(N * M) Space complexity - O(1)
+public class Solution {
+    public void GameOfLife(int[][] board) {
+        int[,] dir = new int[,]{
+            {1, 1}, 
+            {1, 0}, 
+            {1, -1}, 
+            {0, -1}, 
+            {0, 1}, 
+            {-1, -1}, 
+            {-1, 0}, 
+            {-1, 1}  
+        };
+        
+        int totalRows = board.Length;
+        int totalCols = board[0].Length;
+        
+        for(int rowNo = 0; rowNo < totalRows; rowNo++)
+        {
+            for(int colNo = 0; colNo < totalCols; colNo++)
+            {
+                int liveCells = 0;
+                for(int index = 0; index < 8; index++)
+                {
+                    int row = rowNo + dir[index, 0];
+                    int col = colNo + dir[index, 1];
+                    if(row >= 0 && row < totalRows && col >= 0 && col < totalCols && (board[row][col] == 1 || board[row][col] == -2))
+                        liveCells++;
+                }
+                
+                if(board[rowNo][colNo] == 0 && liveCells == 3)
+                {
+                    board[rowNo][colNo] = -3;
+                }
+                else if(board[rowNo][colNo] == 1 && (liveCells < 2 || liveCells > 3))
+                {
+                    board[rowNo][colNo] = -2;
+                }
+            }
+        }
+        
+        for(int rowNo = 0; rowNo < totalRows; rowNo++)
+        {
+            for(int colNo = 0; colNo < totalCols; colNo++)
+            {
+                if(board[rowNo][colNo] == -2)
+                {
+                    board[rowNo][colNo] = 0;
+                }
+                else if(board[rowNo][colNo] == -3)
+                {
+                    board[rowNo][colNo] = 1;
+                }
+            }
+        }
+        
+    }
+}
