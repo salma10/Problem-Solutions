@@ -1,0 +1,38 @@
+//Problem description
+/*
+Given the root of a binary search tree, rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, 
+and every node has no left child and only one right child.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    TreeNode rootNode;
+    public TreeNode IncreasingBST(TreeNode root) {
+        TreeNode result = new TreeNode(0);
+        rootNode = result;
+        MakeRightTree(root);
+        return result.right;
+    }
+
+    private void MakeRightTree(TreeNode root)
+    {
+        if(root == null)
+            return;
+        MakeRightTree(root.left);
+        root.left = null;
+        rootNode.right = root;
+        rootNode = rootNode.right;
+        MakeRightTree(root.right);
+    }
+}
