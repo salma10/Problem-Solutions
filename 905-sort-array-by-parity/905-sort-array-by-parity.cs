@@ -1,0 +1,7 @@
+public class Solution {
+    public int[] SortArrayByParity(int[] A) {
+        int[] A1 = A.Where(x => x%2 == 0).ToArray();
+        int[] A2 = A.Where(x => x%2 == 1).ToArray();
+        return A1.Concat(A2).ToArray();
+    }
+}
