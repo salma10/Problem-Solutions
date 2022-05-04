@@ -4,24 +4,17 @@ public class Solution {
         int pairCount = 0;
         for(int index = 0; index < nums.Length; index++)
         {
-            if(!counts.ContainsKey(nums[index]))
-                counts[nums[index]] = 0;
-            counts[nums[index]]++;
-        }
-        
-        foreach(KeyValuePair<int, int> item in counts)
-        {
-            int rest = k - item.Key;
-            if(rest == item.Key)
+            int rest = k - nums[index];
+            if(counts.ContainsKey(rest) && counts[rest] > 0)
             {
-                pairCount += item.Value / 2;
-                counts[item.Key] = 0;
+                counts[rest]--;
+                pairCount++;
             }
-            else if(counts.ContainsKey(rest))
+            else
             {
-                pairCount += Math.Min(item.Value, counts[rest]);
-                counts[item.Key] = 0;
-                counts[rest] = 0;
+                if(!counts.ContainsKey(nums[index]))
+                    counts[nums[index]] = 0;
+                counts[nums[index]]++;               
             }
         }
         return pairCount;
