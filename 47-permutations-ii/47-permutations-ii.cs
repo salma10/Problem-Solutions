@@ -1,0 +1,35 @@
+public class Solution {
+    public IList<IList<int>> PermuteUnique(int[] nums) {
+        IList<IList<int>> result = new List<IList<int>> ();
+		if (nums.Length == 0)
+			return result;
+
+		PermuteHelper(result,nums.ToList(),0,nums.Length - 1);
+		return result;
+    }
+     private void PermuteHelper (IList<IList<int>> result,List<int> nums, int start, int end) {
+		if (start == end) {
+			result.Add(nums);
+		}
+
+        HashSet<int> visited = new HashSet<int>();
+        
+		for (int i = start; i <= end; i++) {
+            if(!visited.Contains(nums[i])){ 
+                visited.Add(nums[i]);
+                nums = Swap (nums, start, i);
+                PermuteHelper (result,nums, start + 1, end);
+                nums = Swap (nums, start, i);
+            }
+		}
+	}
+
+	private List<int> Swap (List<int> a,int i, int j) {
+		int temp;
+		List<int> tempList = new List<int>(a);
+		temp = tempList[i];
+		tempList[i] = tempList[j];
+		tempList[j] = temp;
+		return tempList;
+	}    
+}
