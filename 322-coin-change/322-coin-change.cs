@@ -1,0 +1,28 @@
+public class Solution {
+    public int CoinChange(int[] coins, int amount) {
+        if(amount < 1)
+            return 0;
+        Array.Sort(coins);
+        int[] dp = new int[amount + 1];
+        int sum = 0;
+        
+        while(++sum <= amount)
+        {
+            int min = -1;
+            
+            foreach(int coin in coins)
+            {
+                if(sum < coin)
+                    break;
+                int pre = dp[sum - coin];
+                if(pre != -1)
+                {
+                    pre++;
+                    min = min < 0 ? pre : Math.Min(pre, min);
+                }
+            }
+            dp[sum] = min;
+        }
+        return dp[amount];
+    }
+}
