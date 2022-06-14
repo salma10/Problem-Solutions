@@ -1,0 +1,35 @@
+public class Solution {
+    public int MinDistance(string word1, string word2) {
+        int[][] Map = new int[word1.Length][];
+        int result = 0;
+        
+        for(int i = 0; i < word1.Length; i++)
+        {
+            Map[i] = new int[word2.Length];
+            for(int j = 0; j < word2.Length; j++)
+            {
+                if(word1[i] == word2[j])
+                {
+                    if(i == 0 || j == 0)
+                        Map[i][j] = 1;
+                    else
+                        Map[i][j] = Map[i - 1][j - 1] + 1;
+                }
+                else
+                {
+                    if(i == 0 && j == 0)
+                        Map[i][j] = 0;
+                    else if(i == 0)
+                        Map[i][j] = Map[i][j - 1];
+                    else if(j == 0)
+                        Map[i][j] = Map[i - 1][j];
+                    else
+                        Map[i][j] = Math.Max(Map[i][j - 1], Map[i - 1][j]);
+                }
+                result = Math.Max(result, Map[i][j]);
+            }
+        }
+        
+        return (word1.Length + word2.Length) - result * 2;
+    }
+}
