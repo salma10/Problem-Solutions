@@ -1,0 +1,115 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+        
+        if(l1 == null)
+            return l2;
+        if(l2 == null)
+            return l1;        
+       
+        int l1Len = 0;
+        int l2Len = 0;
+        ListNode l1Temp = l1;
+        ListNode l2Temp = l2;
+        
+        while(l1Temp != null)
+        {
+            l1Len++;
+            l1Temp = l1Temp.next;
+        }
+        while(l2Temp != null)
+        {
+            l2Len++;
+            l2Temp = l2Temp.next;
+        }
+        int remainder = 0;
+        if(l1Len == l2Len)
+        {
+            l1Temp = Sum(l1, l2, out remainder);
+            if(remainder == 0)
+                return l1Temp;
+            else
+                return new ListNode(remainder, l1Temp);
+        }
+        else if(l2Len > l1Len)
+        {
+            l2Temp = l2;
+            int l2Min = l2Len - l1Len;
+            while(l2Min > 0)
+            {
+                l2Min--;
+                l2Temp = l2Temp.next;
+            }
+            int remainder1 = 0;
+            l2Temp = Sum(l1, l2Temp, out remainder);
+            l2Temp = SingleSum(l2, l2Temp, remainder, l2Len - l1Len, out remainder1);
+            if(remainder1 == 0)
+                return l2Temp;
+            else
+            {
+                return new ListNode(remainder, l2Temp);
+            }
+        }
+        else 
+        {
+            l1Temp = l1;
+            int l1Min = l1Len - l2Len;
+            while(l1Min > 0)
+            {
+                l1Min--;
+                l1Temp = l1Temp.next;
+            }
+            int remainder1 = 0;
+            l1Temp = Sum(l1Temp, l2, out remainder);
+            l1Temp = SingleSum(l1, l1Temp, remainder, l1Len - l2Len, out remainder1);
+            if(remainder1 == 0)
+                return l1Temp;
+            else
+            {
+                return new ListNode(remainder, l1Temp);
+            }
+        }
+        return null;
+    }
+    
+    private ListNode SingleSum(ListNode l1, ListNode result, int inputRem, int counter, out int remainder)
+    {
+        if(counter == 0)
+        {
+           remainder = inputRem;
+           return result; 
+        }
+        counter--;
+        ListNode currNode = new ListNode();
+        currNode.next = SingleSum(l1.next, result, inputRem, counter, out remainder);
+        int nodeSum = l1.val + remainder;
+        currNode.val = nodeSum != 0 ? nodeSum % 10 : 0;
+        remainder =  nodeSum != 0 ? nodeSum / 10 : 0;
+        return currNode;
+    }
+    
+    private ListNode Sum(ListNode l1, ListNode l2, out int remainder)
+    {
+        if(l1 == null && l2 == null)
+        {
+           remainder = 0;
+           return null; 
+        }
+        ListNode currNode = new ListNode();
+        currNode.next = Sum(l1.next, l2.next, out remainder);
+        int nodeSum = l1.val + l2.val + remainder;
+        currNode.val = nodeSum != 0 ? nodeSum % 10 : 0;
+        remainder =  nodeSum != 0 ? nodeSum / 10 : 0;
+        return currNode;
+    }
+}
