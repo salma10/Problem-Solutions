@@ -24,3 +24,4 @@ public class Solution {
             return ((liStart + 1 ) / (int)Math.Pow(10, i + 1 - liQuot)) % 10;
     }
 }
+
