@@ -10,9 +10,9 @@ Only the filled cells need to be validated according to the mentioned rules.
 */
 public class Solution {
     public bool IsValidSudoku(char[][] board) {
-       var row = new HashSet<char>[9];
-        var col = new HashSet<char>[9];
-        var cell = new HashSet<char>[9];
+        HashSet<char> row = new HashSet<char>[9];
+        HashSet<char> col = new HashSet<char>[9];
+        HashSet<char> cell = new HashSet<char>[9];
         
         for (int i = 0; i < 9; i++) {
             row[i] = new HashSet<char>();
