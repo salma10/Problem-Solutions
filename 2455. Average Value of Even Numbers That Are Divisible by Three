@@ -1,0 +1,19 @@
+//Problwm description
+/*
+Given an integer array nums of positive integers, return the average value of all even integers that are divisible by 3.
+Note that the average of n elements is the sum of the n elements divided by n and rounded down to the nearest integer.
+*/
+public class Solution {
+    public int AverageValue(int[] nums) {
+        int sum = 0, count = 0;
+
+        foreach (var num in nums.Where(n => n % 3 == 0 && n % 2 == 0))
+        {
+            sum += num;
+            count++;
+        }
+
+        return count == 0 ? 0 : (int)Math.Round(decimal.Divide(sum, count), MidpointRounding.ToZero);
+    
+    }
+}
