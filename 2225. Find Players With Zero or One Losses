@@ -1,0 +1,56 @@
+//PRoblem description
+/*
+You are given an integer array matches where matches[i] = [winneri, loseri] indicates that the player winneri defeated player loseri in a match.
+Return a list answer of size 2 where:
+answer[0] is a list of all players that have not lost any matches.
+answer[1] is a list of all players that have lost exactly one match.
+The values in the two lists should be returned in increasing order.
+Note:
+You should only consider the players that have played at least one match.
+The testcases will be generated such that no two matches will have the same outcome.
+*/
+public class Solution {
+    public IList<IList<int>> FindWinners(int[][] matches) {
+        List<IList<int>> ls = new  List<IList<int>>();
+        Dictionary<int,int> looser = new Dictionary<int,int>();
+        Dictionary<int,int> winner = new Dictionary<int,int>();
+
+        foreach (int[] match in matches)
+        {
+            if (!winner.ContainsKey(match[0]))
+            {
+                winner.Add(match[0], 0);
+            }
+            winner[match[0]]++;
+
+            if (!looser.ContainsKey(match[1]))
+            {
+                looser.Add(match[1],0);
+            }
+            looser[match[1]]++;
+        }
+        List<int> onlyWin = new List<int>();
+        foreach (var item in winner)
+        {
+            if(!looser.ContainsKey(item.Key))
+            {
+                onlyWin.Add(item.Key);
+            }
+        }
+        var oneTimeLoser = new List<int>();
+
+        foreach(var item in looser)
+        {
+            if(item.Value==1)
+            {
+                oneTimeLoser.Add(item.Key);
+            }
+        }
+        oneTimeLoser.Sort();
+        onlyWin.Sort();
+        ls.Add(onlyWin);
+        ls.Add(oneTimeLoser);  
+
+        return ls;
+    }
+}
