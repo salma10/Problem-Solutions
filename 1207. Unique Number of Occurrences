@@ -1,0 +1,31 @@
+//Problem description
+/*
+Given an array of integers arr, return true if the number of occurrences of each value in the array is unique, or false otherwise.
+*/
+public class Solution {
+    public bool UniqueOccurrences(int[] arr) {
+        Dictionary<int,int> res = new Dictionary<int,int>();
+        
+        for(int i = 0; i < arr.Length; i++)
+        {
+            if(res.ContainsKey(arr[i]))
+            {
+                res[arr[i]]++;
+            }
+            else
+                res.Add(arr[i], 1);
+        }
+        int value = 0;
+        var res1 = res.OrderBy(v => v.Value);
+        
+        foreach(var item in res1)
+        {
+            if(value == item.Value)
+                return false;
+            else
+                value = item.Value;
+        }
+        
+        return true;
+    }
+}
