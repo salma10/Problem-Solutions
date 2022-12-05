@@ -7,8 +7,7 @@
  * }
  */
 public class Solution {
-    public ListNode MiddleNode(ListNode head) {
-        
+    public ListNode MiddleNode(ListNode head) {        
         ListNode current = head;
         int counter = 1;
         
@@ -18,18 +17,15 @@ public class Solution {
             counter++;
         }
         
-        int middle = counter / 2;
-        
+        int middle = counter / 2;    
         current = head;
         int i = 0;
         
         while(i < middle) {
             current = current.next;
             i++;
-        }
-        
+        }   
         return current;
-        
     }
 }
 //Another solution
