@@ -13,13 +13,11 @@ public class Solution {
     public ListNode OddEvenList(ListNode head) {
         if(head == null || head.next == null)
             return head;
-        
         ListNode root = head;
         ListNode evenNode = head.next;
         ListNode evenHead = evenNode;
         ListNode current = evenNode.next;
-        int oddEven = 1;
-        
+        int oddEven = 1;       
         while(current != null)
         {
             if(oddEven == 1)
