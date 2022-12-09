@@ -14,8 +14,7 @@
 public class Solution {
     public int MaxAncestorDiff(TreeNode root) {
         return FindMaxDiff(root, root.val, root.val);
-    }
-    
+    }  
     private int FindMaxDiff(TreeNode root, int minAncestor, int maxAncestor)
     {
         if(root == null) 
@@ -25,8 +24,7 @@ public class Solution {
         if(root.val < minAncestor)
             minAncestor = root.val;
         else if(root.val > maxAncestor)
-            maxAncestor = root.val;
-        
+            maxAncestor = root.val;      
         return Math.Max(res, Math.Max(FindMaxDiff(root.left, minAncestor, maxAncestor), FindMaxDiff(root.right, minAncestor, maxAncestor)));
     }
 }
