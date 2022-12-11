@@ -14,8 +14,7 @@ Given the root of a binary tree, return the maximum path sum of any non-empty pa
  *     public TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
-    
+public class Solution {  
     int maxSum = int.MinValue;
     
     public int MaxPathSum(TreeNode root) {
@@ -31,14 +30,9 @@ public class Solution {
             return 0;
         
         int leftmax = Math.Max(calculateMaxPath(root.left), 0);
-        int rightmax = Math.Max(calculateMaxPath(root.right), 0);
-        
-        int newPathSum = root.val + leftmax + rightmax;
-        
-        maxSum = Math.Max(newPathSum, maxSum);
-        
-        return root.val + Math.Max(leftmax, rightmax);
-        
-    }
-    
+        int rightmax = Math.Max(calculateMaxPath(root.right), 0);    
+        int newPathSum = root.val + leftmax + rightmax;      
+        maxSum = Math.Max(newPathSum, maxSum);   
+        return root.val + Math.Max(leftmax, rightmax);       
+    }    
 }
