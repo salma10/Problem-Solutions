@@ -12,13 +12,10 @@ public class Solution {
                 else
                     matrix[i][j] = matrix[i][j] + Math.Min(matrix[i + 1][j - 1], Math.Min(matrix[i + 1][j], matrix[i + 1][j + 1]));
             }
-        }
-        
-        int min = matrix[0][0];
-       
+        }      
+        int min = matrix[0][0];    
         for(int i = 1; i < len; i++)
-            min = Math.Min(min, matrix[0][i]);
-        
+            min = Math.Min(min, matrix[0][i]);  
         return min;
     }
 }
