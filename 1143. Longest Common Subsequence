@@ -1,6 +1,5 @@
 public class Solution {
-    public int LongestCommonSubsequence(string text1, string text2) {
-        
+    public int LongestCommonSubsequence(string text1, string text2) {       
         int[][] Map = new int[text1.Length][];
         int result = 0;
         
@@ -29,8 +28,7 @@ public class Solution {
                 }
                 result = Math.Max(result, Map[i][j]);
             }
-        }
-        
+        }       
         return result;
     }
 }
