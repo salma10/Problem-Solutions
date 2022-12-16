@@ -1,0 +1,33 @@
+//Problem description
+/*
+You are given an array of equal-length strings words. Assume that the length of each string is n.
+Each string words[i] can be converted into a difference integer array difference[i] of length n - 1 where difference[i][j] = words[i][j+1] - words[i][j] where 0 <= j <= n - 2. Note that the difference between two letters is the difference between their positions in the alphabet i.e. the position of 'a' is 0, 'b' is 1, and 'z' is 25.
+For example, for the string "acb", the difference integer array is [2 - 0, 1 - 2] = [2, -1].
+All the strings in words have the same difference integer array, except one. You should find that string.
+Return the string in words that has different difference integer array.
+*/
+public class Solution {
+    public string OddString(string[] words) {
+        Dictionary<string, List<string>> count = new Dictionary<string, List<string>>();
+        for(int i = 0; i < words.Length; i++)
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int j = 1; j < words[0].Length; j++)
+            {
+                string s = (words[i][j] - words[i][j - 1]).ToString() + "#";
+                sb.Append(s);
+            }
+
+            if(!count.ContainsKey(sb.ToString()))
+                count[sb.ToString()] = new List<string>();
+            
+            count[sb.ToString()].Add(words[i]);
+        }
+        foreach(var item in count)
+        {
+            if(item.Value.Count == 1)
+                return item.Value[0];
+        }
+        return string.Empty;
+    }
+}
