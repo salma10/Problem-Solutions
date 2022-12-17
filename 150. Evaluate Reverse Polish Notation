@@ -9,8 +9,7 @@ That means the expression would always evaluate to a result, and there will not 
 
 public class Solution {
     public int EvalRPN(string[] tokens) {
-        Stack<int> numbers = new Stack<int>();
-        
+        Stack<int> numbers = new Stack<int>();      
         for(int index = 0; index < tokens.Length; index++)
         {
             if(tokens[index] == "+" || tokens[index] == "-" || tokens[index] == "*" || tokens[index] == "/")
@@ -33,7 +32,6 @@ public class Solution {
                 numbers.Push(Convert.ToInt32(tokens[index]));
             }
         }
-        
         return numbers.Pop();
     }
 }
