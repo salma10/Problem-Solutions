@@ -1,0 +1,25 @@
+//Problem description
+/*
+You are given an array of strings names, and an array heights that consists of distinct positive integers. Both arrays are of length n.
+For each index i, names[i] and heights[i] denote the name and height of the ith person.
+Return names sorted in descending order by the people's heights.
+*/
+public class Solution {
+    public string[] SortPeople(string[] names, int[] heights) {
+        Dictionary<int, int> heightsPositions = new Dictionary<int, int>();
+        string[] result = new string[names.Length];
+        for(int i = 0; i < heights.Length; i++)
+        {
+            heightsPositions[heights[i]] = i;
+        }
+        Array.Sort(heights);
+        int j = 0;
+        for(int i = heights.Length - 1; i >= 0; i--)
+        {
+            int pos = heightsPositions[heights[i]];
+            result[j] = names[pos];
+            j++;
+        }
+        return result;
+    }
+}
