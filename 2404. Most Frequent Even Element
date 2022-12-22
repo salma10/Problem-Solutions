@@ -1,0 +1,26 @@
+//Problem description
+/*
+Given an integer array nums, return the most frequent even element.
+If there is a tie, return the smallest one. If there is no such element, return -1.
+*/
+public class Solution {
+    public int MostFrequentEven(int[] nums) {
+        Dictionary<int, int> freq = new Dictionary<int, int>();
+        int maxNum = -1;
+        int maxFreq = 0;
+        foreach (int num in nums)
+        {
+            if (num % 2 == 0)
+            {
+                freq.TryAdd(num, 0);
+                freq[num]++;
+                if (freq[num] > maxFreq || freq[num] == maxFreq && num < maxNum)
+                {
+                    maxNum = num;
+                    maxFreq = freq[num];
+                }
+            }
+        }
+        return maxNum;
+    }
+}
