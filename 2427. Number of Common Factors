@@ -1,0 +1,17 @@
+//Problem description
+/*
+Given two positive integers a and b, return the number of common factors of a and b.
+An integer x is a common factor of a and b if x divides both a and b.
+*/
+public class Solution {
+    public int CommonFactors(int a, int b) {
+        int min = Math.Min(a, b);
+        int counter = 0;
+        for(int i = 1; i <= min; i++)
+        {
+            if (a % i == 0 && b % i == 0)
+                counter++;
+        }
+        return counter;
+    }
+}
