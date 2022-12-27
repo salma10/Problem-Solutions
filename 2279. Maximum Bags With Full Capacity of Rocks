@@ -1,0 +1,32 @@
+//Problem description
+/*
+You have n bags numbered from 0 to n - 1. You are given two 0-indexed integer arrays capacity and rocks. The ith bag can hold a maximum of capacity[i] rocks and currently contains rocks[i] rocks. You are also given an integer additionalRocks, the number of additional rocks you can place in any of the bags.
+Return the maximum number of bags that could have full capacity after placing the additional rocks in some bags.
+*/
+public class Solution {
+    public int MaximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        PriorityQueue<int, int> q = new();
+        int fullBags = 0;
+        
+        for(int i = 0; i < capacity.Length; i++)
+        {   if(capacity[i] - rocks[i] == 0)
+                fullBags++;
+            else
+                q.Enqueue(capacity[i] - rocks[i], capacity[i] - rocks[i]);
+        }
+        
+        while(q.Count > 0 && additionalRocks > 0)
+        {
+            int extraCapacity = q.Dequeue();
+            if(additionalRocks >= extraCapacity)
+            {
+                additionalRocks -= extraCapacity;
+                fullBags++;
+            }
+            else
+                additionalRocks = 0;
+            
+        }       
+        return fullBags;
+    }
+}
