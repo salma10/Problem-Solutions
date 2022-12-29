@@ -1,0 +1,44 @@
+//Problem description
+/*
+You are given n​​​​​​ tasks labeled from 0 to n - 1 represented by a 2D integer array tasks, where tasks[i] = [enqueueTimei, processingTimei] means that the i​​​​​​th​​​​ task will be available to process at enqueueTimei and will take processingTimei to finish processing.
+You have a single-threaded CPU that can process at most one task at a time and will act in the following way:
+If the CPU is idle and there are no available tasks to process, the CPU remains idle.
+If the CPU is idle and there are available tasks, the CPU will choose the one with the shortest processing time. If multiple tasks have the same shortest processing time, it will choose the task with the smallest index.
+Once a task is started, the CPU will process the entire task without stopping.
+The CPU can finish a task then start a new one instantly.
+Return the order in which the CPU will process the tasks.
+*/
+public class Solution {
+    public int[] GetOrder(int[][] tasks) {
+        int len = tasks.Length;
+        int[] result = new int[len];
+        
+        int[][] jobs = new int[len][];        
+        for(int i = 0; i < len ; i++){
+            jobs[i] = new int[3]{tasks[i][0], tasks[i][1], i};
+        }
+        
+        Array.Sort(jobs, (a, b) => a[0]-b[0]);
+        
+        PriorityQueue<int[], int[]> pq = new PriorityQueue<int[], int[]>(Comparer<int[]>.Create((a, b) => a[1] == b[1] ? a[2] - b[2] : a[1] - b[1]));
+        
+        int idx = 0, k = 0, time = 0;
+        
+        while(pq.Count != 0 || idx < len){
+            if(pq.Count == 0){
+                time = Math.Max(time, jobs[idx][0]);
+            }
+            
+            while(idx < len && time >= jobs[idx][0]){
+                pq.Enqueue(jobs[idx], jobs[idx]);
+                idx++;
+            }
+            
+            int[] curr = pq.Dequeue();
+            time += curr[1];
+            result[k++] = curr[2];
+        }
+        
+        return result;
+    }
+}
