@@ -25,3 +25,21 @@ public class Solution {
         return -1;
     }
 }
+//Another solution
+public class Solution {
+    public int FindMaxK(int[] nums) {
+        HashSet<int> negNumbers = new HashSet<int>();
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(nums[i] < 0)
+                negNumbers.Add(nums[i]);
+        }
+        int result = -1;
+        for(int i = 0; i < nums.Length; i++)
+        {
+            if(nums[i] > result && negNumbers.Contains(nums[i] * -1))
+                result = nums[i];
+        }
+        return result;
+    }
+}
