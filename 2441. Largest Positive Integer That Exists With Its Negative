@@ -1,0 +1,27 @@
+//Problem description
+/*
+Given an integer array nums that does not contain any zeros, find the largest positive integer k such that -k also exists in the array.
+Return the positive integer k. If there is no such integer, return -1.
+*/
+public class Solution {
+    public int FindMaxK(int[] nums) {
+        Array.Sort(nums);
+        int posIndex = nums.Length - 1;
+        int negIndex = 0;
+        while(negIndex < posIndex)
+        {
+            if(nums[posIndex] < 0)
+                break;
+            int posNum = nums[posIndex];
+            int negNum = posNum * -1;
+            while(nums[negIndex] <= negNum)
+            {
+                if(nums[negIndex] == negNum)
+                    return posNum;
+                negIndex++;
+            }
+            posIndex--;
+        }
+        return -1;
+    }
+}
