@@ -1,0 +1,28 @@
+//Problem description
+/*
+We define the usage of capitals in a word to be right when one of the following cases holds:
+All letters in this word are capitals, like "USA".
+All letters in this word are not capitals, like "leetcode".
+Only the first letter in this word is capital, like "Google".
+Given a string word, return true if the usage of capitals in it is right.
+*/
+public class Solution {
+    public bool DetectCapitalUse(string word) {
+        if(word == null || word.Length == 0)
+            return true;
+        
+        if(word == word.ToUpper() || word == word.ToLower())
+                return true;
+        
+        int firstcharval = (int)word[0];
+        if(firstcharval >= 65 && firstcharval < 97)
+        {
+            if(word.Substring(1,word.Length - 1) == word.Substring(1,word.Length - 1).ToLower())
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+}
