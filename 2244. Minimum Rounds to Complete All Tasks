@@ -1,0 +1,23 @@
+//Problem description
+/*
+You are given a 0-indexed integer array tasks, where tasks[i] represents the difficulty level of a task. In each round, you can complete either 2 or 3 tasks of the same difficulty level.
+Return the minimum rounds required to complete all the tasks, or -1 if it is not possible to complete all the tasks.
+*/
+public class Solution {
+    public int MinimumRounds(int[] tasks) {
+        Dictionary<int,int> dic = new Dictionary<int,int>();
+        foreach(int task in tasks)
+            dic[task] = dic.GetValueOrDefault(task,0) + 1;
+        
+        int res = 0;
+        foreach(int num in dic.Values)
+        {
+            if(num == 1)
+                return -1;
+            else
+                res += num % 3 == 0 ? num / 3 : num / 3 + 1;
+        }
+        
+        return res;
+    }
+}
