@@ -1,0 +1,33 @@
+//Problem description
+/*
+You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the ith block. The characters 'W' and 'B' denote the colors white and black, respectively.
+You are also given an integer k, which is the desired number of consecutive black blocks.
+In one operation, you can recolor a white block such that it becomes a black block.
+Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.
+*/
+public class Solution {
+    public int MinimumRecolors(string blocks, int k) {
+        int black = 0;
+        
+        for (int i = 0; i < k; ++i)
+            if (blocks[i] == 'B')
+                black += 1;
+        
+        if (black == k)
+            return 0;
+               
+        int result = black;
+        
+        for (int i = k; i < blocks.Length; ++i) 
+        {
+            if (blocks[i] == 'B')
+                black += 1;
+            if (blocks[i - k] == 'B')
+                black -= 1;
+            
+            result = Math.Max(result, black);
+        }
+            
+        return k - result;
+    }
+}
