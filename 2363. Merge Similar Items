@@ -1,0 +1,37 @@
+//Problem description
+/*
+You are given two 2D integer arrays, items1 and items2, representing two sets of items. Each array items has the following properties:
+items[i] = [valuei, weighti] where valuei represents the value and weighti represents the weight of the ith item.
+The value of each item in items is unique.
+Return a 2D integer array ret where ret[i] = [valuei, weighti], with weighti being the sum of weights of all items with value valuei.
+Note: ret should be returned in ascending order by value
+*/
+public class Solution {
+    public IList<IList<int>> MergeSimilarItems(int[][] items1, int[][] items2) {
+        List<IList<int>> result = new List<IList<int>>();
+            Dictionary<int, int> dic = new Dictionary<int, int>();
+            Dictionary<int, int> sum1 = GetCounter(dic, items1);
+            Dictionary<int, int> sum2 = GetCounter(sum1, items2);
+            var sum3 = sum2.OrderBy(x => x.Key).ToList();
+            foreach (var item in sum3)
+            {
+                result.Add(new List<int>() { item.Key, item.Value });
+            }
+            return result;
+    }
+    public Dictionary<int, int> GetCounter(Dictionary<int, int> dic, int[][] items1)
+    {
+        foreach (var item in items1)
+        {
+            if (dic.ContainsKey(item[0]))
+            {
+                dic[item[0]] += item[1];
+            }
+            else
+            {
+                dic[item[0]] = item[1];
+            }
+        }
+        return dic;
+    }
+}
