@@ -1,0 +1,28 @@
+//Problem description
+/*
+A binary string is monotone increasing if it consists of some number of 0's (possibly none), followed by some number of 1's (also possibly none).
+You are given a binary string s. You can flip s[i] changing it from 0 to 1 or from 1 to 0.
+Return the minimum number of flips to make s monotone increasing.
+*/
+public class Solution {
+    public int MinFlipsMonoIncr(string s) {
+        int ones = 0, now = 0;
+
+        foreach(char chr in s)
+            {
+                if(chr == '1')
+            ones++;
+            }
+
+        int ans = Math.Min(ones, s.Length - ones);
+
+        for(int i = 0; i < s.Length; i++) 
+            {
+          if(s[i] == '1')
+            now++;
+          ans = Math.Min(ans, now + (s.Length - i - 1) - (ones - now));
+        }
+
+        return ans;
+    }
+}
