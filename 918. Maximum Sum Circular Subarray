@@ -1,0 +1,36 @@
+//Problem description
+/*
+Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
+A circular array means the end of the array connects to the beginning of the array. Formally, the next element of nums[i] is nums[(i + 1) % n] and the previous element of nums[i] is nums[(i - 1 + n) % n].
+A subarray may only include each element of the fixed buffer nums at most once. Formally, for a subarray nums[i], nums[i + 1], ..., nums[j], there does not exist i <= k1, k2 <= j with k1 % n == k2 % n.
+*/
+public class Solution {
+    public int MaxSubarraySumCircular(int[] A) {
+        if(A.Length == 1)
+            return A[0];
+        
+        int sum = 0;
+        for(int i = 0; i < A.Length; i++)
+            sum += A[i];
+        
+        int sum1 = CalculateSum(A, 0, A.Length - 1, 1);
+        int sum2 = sum + CalculateSum(A, 1, A.Length - 1, -1);
+        int sum3 = sum + CalculateSum(A, 0, A.Length - 2, -1);
+        
+        return Math.Max(sum1, Math.Max(sum2, sum3));
+    }
+    
+    public int CalculateSum(int[] A, int i, int j, int sign)
+    {
+        int sum = int.MinValue;
+        int current = int.MinValue;
+        
+        for(int k = i; k <= j; k++)
+        {
+            current = sign * A[k] + Math.Max(current,0);
+            sum = Math.Max(sum, current);
+        }
+        
+        return sum;
+    }
+}
