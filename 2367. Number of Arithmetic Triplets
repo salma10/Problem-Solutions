@@ -1,0 +1,28 @@
+//Problem description
+/*
+You are given a 0-indexed, strictly increasing integer array nums and a positive integer diff. A triplet (i, j, k) is an arithmetic triplet if the following conditions are met:
+i < j < k,
+nums[j] - nums[i] == diff, and
+nums[k] - nums[j] == diff.
+Return the number of unique arithmetic triplets.
+*/
+public class Solution {
+    public int ArithmeticTriplets(int[] nums, int diff) {
+        HashSet<int> hashset = new HashSet<int>();
+		for(int i = 0; i < nums.Length; ++i)
+		{
+			hashset.Add(nums[i]);    
+		}
+
+		int result = 0;
+		for(int i = 0; i < nums.Length; ++i)
+		{
+			if(hashset.Contains(nums[i] + diff) && hashset.Contains(nums[i] + 2*diff))
+			{
+				++result;
+			}
+		}
+
+		return result;
+    }
+}
