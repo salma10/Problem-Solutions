@@ -1,0 +1,22 @@
+//Problem description
+/*
+Table: Teams
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| team_name   | varchar |
++-------------+---------+
+team_name is the primary key of this table.
+Each row of this table shows the name of a team.
+ 
+
+Write an SQL query that reports all the possible matches of the league. Note that every two teams play two matches with each other, with one team being the home_team once and the other time being the away_team.
+
+Return the result table in any order.
+*/
+/* Write your PL/SQL query statement below */
+select t.team_name home_team,
+p.team_name away_team
+from Teams t join Teams p
+on t.team_name != p.team_name
