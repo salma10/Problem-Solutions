@@ -1,0 +1,41 @@
+//Problem description
+/*
+Table: Sales
+
++-------------+-------+
+| Column Name | Type  |
++-------------+-------+
+| sale_id     | int   |
+| product_id  | int   |
+| user_id     | int   |
+| quantity    | int   |
++-------------+-------+
+sale_id is the primary key of this table.
+product_id is a foreign key to Product table.
+Each row of this table shows the ID of the product and the quantity purchased by a user.
+ 
+
+Table: Product
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| product_id  | int  |
+| price       | int  |
++-------------+------+
+product_id is the primary key of this table.
+Each row of this table indicates the price of each product.
+ 
+
+Write an SQL query that reports the spending of each user.
+
+Return the resulting table ordered by spending in descending order. In case of a tie, order them by user_id in ascending order.
+*/
+
+/* Write your PL/SQL query statement below */
+select t.user_id, sum(t.quantity * p.price) spending
+from Sales t 
+join Product p 
+on t.product_id = p.product_id
+group by t.user_id
+order by spending desc, t.user_id asc
