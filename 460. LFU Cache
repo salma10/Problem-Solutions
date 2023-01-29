@@ -12,6 +12,8 @@ When a key is first inserted into the cache, its use counter is set to 1 (due to
 The use counter for a key in the cache is incremented either a get or put operation is called on it.
 The functions get and put must each run in O(1) average time complexity.
 */
+
+
 public class LFUCache {
     int dataCapacity;
     int count;
@@ -83,6 +85,8 @@ public class LFUCache {
         data[key] = value;
     }
 }
+
+
 
 /**
  * Your LFUCache object will be instantiated and called as such:
