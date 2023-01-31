@@ -1,0 +1,17 @@
+//Problem description
+/*
+Given a string of English letters s, return the greatest English letter which occurs as both a lowercase and uppercase letter in s. The returned letter should be in uppercase. 
+If no such letter exists, return an empty string.
+An English letter b is greater than another letter a if b appears after a in the English alphabet.
+*/
+public class Solution {
+    public string GreatestLetter(string s) {
+        HashSet<char> hs = new HashSet<char>(s);
+        foreach (char ch in hs.Where(a => char.IsLower(a)).OrderByDescending(a => a))
+        {
+            if (hs.Contains(char.ToUpper(ch)))
+                return ch.ToString().ToUpper();
+        }
+        return "";
+    }
+}
