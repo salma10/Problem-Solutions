@@ -1,0 +1,31 @@
+//Problem description
+/*
+In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.
+Given a sequence of words written in the alien language, and the order of the alphabet, return true if and only if the given words are sorted lexicographically in this alien language.
+*/
+public class Solution {
+    public bool IsAlienSorted(string[] words, string order) {
+        var alphabet = new Dictionary<char, int>();
+
+            for (var i = 0; i < order.Length; i++)
+            {
+                alphabet.Add(order[i], i);
+            }
+
+            for (var w = 0; w < words.Length - 1; w++)
+            { 
+                for (var i = 0; i < words[w].Length; i++)
+                {
+                    if (words[w + 1].Length <= i)
+                    {
+                        if (alphabet[words[w + 1][i - 1]] >= alphabet[words[w][i]]) return false;
+                        break;
+                    }
+                    if (alphabet[words[w][i]] > alphabet[words[w + 1][i]]) return false;
+
+                    if (alphabet[words[w][i]] < alphabet[words[w + 1][i]]) break;  
+                }
+            }
+            return true;
+    }
+}
