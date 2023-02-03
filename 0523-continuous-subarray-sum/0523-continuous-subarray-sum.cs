@@ -14,8 +14,7 @@ public class Solution {
                 return true;
             else if(!dic.ContainsKey(remainder))
                 dic.Add(remainder,i);
-        }
-           
+        }        
         return false;
     }
 }
