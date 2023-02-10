@@ -1,0 +1,52 @@
+//Problem description
+/*
+Given an n x n grid containing only values 0 and 1, where 0 represents water and 1 represents land, find a water cell such that its distance to the nearest land cell is maximized, and return the distance. If no land or water exists in the grid, return -1.
+The distance used in this problem is the Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|.
+*/
+public class Solution {
+    public int MaxDistance(int[][] grid) {
+        int n = grid.Length;
+        Queue<(int,int)> queue = new Queue<(int,int)>();
+        HashSet<(int,int)> visited = new HashSet<(int,int)>();
+        for(int i = 0; i < n ; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    queue.Enqueue((i,j));
+                    visited.Add((i,j));
+                }
+            }
+        }
+        
+        if(queue.Count == n * n || queue.Count == 0)
+            return -1;
+        
+        int[,] dirs = new int[,]{{-1,0},{0,1},{1,0},{0,-1}};
+        int res = -1;
+        
+        while(queue.Count > 0)
+        {
+            res++;
+            int size = queue.Count;
+            for(int i = 0; i < size; i++)
+            {
+                var curr = queue.Dequeue();
+                for(int d = 0; d < 4; d++)
+                {
+                    int nextRow = curr.Item1 + dirs[d,0];
+                    int nextCol = curr.Item2 + dirs[d,1];
+                    
+                    if(nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n && !visited.Contains((nextRow,nextCol)))
+                    {
+                        queue.Enqueue((nextRow,nextCol));
+                        visited.Add((nextRow,nextCol));
+                    }
+                }
+            }           
+        }
+        
+        return res;
+    }
+}
