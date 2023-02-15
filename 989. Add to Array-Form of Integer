@@ -1,0 +1,60 @@
+//Problem description
+/*
+The array-form of an integer num is an array representing its digits in left to right order.
+For example, for num = 1321, the array form is [1,3,2,1].
+Given num, the array-form of an integer, and an integer k, return the array-form of the integer num + k.
+*/
+public class Solution {
+   public IList<int> AddToArrayForm(int[] A, int K) {       
+        int K_len = GetDigitArrayLength(K);
+        int A_len = A.Length;
+        int len = K_len > A_len ? K_len : A_len;
+        int j = A_len - 1, k = 0, carry = 0;
+        List<int> result = new List<int>();
+        
+        for(int i = 0; i < len; i++)
+        {
+            int res = 0;
+            if(j != -1 && k != K_len)
+            {
+                int temp = K % 10;
+                K /= 10;
+                res = A[j] + temp + carry;
+                j--;
+                k++;
+            }
+            else if(j != -1 && k == K_len)
+            {
+                res = A[j] + carry;
+                j--;
+            }
+            else if(j == -1 && k != K_len)
+            {
+                int temp = K % 10;
+                K /= 10;
+                res = temp + carry;
+                k++;
+            }
+             
+            if(res > 9)
+                carry = 1;
+            else
+                carry = 0;
+
+            result.Add(res % 10);
+        }
+        
+        if(carry == 1)
+            result.Add(carry);
+        
+        result.Reverse();        
+        return result;
+    }
+    
+    private static int GetDigitArrayLength(int n)
+    {
+        if (n == 0)
+            return 1;
+        return 1 + (int)Math.Log10(n);
+    }
+}
