@@ -1,0 +1,44 @@
+//Problem description
+/*
+Given the root of a Binary Search Tree (BST), return the minimum difference between the values of any two different nodes in the tree.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    private int min = int.MaxValue;
+    public int MinDiffInBST(TreeNode root) {
+        if (root != null)
+        {
+            TreeNode node = root.left;
+
+            while (node?.right != null) 
+                node = node.right;
+
+            if (node != null) 
+                min = Math.Min(min, Math.Abs(root.val - node.val));
+
+            node = root.right;
+
+            while (node?.left != null) 
+                node = node.left;
+
+            if (node != null) 
+                min = Math.Min(min, Math.Abs(root.val - node.val));
+
+            MinDiffInBST(root.left);
+            MinDiffInBST(root.right);
+        }
+        return min;
+    }
+}
