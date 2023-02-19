@@ -8,8 +8,7 @@
  * }
  */
 public class Solution {
-    public IList<IList<int>> ZigzagLevelOrder(TreeNode root) {
-        
+    public IList<IList<int>> ZigzagLevelOrder(TreeNode root) {        
         IList<IList<int>> result = new List<IList<int>>();
         if(root == null)
             return result;
@@ -17,8 +16,7 @@ public class Solution {
         Queue<TreeNode> stack = new Queue<TreeNode>();
         Stack<int> stackLevel = new Stack<int>();
         
-        stack.Enqueue(root);
-        
+        stack.Enqueue(root);        
         bool zigZagLevel = true;
         
         while(stack.Count > 0)
@@ -58,10 +56,7 @@ public class Solution {
             
            if(levelResult.Count() > 0) 
               result.Add(levelResult);
-        }
-        
+        }        
         return result;
-        
-       
     }
 }
