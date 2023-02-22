@@ -13,8 +13,7 @@ public class Solution {
         {
             maxNum = Math.Max(maxNum, weight);
             sum += weight;
-        }
-        
+        }       
         while(maxNum < sum)
         {
             int mid = (sum - maxNum) / 2 + maxNum;
@@ -22,8 +21,7 @@ public class Solution {
                 sum = mid;
             else
                 maxNum = mid + 1;
-        }
-        
+        }       
         return maxNum;
     }
     
@@ -42,8 +40,7 @@ public class Solution {
             currSum += weight;
             if(numOfSubarrays > m)
                 return false;
-        }
-        
+        }       
         return true;
     }
 }
