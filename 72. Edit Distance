@@ -1,6 +1,5 @@
 public class Solution {
-    public int MinDistance(string word1, string word2) {
-        
+    public int MinDistance(string word1, string word2) {      
         if(word1.Length == 0 || word2.Length == 0)
             return Math.Max(word1.Length, word2.Length);
         
@@ -14,13 +13,9 @@ public class Solution {
             for(int j = 0; j < word2.Length; j++)
             {
                 if(word1[i] == word2[j])
-                {
                     MapTemp[j + 1] = Map[j];
-                }
                 else
-                {
                     MapTemp[j + 1] = Math.Min(Math.Min(Map[j], Map[j + 1]), MapTemp[j]) + 1;
-                }
             }
             Array.Copy(MapTemp, Map, word2.Length + 1);
         }
