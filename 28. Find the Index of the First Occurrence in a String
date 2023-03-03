@@ -1,0 +1,19 @@
+//Problem description
+/*
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+*/
+public class Solution {
+    public int StrStr(string haystack, string needle) {
+        HashSet<string> hash = new HashSet<string>();
+        hash.Add(needle);
+        if (hash.Contains(haystack))
+            return 0;
+        
+        int len = needle.Length;
+        for (int i=0; i<haystack.Length && haystack.Length-i>=len;i++)
+            if (hash.Contains(haystack.Substring(i, len)))
+                return i;
+        
+        return -1;
+    }
+}
