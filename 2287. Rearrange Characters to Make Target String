@@ -1,0 +1,22 @@
+//Problem description
+/*
+You are given two 0-indexed strings s and target. You can take some letters from s and rearrange them to form new strings.
+Return the maximum number of copies of target that can be formed by taking letters from s and rearranging them.
+*/
+public class Solution {
+    public int RearrangeCharacters(string s, string target) {
+        Dictionary<char, int> dictT = target.Select(c => c).GroupBy(c => c).ToDictionary(c => c.Key, c => c.Count());             
+		Dictionary<char, int> dictS = s.Select(c => c).GroupBy(c => c).ToDictionary(c => c.Key, c => c.Count());
+        int res = Int32.MaxValue;
+        foreach(var item in dictT)
+        {
+            if(!dictS.ContainsKey(item.Key))
+            {
+                res = 0;
+                break;
+            }
+            res = Math.Min(res, dictS[item.Key]/item.Value);
+        }
+        return res;
+    }
+}
