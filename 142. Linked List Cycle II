@@ -12,13 +12,11 @@
 public class Solution {
     public ListNode DetectCycle(ListNode head) {
         if(head == null)
-        {
-		    return null;
-	    }
+	   return null;
 
         HashSet<ListNode> hash = new HashSet<ListNode>();
-
         bool isCycle = false;
+	
         while(!isCycle)
         {
             if(head.next != null)
@@ -30,12 +28,9 @@ public class Solution {
 
                 head = head.next;
             }
-            else
-            {                   
+            else           
                 return null;
-            }      
         }
-
         return null;
     }
 }
