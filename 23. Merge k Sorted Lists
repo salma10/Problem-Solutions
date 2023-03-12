@@ -101,8 +101,7 @@ public class Solution {
  * }
  */
 public class Solution {
-    public ListNode MergeKLists(ListNode[] lists) {
-        
+    public ListNode MergeKLists(ListNode[] lists) {        
         if(lists == null || lists.Length == 0)
             return null;
         
@@ -125,8 +124,7 @@ public class Solution {
             currentNode.next = null;
             tempResult.next = currentNode;
             tempResult = tempResult.next;
-        }
-        
+        }        
         return result.next;
     }
 }
