@@ -1,0 +1,45 @@
+//Problem description
+/*
+You are given the root of a binary tree containing digits from 0 to 9 only.
+Each root-to-leaf path in the tree represents a number.
+For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
+Return the total sum of all root-to-leaf numbers. Test cases are generated so that the answer will fit in a 32-bit integer.
+A leaf node is a node with no children.
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    int sumRoottoLeaf;
+    public int SumNumbers(TreeNode root) {
+        sumRoottoLeaf = 0;
+        generateRoute(root, 0);
+        return sumRoottoLeaf;
+    }
+    
+    public void generateRoute(TreeNode root, int currNumber) 
+    {
+        if (root != null)
+        {
+          currNumber = currNumber * 10 + root.val;
+            
+          if (root.left == null && root.right == null) 
+          {
+            sumRoottoLeaf += currNumber;
+          }
+            
+          generateRoute(root.left, currNumber);
+          generateRoute(root.right, currNumber) ;
+        }
+    }
+}
