@@ -17,19 +17,19 @@ public class Solution {
     }
     
     public TreeNode DFS(int[] inOrder, int inLeft, int inRight, int[] postOrder, int postLeft, int postRight) {
-        if (postLeft > postRight) {
+        if (postLeft > postRight)
             return null;
-        }
-
+            
         var curValue = postOrder[postRight];
 
-        var count = 0;
-        var i = inLeft;
+        int count = 0;
+        int i = inLeft;
 
-        while (i <= inRight) {
-            if (inOrder[i] == curValue) {
+        while (i <= inRight) 
+        {
+            if (inOrder[i] == curValue) 
                 break;
-            }
+                
             i++;
             count++;
         }
