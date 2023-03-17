@@ -19,8 +19,7 @@ public class Trie {
     }
     
     /** Inserts a word into the trie. */
-    public void Insert(string word) {
-        
+    public void Insert(string word) {        
         TrieNode node = root;
         
         for(int i = 0; i < word.Length; i++)
@@ -28,14 +27,11 @@ public class Trie {
             if(!node.containsKey(word[i]))
             {
                 node.put(word[i], new TrieNode());
-            }
-            
+            }          
             node = node.get(word[i]);
-        }
-        
+        }        
         node.setWord();
     }
-    
     
     public TrieNode searchWord(string word)
     {
@@ -43,9 +39,7 @@ public class Trie {
         for(int i = 0; i < word.Length; i++)
         {
             if(node.containsKey(word[i]))
-            {
                 node = node.get(word[i]);
-            }
             else
                 return null;
         }
