@@ -55,9 +55,7 @@ public class WordDictionary {
                 return false;    
             } 
             else 
-            {
                 node = node.child[currentChar]; 
-            }   
         }      
         return node.isWord;
     }
