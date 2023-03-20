@@ -5,8 +5,7 @@ Given an integer array flowerbed containing 0's and 1's, where 0 means empty and
 return if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule.
 */
 public class Solution {
-    public bool CanPlaceFlowers(int[] flowerbed, int n) {
-            
+    public bool CanPlaceFlowers(int[] flowerbed, int n) {         
      int len = flowerbed.Length;
      if(n <= 0)
          return true;
@@ -14,11 +13,11 @@ public class Solution {
        for(int i = 0; i < len; i++)
        {
             if (len == 1 && flowerbed[i] == 0 && n == 1)
-            {
                 return true;
-            }
-            else if (i == len - 1 && flowerbed[i] == 0 && flowerbed[i -1]== 0) n--;
-            else if (flowerbed[i] == 1) i++;
+            else if (i == len - 1 && flowerbed[i] == 0 && flowerbed[i -1]== 0) 
+                n--;
+            else if (flowerbed[i] == 1) 
+                i++;
             else
             {
                 if (flowerbed[i + 1] == 0)
