@@ -1,0 +1,24 @@
+//Problem description
+/*
+You are given a positive integer n.
+Let even denote the number of even indices in the binary representation of n (0-indexed) with value 1.
+Let odd denote the number of odd indices in the binary representation of n (0-indexed) with value 1.
+Return an integer array answer where answer = [even, odd].
+*/
+public class Solution {
+    public int[] EvenOddBit(int n) {
+        char[] bit = Convert.ToString(n, 2).Reverse().ToArray();
+        int[] output = new int[2];
+        for (int i = 0; i < bit.Length; i++)
+        {
+            if (bit[i] == '1')
+            {
+                if (i % 2 == 0)
+                    output[0]++;
+                else
+                    output[1]++;
+            }
+        }
+        return output;
+    }
+}
