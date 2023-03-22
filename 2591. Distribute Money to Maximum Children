@@ -1,0 +1,22 @@
+//Problem description
+/*
+You are given an integer money denoting the amount of money (in dollars) that you have and another integer children denoting the number of children that you must distribute the money to.
+You have to distribute the money according to the following rules:
+All money must be distributed.
+Everyone must receive at least 1 dollar.
+Nobody receives 4 dollars.
+Return the maximum number of children who may receive exactly 8 dollars if you distribute the money according to the aforementioned rules. If there is no way to distribute the money, return -1.
+*/
+public class Solution {
+    public int DistMoney(int money, int children) {
+        money -= children;
+        if (money < 0) 
+            return -1;
+        int count = money / 7, left = money % 7;
+        if (count > children)
+            return children - 1;
+        if (count == children)
+            return left == 0 ? children : children - 1;
+        return left == 3 && children - count == 1 ? count - 1 : count;
+    }
+}
