@@ -9,8 +9,7 @@ Return the minimum number of times you need to do this in order to make all the 
 public class Solution {
     public int MakeConnected(int n, int[][] connections) {
         if(connections.Length < n-1)
-            return -1;
-        
+            return -1;       
         DUF duf = new DUF(n);
         
         for(int i=0; i<connections.Length; i++)
@@ -39,7 +38,6 @@ public class Solution {
         {
             if(parent[i]!=i)
                 parent[i] = Find(parent[i]);
-
             return parent[i];
         }
 
