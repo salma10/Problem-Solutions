@@ -1,0 +1,40 @@
+public class Solution {
+    public string MergeAlternately(string word1, string word2) {
+        char[] word1Arr = word1.ToCharArray();
+        char[] word2Arr = word2.ToCharArray();
+        int len1 = word1Arr.Length;
+        int len2 = word2Arr.Length;
+        char[] result = new char[len1 + len2];
+        int repeatNo = len1 > len2 ? len2 : len1;
+        int position = 0;
+        int resPosition = 0;
+        repeatNo = repeatNo * 2;
+        while(repeatNo > 0)
+        {
+            if(repeatNo % 2 == 0)
+            {
+                result[resPosition] = word1Arr[position];          
+            }            
+            else
+            {
+                result[resPosition] = word2Arr[position];
+                position++;              
+            }
+            resPosition++;
+            repeatNo--;
+            
+        }
+        repeatNo = Math.Abs(len1 - len2);
+        while(repeatNo > 0)
+        {
+            if(len1 > len2)
+                result[resPosition] = word1Arr[position];
+            else
+                result[resPosition] = word2Arr[position];
+            resPosition++;
+            position++;   
+            repeatNo--;
+        }
+        return new string(result);;
+    }
+}
