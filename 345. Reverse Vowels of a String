@@ -1,0 +1,70 @@
+/*
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+ 
+
+Example 1:
+
+Input: s = "IceCreAm"
+
+Output: "AceCreIm"
+
+Explanation:
+
+The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
+
+Example 2:
+
+Input: s = "leetcode"
+
+Output: "leotcede"
+
+ 
+
+Constraints:
+
+1 <= s.length <= 3 * 105
+s consist of printable ASCII characters.
+*/
+
+
+public class Solution {
+    public string ReverseVowels(string s) {
+        char[] sArray = s.ToCharArray();
+        int starPos = 0;
+        int endPos = sArray.Length - 1;
+        char? firstSwapChar = null;
+        char? secondSwapChar = null;
+        HashSet<char> vowels = new HashSet<char>{'a','e','i','o','u','A','E','I','O','U'};
+
+        while(starPos < endPos)
+        {
+            while(firstSwapChar == null && starPos <= endPos)
+            {
+                if(vowels.Contains(sArray[starPos]))
+                    firstSwapChar = sArray[starPos];
+                else
+                    starPos++;
+            }
+            while(secondSwapChar == null && starPos <= endPos)
+            {
+                if(vowels.Contains(sArray[endPos]))
+                    secondSwapChar = sArray[endPos];
+                else
+                    endPos--;
+            }
+            if(firstSwapChar != null && secondSwapChar != null)
+            {
+                sArray[endPos] = firstSwapChar ?? sArray[endPos];
+                sArray[starPos] = secondSwapChar ?? sArray[starPos];
+                secondSwapChar = null;
+                firstSwapChar = null;
+                starPos++;
+                endPos--;
+            }
+        }
+        return new string(sArray);
+    }
+}
