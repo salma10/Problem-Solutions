@@ -70,3 +70,36 @@ public class Solution {
             return true;
     }
 }
+//Another solution
+public class Solution {
+    public bool CanPlaceFlowers(int[] flowerbed, int n) {
+        int pos = 0;   
+        if(flowerbed.Length < 2 && n > 1)
+            return false;
+        else if(flowerbed.Length < 2 && n == 1 && flowerbed[pos] == 0) 
+            return true;
+        else if(flowerbed.Length < 2 && n == 1) 
+            return false;
+
+        while(n > 0 && pos < flowerbed.Length)
+        {
+            if(flowerbed[pos] == 0)
+            {
+                if(pos == 0 && flowerbed.Length > 1 && flowerbed[pos + 1] == 0)
+                {
+                    flowerbed[pos] = 1;
+                    n--;
+                }
+                else if(pos == flowerbed.Length - 1 && flowerbed[pos - 1] == 0)
+                    n--;
+                else if(pos != 0 && pos != flowerbed.Length - 1 && flowerbed[pos - 1] == 0 && flowerbed[pos + 1] == 0)
+                {
+                    flowerbed[pos] = 1;
+                    n--;
+                }
+            }           
+            pos++;
+        }
+        return n <= 0;
+    }
+}
